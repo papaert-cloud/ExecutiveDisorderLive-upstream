@@ -38,10 +38,10 @@ export const characters: PoliticalCharacter[] = [
   },
   {
     id: "donald-executive",
-    name: "Ronald T. Goldenberg",
-    title: "The Golden Boy",
+    name: "Donald J. Executive",
+    title: "The 45th",
     shortBio: "His elevator only goes to the penthouse. His brain stops at the lobby.",
-    fullBio: "Ronald T. Goldenberg is what happens when you give a gold-plated ego a Twitter account and nuclear codes. His campaign slogan 'Make Everything About Me Again' resonated with voters who enjoy chaos like it's a spectator sport. He once tried to buy Greenland with a personal check. His hair has its own Secret Service detail. Diplomats have learned to communicate with him exclusively through cable news.",
+    fullBio: "Donald J. Executive is what happens when you give a gold-plated ego a Twitter account and nuclear codes. His campaign slogan 'Make Everything About Me Again' resonated with voters who enjoy chaos like it's a spectator sport. He once tried to buy Greenland with a personal check. His hair has its own Secret Service detail. Diplomats have learned to communicate with him exclusively through cable news.",
     startingStats: {
       popularity: 60,
       stability: 30,
