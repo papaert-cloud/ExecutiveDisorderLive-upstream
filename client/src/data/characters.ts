@@ -37,11 +37,11 @@ export const characters: PoliticalCharacter[] = [
     portraitUrl: "/characters/rex-scaleston.png.svg"
   },
   {
-    id: "donald-executive",
-    name: "Donald J. Executive",
-    title: "The 45th",
-    shortBio: "His elevator only goes to the penthouse. His brain stops at the lobby.",
-    fullBio: "Donald J. Executive is what happens when you give a gold-plated ego a Twitter account and nuclear codes. His campaign slogan 'Make Everything About Me Again' resonated with voters who enjoy chaos like it's a spectator sport. He once tried to buy Greenland with a personal check. His hair has its own Secret Service detail. Diplomats have learned to communicate with him exclusively through cable news.",
+    id: "ronald-goldenberg",
+    name: "Ronald Goldenberg",
+    title: "The Dealmaker",
+    shortBio: "Built an empire on inherited wealth and thinks that makes him self-made. The math doesn't add up, but neither does he.",
+    fullBio: "Ronald Goldenberg is a real estate mogul who turned family money into a political career by convincing people that being rich means being smart. His business philosophy: 'Never use your own money when you can use someone else's.' He speaks in superlatives about everything he touches, even disasters. His policy positions change with his mood, which changes with the last person he talked to. Bankruptcy is 'just a creative financial strategy.' He once proposed solving national debt by declaring the country 'too big to fail.' Advisors have learned to nod and quietly do the opposite.",
     startingStats: {
       popularity: 60,
       stability: 30,
@@ -54,7 +54,7 @@ export const characters: PoliticalCharacter[] = [
       "Media Magnet: All actions generate increased media attention",
       "Business Acumen: Economic decisions have enhanced effects"
     ],
-    portraitUrl: "/characters/donald-executive.png.svg"
+    portraitUrl: "/characters/ronald-goldenberg.png.svg"
   },
   {
     id: "potus-9000",
