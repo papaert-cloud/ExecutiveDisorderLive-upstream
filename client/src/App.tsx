@@ -4,7 +4,7 @@ import CharacterSelection2D from './components/Game/CharacterSelection2D';
 import GameplayScene2D from './components/Game/GameplayScene2D';
 import GameEnding from './components/Game/GameEnding';
 import CharacterABTest from './components/CharacterABTest';
-import AudioManager from './components/UI/AudioManager';
+import AudioManager from './lib/audio/AudioManager';
 
 function App() {
   const gamePhase = useGameState((state) => state.gamePhase);
@@ -23,9 +23,9 @@ function App() {
   return (
     <>
       <AudioManager />
-      {gamePhase === 'character_selection' && <CharacterSelection2D />}
+      {(gamePhase === 'menu' || gamePhase === 'character_selection') && <CharacterSelection2D />}
       {gamePhase === 'playing' && <GameplayScene2D />}
-      {gamePhase === 'game_ending' && <GameEnding />}
+      {gamePhase === 'ended' && <GameEnding />}
     </>
   );
 }
