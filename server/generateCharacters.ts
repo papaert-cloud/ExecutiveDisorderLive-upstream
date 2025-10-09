@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import fs from 'fs';
 import https from 'https';
-import { characters } from "../shared/characterData.js";
+import { characters } from "../client/src/data/characters.js";
 
 // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -36,7 +36,7 @@ async function generateCharacterPortrait(character: any): Promise<void> {
       quality: "standard",
     });
 
-    const imageUrl = response.data[0].url;
+    const imageUrl = response.data?.[0]?.url;
     if (imageUrl) {
       const filename = `client/public/characters/${character.id}.png`;
       await downloadImage(imageUrl, filename);
@@ -61,7 +61,7 @@ async function generateLogo(): Promise<void> {
       quality: "standard",
     });
 
-    const imageUrl = response.data[0].url;
+    const imageUrl = response.data?.[0]?.url;
     if (imageUrl) {
       await downloadImage(imageUrl, 'client/public/logo.png');
       console.log('✓ Generated game logo');

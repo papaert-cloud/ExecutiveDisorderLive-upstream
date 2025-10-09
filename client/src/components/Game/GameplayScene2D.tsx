@@ -105,7 +105,7 @@ export default function GameplayScene2D() {
           {currentCard.category.toUpperCase()}
         </div>
         
-        <h3 className="text-2xl font-bold text-white mb-4">{currentCard.title}</h3>
+        <h3 className="card-title text-2xl font-bold text-white mb-4">{currentCard.title}</h3>
         <p className="text-gray-300 mb-6">{currentCard.description}</p>
 
         <div className="space-y-3">

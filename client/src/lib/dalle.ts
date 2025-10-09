@@ -14,7 +14,7 @@ export async function generateCharacterPortrait(prompt: string): Promise<string>
       quality: "standard",
     });
 
-    return response.data[0].url || '';
+    return response.data?.[0]?.url || '';
   } catch (error) {
     console.error('Failed to generate image:', error);
     throw error;
@@ -31,7 +31,7 @@ export async function generateLogo(prompt: string): Promise<string> {
       quality: "standard",
     });
 
-    return response.data[0].url || '';
+    return response.data?.[0]?.url || '';
   } catch (error) {
     console.error('Failed to generate logo:', error);
     throw error;
