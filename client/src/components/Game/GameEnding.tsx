@@ -53,7 +53,7 @@ export default function GameEnding() {
         </div>
 
         {/* Ending Title */}
-        <h1 className="text-4xl font-bold text-center mb-4" style={{ color: endingColor }}>
+        <h1 className="ending-title text-5xl font-bold text-center mb-4" style={{ color: endingColor }}>
           {ending.title}
         </h1>
 
