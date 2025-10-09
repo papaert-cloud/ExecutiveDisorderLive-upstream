@@ -6,7 +6,19 @@ Executive Disorder is a humorous political decision-making game built as a web a
 
 ## User Preferences
 
-Preferred communication style: Simple, everyday language.
+**Communication Style:** Simple, everyday language.
+
+**Asset Management Workflow:**
+- All generated assets (images, 3D models, etc.) must be automatically saved to `Dropbox/Replit/` folder
+- Assets should be intelligently categorized by type:
+  - Character images → `Dropbox/Replit/characters/`
+  - Logos/branding → `Dropbox/Replit/logos/`
+  - 3D models → `Dropbox/Replit/models/`
+  - UI elements → `Dropbox/Replit/ui-assets/`
+  - Generated images → `Dropbox/Replit/generated-images/`
+- Use proper naming conventions: lowercase, hyphen-separated (e.g., `character-name-emotion.png`)
+- Create subdirectories as needed for variations (e.g., `main-portraits/`, `variations/`)
+- Always include a README.md in the Dropbox/Replit folder documenting the archive structure
 
 ## System Architecture
 
