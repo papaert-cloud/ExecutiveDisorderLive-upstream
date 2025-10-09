@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useGameState } from './lib/stores/useGameState';
 import CharacterSelection2D from './components/Game/CharacterSelection2D';
 import GameplayScene2D from './components/Game/GameplayScene2D';
@@ -13,11 +13,32 @@ function App() {
     console.log('Game phase changed to:', gamePhase);
   }, [gamePhase]);
 
-  // Check if we're in A/B test mode via URL param
-  const isABTestMode = window.location.search.includes('abtest');
+  // Check URL params for special modes
+  const urlParams = new URLSearchParams(window.location.search);
+  const isABTestMode = urlParams.has('abtest');
+  const isAssetGallery = urlParams.has('assets');
+  const isShowcase = urlParams.has('showcase');
 
   if (isABTestMode) {
     return <CharacterABTest />;
+  }
+  
+  if (isAssetGallery) {
+    const AssetGallery = React.lazy(() => import('./components/AssetGallery'));
+    return (
+      <React.Suspense fallback={<div className="text-white text-2xl flex items-center justify-center h-screen">Loading Asset Gallery...</div>}>
+        <AssetGallery />
+      </React.Suspense>
+    );
+  }
+  
+  if (isShowcase) {
+    const GameAssetShowcase = React.lazy(() => import('./components/GameAssetShowcase'));
+    return (
+      <React.Suspense fallback={<div className="text-white text-2xl flex items-center justify-center h-screen">Loading Showcase...</div>}>
+        <GameAssetShowcase />
+      </React.Suspense>
+    );
   }
 
   return (
