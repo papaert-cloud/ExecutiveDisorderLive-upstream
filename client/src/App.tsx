@@ -1,30 +1,32 @@
-import React from "react";
-import "@fontsource/inter";
-
-import Game2D from "./components/Game/Game2D";
-import GameUI from "./components/UI/GameUI";
-import LoadingScreen from "./components/UI/LoadingScreen";
-import AudioManager from "./lib/audio/AudioManager";
-import { useGameState } from "./lib/stores/useGameState";
+import { useEffect } from 'react';
+import { useGameState } from './lib/stores/useGameState';
+import CharacterSelection2D from './components/Game/CharacterSelection2D';
+import GameplayScene2D from './components/Game/GameplayScene2D';
+import GameEnding from './components/Game/GameEnding';
+import CharacterABTest from './components/CharacterABTest';
+import AudioManager from './components/UI/AudioManager';
 
 function App() {
-  const { isLoading } = useGameState();
+  const gamePhase = useGameState((state) => state.gamePhase);
 
-  if (isLoading) {
-    return <LoadingScreen />;
+  useEffect(() => {
+    console.log('Game phase changed to:', gamePhase);
+  }, [gamePhase]);
+
+  // Check if we're in A/B test mode via URL param
+  const isABTestMode = window.location.search.includes('abtest');
+
+  if (isABTestMode) {
+    return <CharacterABTest />;
   }
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
-      {/* 2D Game Canvas */}
-      <Game2D />
-      
-      {/* UI Overlay */}
-      <GameUI />
-      
-      {/* Audio Manager */}
+    <>
       <AudioManager />
-    </div>
+      {gamePhase === 'character_selection' && <CharacterSelection2D />}
+      {gamePhase === 'playing' && <GameplayScene2D />}
+      {gamePhase === 'game_ending' && <GameEnding />}
+    </>
   );
 }
 

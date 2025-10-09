@@ -1,16 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Bungee+Inline&family=Rubik+Glitch&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@font-face {
-  font-family: '3D Marquee';
-  src: url('/fonts/3d-marquee.woff') format('woff'),
-       url('/fonts/3d-marquee.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -38,33 +30,81 @@
 }
 
 /* Apply 3D Marquee font to game titles and headings */
-h1, h2, .game-title, .character-name, .ending-title {
-  font-family: '3D Marquee', 'Inter', sans-serif;
+h1, h2, .game-title {
+  font-family: 'Bungee Shade', cursive;
+  color: #fff;
+  text-shadow: 
+    4px 4px 0px #ff006e,
+    8px 8px 0px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.05em;
+  transform: perspective(500px) rotateY(-5deg);
+}
+
+.character-name {
+  font-family: 'Bungee Inline', cursive;
   text-shadow: 
     2px 2px 0px rgba(0, 0, 0, 0.8),
     3px 3px 0px rgba(0, 0, 0, 0.6),
-    4px 4px 0px rgba(0, 0, 0, 0.4),
-    5px 5px 8px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.05em;
+    4px 4px 0px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.02em;
+}
+
+.ending-title {
+  font-family: 'Rubik Glitch', cursive;
+  font-size: 4rem;
+  animation: glitch 2s ease-in-out infinite alternate-reverse;
 }
 
 .card-title {
-  font-family: '3D Marquee', 'Inter', sans-serif;
+  font-family: 'Bungee Inline', cursive;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  transform: perspective(300px) rotateX(-10deg);
 }
 
-/* Enhanced 3D effect for main logo */
-.logo-3d {
-  font-family: '3D Marquee', sans-serif;
-  background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
+/* Enhanced 3D effect for main logo text */
+.logo-text-3d {
+  font-family: 'Bungee Shade', cursive;
+  background: linear-gradient(135deg, #ffd700, #ffed4e, #ff006e, #ffd700);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: none;
-  filter: drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.8))
-          drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.6));
-  transform: perspective(300px) rotateY(-5deg);
-  animation: shimmer 3s ease-in-out infinite;
+  filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9))
+          drop-shadow(8px 8px 15px rgba(255, 0, 110, 0.4));
+  transform: perspective(400px) rotateY(-8deg) rotateX(5deg);
+  animation: shimmer 3s ease-in-out infinite, float 6s ease-in-out infinite;
+}
+
+/* Glitch effect for endings */
+@keyframes glitch {
+  0% {
+    text-shadow: 
+      2px 0 #ff006e,
+      -2px 0 #00fffc,
+      0 0 10px #ff006e;
+  }
+  50% {
+    text-shadow: 
+      -2px 0 #ff006e,
+      2px 0 #00fffc,
+      0 0 20px #00fffc;
+  }
+  100% {
+    text-shadow: 
+      2px 2px #ff006e,
+      -2px -2px #00fffc,
+      0 0 15px #ff006e;
+  }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: perspective(400px) rotateY(-8deg) rotateX(5deg) translateY(0px);
+  }
+  50% {
+    transform: perspective(400px) rotateY(-8deg) rotateX(5deg) translateY(-10px);
+  }
 }
 
 @keyframes shimmer {
