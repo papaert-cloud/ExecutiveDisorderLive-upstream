@@ -140,7 +140,8 @@ export default function CharacterABTest() {
                       alt={`${currentCharacterId} - ${variant.style}`}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.currentTarget.src = '/placeholder.png';
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full bg-gray-700 flex items-center justify-center text-gray-400">Image not generated</div>';
                       }}
                     />
                   </div>

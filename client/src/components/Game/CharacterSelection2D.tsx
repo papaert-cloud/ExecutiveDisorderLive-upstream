@@ -7,6 +7,10 @@ import { Button } from "../ui/button";
 
 // Helper function to get the right character image based on selected style
 function getCharacterImage(characterId: string): string {
+  // Check for 3D variant first
+  const threeDVariant = `/characters/${characterId}-3d.png`;
+  
+  // Check for style preferences from A/B testing
   const savedStyles = localStorage.getItem('characterStyles');
   if (savedStyles) {
     try {
@@ -20,8 +24,9 @@ function getCharacterImage(characterId: string): string {
       console.error('Failed to parse saved styles:', e);
     }
   }
-  // Fallback to default portrait
-  return `/characters/${characterId}.png`;
+  
+  // Try 3D variant, then fallback to default portrait
+  return threeDVariant;
 }
 
 export default function CharacterSelection2D() {
