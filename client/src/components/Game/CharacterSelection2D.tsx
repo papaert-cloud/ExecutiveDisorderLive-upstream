@@ -43,10 +43,14 @@ export default function CharacterSelection2D() {
           >
             <div className="p-4">
               <div
-                className="w-full aspect-square rounded-lg mb-3 flex items-center justify-center text-4xl"
+                className="w-full aspect-square rounded-lg mb-3 overflow-hidden"
                 style={{ backgroundColor: character.themeColor }}
               >
-                {character.name.split(' ').map((n: string) => n[0]).join('')}
+                <img 
+                  src={`/characters/${character.id}.png`} 
+                  alt={character.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
               
               <h3 className="text-white font-bold text-sm mb-1">{character.name}</h3>
@@ -70,10 +74,14 @@ export default function CharacterSelection2D() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div
-                className="w-48 h-48 rounded-lg mx-auto mb-4 flex items-center justify-center text-6xl"
+                className="w-48 h-48 rounded-lg mx-auto mb-4 overflow-hidden"
                 style={{ backgroundColor: selectedCharacter.themeColor }}
               >
-                {selectedCharacter.name.split(' ').map((n: string) => n[0]).join('')}
+                <img 
+                  src={`/characters/${selectedCharacter.id}.png`} 
+                  alt={selectedCharacter.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
             
