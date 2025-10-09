@@ -5,6 +5,25 @@ import { characters } from "../../data/characters";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 
+// Helper function to get the right character image based on selected style
+function getCharacterImage(characterId: string): string {
+  const savedStyles = localStorage.getItem('characterStyles');
+  if (savedStyles) {
+    try {
+      const styles = JSON.parse(savedStyles);
+      const selectedStyle = styles[characterId];
+      if (selectedStyle) {
+        // Use the selected style variant
+        return `/characters/${characterId}-${selectedStyle}.png`;
+      }
+    } catch (e) {
+      console.error('Failed to parse saved styles:', e);
+    }
+  }
+  // Fallback to default portrait
+  return `/characters/${characterId}.png`;
+}
+
 export default function CharacterSelection2D() {
   const { selectedCharacter, setSelectedCharacter } = useCharacters();
   const { setGamePhase } = useGameState();
@@ -44,7 +63,7 @@ export default function CharacterSelection2D() {
             <div className="p-4">
               <div className="w-full aspect-square rounded-lg mb-3 overflow-hidden">
                 <img 
-                  src={`/characters/${character.id}.png`}
+                  src={getCharacterImage(character.id)}
                   alt={character.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -80,7 +99,7 @@ export default function CharacterSelection2D() {
             <div>
               <div className="w-48 h-48 rounded-lg mx-auto mb-4 overflow-hidden shadow-2xl">
                 <img 
-                  src={`/characters/${selectedCharacter.id}.png`}
+                  src={getCharacterImage(selectedCharacter.id)}
                   alt={selectedCharacter.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
