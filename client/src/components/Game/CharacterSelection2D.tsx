@@ -5,28 +5,13 @@ import { characters } from "../../data/characters";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 
-// Helper function to get the right character image based on selected style
+// Helper function to get the right character image
 function getCharacterImage(characterId: string): string {
-  // Check for 3D variant first
-  const threeDVariant = `/characters/${characterId}-3d.png`;
+  // Use cartoon neutral emotion as default
+  const cartoonPortrait = `/characters/${characterId}-neutral.png`;
   
-  // Check for style preferences from A/B testing
-  const savedStyles = localStorage.getItem('characterStyles');
-  if (savedStyles) {
-    try {
-      const styles = JSON.parse(savedStyles);
-      const selectedStyle = styles[characterId];
-      if (selectedStyle) {
-        // Use the selected style variant
-        return `/characters/${characterId}-${selectedStyle}.png`;
-      }
-    } catch (e) {
-      console.error('Failed to parse saved styles:', e);
-    }
-  }
-  
-  // Try 3D variant, then fallback to default portrait
-  return threeDVariant;
+  // Check if cartoon portrait exists, otherwise fallback to original
+  return cartoonPortrait;
 }
 
 export default function CharacterSelection2D() {
