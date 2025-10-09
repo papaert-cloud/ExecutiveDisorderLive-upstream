@@ -5,15 +5,6 @@ import { characters } from "../../data/characters";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 
-// Helper function to get the right character image
-function getCharacterImage(characterId: string): string {
-  // Use cartoon neutral emotion as default
-  const cartoonPortrait = `/characters/${characterId}-neutral.png`;
-  
-  // Check if cartoon portrait exists, otherwise fallback to original
-  return cartoonPortrait;
-}
-
 export default function CharacterSelection2D() {
   const { selectedCharacter, setSelectedCharacter } = useCharacters();
   const { setGamePhase } = useGameState();
@@ -35,7 +26,7 @@ export default function CharacterSelection2D() {
     }}>
       <div className="flex flex-col items-center mb-6">
         <img src="/logo.png" alt="Executive Disorder" className="h-32 w-auto mb-4 drop-shadow-2xl" />
-        <h1 className="game-title text-5xl font-bold text-white text-center mb-2">Choose Your Leader</h1>
+        <h1 className="text-4xl font-bold text-white text-center mb-2 drop-shadow-lg">Choose Your Leader</h1>
         <p className="text-gray-300 text-center mb-2 text-lg drop-shadow-md">Select a political character to begin your campaign</p>
       </div>
       
@@ -51,23 +42,14 @@ export default function CharacterSelection2D() {
             onClick={() => setSelectedCharacter(character)}
           >
             <div className="p-4">
-              <div className="w-full aspect-square rounded-lg mb-3 overflow-hidden">
-                <img 
-                  src={getCharacterImage(character.id)}
-                  alt={character.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    const sibling = e.currentTarget.nextSibling as HTMLElement;
-                    sibling?.classList.remove('hidden');
-                  }}
-                />
-                <div className="hidden w-full h-full flex items-center justify-center text-4xl" style={{ backgroundColor: character.themeColor }}>
-                  {character.name.split(' ').map((n: string) => n[0]).join('')}
-                </div>
+              <div
+                className="w-full aspect-square rounded-lg mb-3 flex items-center justify-center text-4xl"
+                style={{ backgroundColor: character.themeColor }}
+              >
+                {character.name.split(' ').map((n: string) => n[0]).join('')}
               </div>
               
-              <h3 className="character-name text-white font-bold text-sm mb-1">{character.name}</h3>
+              <h3 className="text-white font-bold text-sm mb-1">{character.name}</h3>
               <p className="text-gray-400 text-xs mb-3">{character.title}</p>
               
               <div className="grid grid-cols-2 gap-1 text-xs">
@@ -87,25 +69,16 @@ export default function CharacterSelection2D() {
         <Card className="bg-gray-900/95 backdrop-blur-md p-6 max-w-4xl mx-auto shadow-2xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <div className="w-48 h-48 rounded-lg mx-auto mb-4 overflow-hidden shadow-2xl">
-                <img 
-                  src={getCharacterImage(selectedCharacter.id)}
-                  alt={selectedCharacter.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    const sibling = e.currentTarget.nextSibling as HTMLElement;
-                    sibling?.classList.remove('hidden');
-                  }}
-                />
-                <div className="hidden w-full h-full flex items-center justify-center text-6xl" style={{ backgroundColor: selectedCharacter.themeColor }}>
-                  {selectedCharacter.name.split(' ').map((n: string) => n[0]).join('')}
-                </div>
+              <div
+                className="w-48 h-48 rounded-lg mx-auto mb-4 flex items-center justify-center text-6xl"
+                style={{ backgroundColor: selectedCharacter.themeColor }}
+              >
+                {selectedCharacter.name.split(' ').map((n: string) => n[0]).join('')}
               </div>
             </div>
             
             <div>
-              <h2 className="character-name text-3xl font-bold text-white mb-2">{selectedCharacter.name}</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">{selectedCharacter.name}</h2>
               <p className="text-gray-300 mb-4">{selectedCharacter.fullBio}</p>
               
               <h3 className="text-lg font-semibold text-white mb-2">Special Abilities</h3>
