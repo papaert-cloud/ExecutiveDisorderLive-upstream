@@ -66,11 +66,20 @@ export default function GameplayScene2D() {
           <p className="text-gray-400">Turn {turn} / 50</p>
         </div>
         
-        <div
-          className="w-16 h-16 rounded-full flex items-center justify-center text-2xl"
-          style={{ backgroundColor: selectedCharacter.themeColor }}
-        >
-          {selectedCharacter.name.split(' ').map((n: string) => n[0]).join('')}
+        <div className="w-16 h-16 rounded-full overflow-hidden">
+          <img
+            src={`/characters/${selectedCharacter.id}-${resources.stability < 30 ? 'stressed' : resources.popularity > 70 ? 'happy' : 'neutral'}.png`}
+            alt={selectedCharacter.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              const sibling = e.currentTarget.nextSibling as HTMLElement;
+              sibling?.classList.remove('hidden');
+            }}
+          />
+          <div className="hidden w-full h-full flex items-center justify-center text-2xl" style={{ backgroundColor: selectedCharacter.themeColor }}>
+            {selectedCharacter.name.split(' ').map((n: string) => n[0]).join('')}
+          </div>
         </div>
       </div>
 
