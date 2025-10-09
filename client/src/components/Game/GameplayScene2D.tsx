@@ -18,6 +18,11 @@ export default function GameplayScene2D() {
   const handleDecision = (option: any) => {
     console.log('Decision made:', option.text);
     
+    // Play sound effect
+    const audio = new Audio('/sounds/success.mp3');
+    audio.volume = 0.5;
+    audio.play().catch(console.error);
+    
     // Apply resource changes
     updateResources(option.effects);
     
@@ -47,9 +52,15 @@ export default function GameplayScene2D() {
   ];
 
   return (
-    <div className="w-full h-full overflow-auto p-4">
+    <div className="w-full h-full overflow-auto p-4" style={{
+      backgroundImage: 'url(/background.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      minHeight: '100vh'
+    }}>
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 bg-gray-900/90 backdrop-blur-md rounded-lg p-4">
         <div>
           <h2 className="text-2xl font-bold text-white">{selectedCharacter.name}</h2>
           <p className="text-gray-400">Turn {turn} / 50</p>
@@ -70,7 +81,7 @@ export default function GameplayScene2D() {
           const barColor = value < 25 ? '#dc2626' : value < 50 ? '#f59e0b' : config.color;
 
           return (
-            <Card key={config.key} className="bg-gray-800 p-4">
+            <Card key={config.key} className="bg-gray-900/90 backdrop-blur-sm p-4 shadow-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xl">{config.icon}</span>
                 <span className="text-2xl font-bold text-white">{Math.round(value)}</span>
@@ -83,7 +94,7 @@ export default function GameplayScene2D() {
       </div>
 
       {/* Decision Card */}
-      <Card className="bg-gray-800 p-6 max-w-3xl mx-auto">
+      <Card className="bg-gray-900/95 backdrop-blur-md p-6 max-w-3xl mx-auto shadow-2xl">
         <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4 ${
           currentCard.category === 'crisis' ? 'bg-red-600 text-white' :
           currentCard.category === 'economic' ? 'bg-green-600 text-white' :
@@ -103,7 +114,7 @@ export default function GameplayScene2D() {
               key={index}
               onClick={() => handleDecision(option)}
               variant="outline"
-              className="w-full text-left justify-start h-auto py-4 px-4 bg-gray-700 hover:bg-gray-600 text-white border-gray-600"
+              className="w-full text-left justify-start h-auto py-4 px-4 bg-gray-800/90 hover:bg-gray-700/90 text-white border-gray-600 backdrop-blur-sm transition-all"
             >
               <div className="w-full">
                 <p className="mb-2">{option.text}</p>
