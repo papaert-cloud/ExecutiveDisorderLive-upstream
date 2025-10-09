@@ -78,17 +78,18 @@ async function generateAllMemeAssets() {
   console.log('😂 MEME-WORTHY ASSET GENERATION - EXECUTIVE DISORDER 🔥\n');
   console.log('Creating hilarious, shareable political satire characters...\n');
 
-  // Test with first character to confirm style
-  console.log('🎯 Testing meme-worthy style with first character...\n');
-  const testCharacter = characters[0];
-  
-  for (const [emotion, emotionDesc] of Object.entries(memeEmotions)) {
-    await generateMemePortrait(testCharacter, emotion, emotionDesc);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+  // Generate portraits for all characters
+  for (const character of characters) {
+    console.log(`\n🎭 Generating meme-worthy portraits for ${character.name}...`);
+    
+    for (const [emotion, emotionDesc] of Object.entries(memeEmotions)) {
+      await generateMemePortrait(character, emotion, emotionDesc);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
   }
 
-  console.log('\n✅ Test complete! Check the generated meme-worthy images for ' + testCharacter.name);
-  console.log('If style is funny enough, uncomment code to generate all characters.\n');
+  console.log('\n\n✅ MEME GENERATION COMPLETE!');
+  console.log('😂 All characters are hilarious and meme-worthy!');
 }
 
 // Run the generation
