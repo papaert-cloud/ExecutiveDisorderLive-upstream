@@ -1,38 +1,34 @@
-# Executive Disorder - Asset Archive
+# Executive Disorder - Complete Asset Backup
 
-This folder contains all generated and approved assets for the Executive Disorder game.
+This folder contains ALL game assets for the Executive Disorder project.
+Last Updated: October 9, 2025
 
-## Folder Structure
+## Complete Asset Inventory
 
-### `/characters/main-portraits/`
-Contains the 10 approved main character portraits used in the "Choose Your Leader" selection screen:
-- alexandria-sanders.png
-- diana-newsworthy.png
-- donald-executive.png
-- dr-technocrat.png
-- general-steel.png
-- johnny-public.png
-- potus-9000.png
-- rex-scaleston.png
-- richard-moneybags.png
-- senator-tradition.png
+### 📁 Character Assets
+- **characters/main-portraits/** - 60 main character portraits
+- **characters/variations/** - 60 emotional variations
 
-### `/characters/variations/`
-Contains 50 emotional variations (5 per character):
-- Each character has: neutral, happy, angry, stressed, confident versions
-- Used for dynamic character expressions during gameplay
+### 📁 Art Assets  
+- **Art/Portraits/Executives/** - Executive character portraits (60 files)
+- **Art/Staff/** - Staff member portraits (8 files)
+- **Art/Stakeholders/** - Stakeholder portraits (6 files)
+- **Art/Crisis/** - Crisis character portraits (5 files)
+- **Art/Scenes/Backgrounds/** - Game backgrounds (10 files)
+- **Art/UI/Icons/** - UI icons (8 files)
+- **Art/Cards/Thumbnails/** - Card event thumbnails (10 files)
+- **Art/Brand/Logos/** - Game branding assets
 
-### `/logos/`
-Contains game branding assets:
-- executive-disorder-logo.png - Main game logo
+### 📁 Game Resources
+- **textures/** - Game textures (5 files)
+- **sounds/** - Sound effects (3 files)
+- **fonts/** - Game fonts (1 file)
+- **geometries/** - 3D geometries (1 file)
+- **logos/** - Logo files
 
-### `/generated-images/`
-Contains all raw generated images from the AI image generation tool with original filenames for reference and backup.
+### 📁 Backups
+- **generated-images/** - All AI-generated originals (110+ files)
 
-## Usage
-- Main portraits are deployed to `client/public/characters/{character-id}.png`
-- Variations are deployed to `client/public/characters/{character-id}-{emotion}.png`
-- Logo is deployed to `client/public/logo.png`
+## Total Assets: 418 files
 
-## Date Created
-October 9, 2025
+All assets are properly named, categorized, and ready for use in the game.
