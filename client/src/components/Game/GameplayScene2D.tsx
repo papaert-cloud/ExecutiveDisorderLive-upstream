@@ -67,10 +67,14 @@ export default function GameplayScene2D() {
         </div>
         
         <div
-          className="w-16 h-16 rounded-full flex items-center justify-center text-2xl"
+          className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-600"
           style={{ backgroundColor: selectedCharacter.themeColor }}
         >
-          {selectedCharacter.name.split(' ').map((n: string) => n[0]).join('')}
+          <img 
+            src={`/characters/${selectedCharacter.id}.png`} 
+            alt={selectedCharacter.name}
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
 

@@ -45,10 +45,14 @@ export default function GameEnding() {
         {/* Character Portrait */}
         <div className="flex justify-center mb-6">
           <div
-            className="w-32 h-32 rounded-full flex items-center justify-center text-5xl shadow-lg"
+            className="w-32 h-32 rounded-full overflow-hidden shadow-lg border-4 border-gray-700"
             style={{ backgroundColor: selectedCharacter.themeColor }}
           >
-            {selectedCharacter.name.split(' ').map((n: string) => n[0]).join('')}
+            <img 
+              src={`/characters/${selectedCharacter.id}.png`} 
+              alt={selectedCharacter.name}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
