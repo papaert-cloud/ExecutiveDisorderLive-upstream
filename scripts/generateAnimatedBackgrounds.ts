@@ -1,5 +1,5 @@
-import { generateImageToVideo, imageToDataUri, checkRunwayStatus } from './runwayService.js';
-import { uploadToDropbox } from './dropboxUpload.js';
+import { generateImageToVideo, imageToDataUri, checkRunwayStatus } from './runwayService.ts';
+import { uploadToDropbox } from './dropboxUpload.ts';
 
 interface SceneToAnimate {
   name: string;
