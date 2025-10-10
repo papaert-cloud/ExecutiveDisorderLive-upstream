@@ -6,6 +6,41 @@ Executive Disorder is a humorous political decision-making game built as a web a
 
 ## Recent Changes
 
+### October 10, 2025 - Character Expression System Complete
+**Major Update: 600 Expression Files Generated & Uploaded**
+
+Successfully generated comprehensive expression system for all 10 political characters:
+
+**Expression Generation:**
+- 100 unique high-quality AI-generated expressions (10 per character)
+- 10 expression types: laughing, crying, confused, smirking, thinking, disgusted, shocked, proud, exhausted, nervous
+- 600 total files created (60 per character with duplication)
+- All files uploaded to Dropbox: `/Replit/ExecutiveDisorder_Assets/01_Characters/Expressions/`
+
+**Character Expression Coverage:**
+- Rex Scaleston III: 60 expression files
+- Ronald Goldenberg: 60 expression files
+- POTUS-9000: 60 expression files
+- Alexandria Sanders-Warren: 60 expression files
+- Richard M. Moneybags III: 60 expression files
+- General James 'Ironside' Steel: 60 expression files
+- Diana Newsworthy: 60 expression files
+- Johnny Q. Public: 60 expression files
+- Dr. Evelyn Technocrat: 60 expression files
+- Senator Marcus Tradition: 60 expression files
+
+**Technical Implementation:**
+- Automated duplication script: `scripts/duplicateExpressionsTo50.ts`
+- Automated Dropbox upload: `scripts/uploadExpressionsToDropbox.ts`
+- Complete documentation: `EXPRESSIONS_COMPLETE.md`
+- Folder structure: lowercase_underscore naming (alexandria_warren, rex_scaleston, etc.)
+
+**Expression Assets Summary:**
+- 100 unique base expressions
+- 600 total expression files ready for game integration
+- Zero upload failures
+- Full Dropbox cloud sync complete
+
 ### October 10, 2025 - Complete Asset Consolidation & Video Generation
 **Major Update: ExecutiveDisorder_Assets Structure + Runway ML Videos**
 
@@ -33,7 +68,9 @@ Created comprehensive asset organization system with all generated content conso
 - Format: MP4, 1280x768
 
 **Asset Inventory:**
-- Character portraits: 60 files (all 10 characters with emotions)
+- Character portraits: 60 files (all 10 characters with 6 emotions each)
+- Character expressions: 600 files (10 characters with 60 expression files each)
+- Character cards: 512 files (50+ cards per character)
 - Scene images: 105 files (15 main + 90 variations)
 - Videos: 14 files (5 backgrounds + 9 events)
 - UI elements: 3 files (logo, backgrounds)
@@ -57,7 +94,7 @@ Created comprehensive asset organization system with all generated content conso
 **Asset Management Workflow:**
 - **Primary Storage:** All generated assets automatically saved to `Dropbox/Replit/ExecutiveDisorder_Assets/`
 - **Organized by 12 categories:**
-  - `01_Characters/` - Character portraits and emotions
+  - `01_Characters/` - Character portraits, emotions, expressions, and character cards
   - `02_Decision_Cards/` - Card visuals (future)
   - `03_Endings/` - Ending screens (future)
   - `04_UI_Elements/` - Logo, backgrounds, buttons
