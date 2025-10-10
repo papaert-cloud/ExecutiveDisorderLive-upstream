@@ -1,5 +1,6 @@
 # Zapsplat Sound Effects Download List
-**For: Executive Disorder Political Satire Game**
+**For: Executive Disorder Political Satire Game**  
+**Backend Storage: Dropbox/Replit/Audio/SFX/**
 
 ---
 
@@ -8,14 +9,15 @@
 1. Go to https://www.zapsplat.com/ (free account required)
 2. Search for each sound category below
 3. Download the sounds (MP3 or OGG format preferred)
-4. Save them to the exact file paths listed
+4. **Save to Dropbox/Replit/Audio/SFX/** in the folders listed below
 5. Rename files to match the names below (lowercase, hyphen-separated)
 
 ---
 
 ## 🎯 Priority Sounds (Download These First)
 
-### UI Sounds - Save to: `client/public/sounds/ui/`
+### UI Sounds
+**Save to: `Dropbox/Replit/Audio/SFX/UI/`**
 
 **Card Interactions:**
 - `card-draw.mp3` - Card whoosh/draw sound (search: "card draw", "paper whoosh")
@@ -32,7 +34,8 @@
 
 ---
 
-## 🎭 Character & Game Sounds - Save to: `client/public/sounds/game/`
+### Character & Game Sounds
+**Save to: `Dropbox/Replit/Audio/SFX/Game/`**
 
 **Character Selection:**
 - `character-select.mp3` - Character chosen confirmation (search: "success chime", "positive")
@@ -51,7 +54,8 @@
 
 ---
 
-## 📰 Political & News Sounds - Save to: `client/public/sounds/political/`
+### Political & News Sounds
+**Save to: `Dropbox/Replit/Audio/SFX/Political/`**
 
 **News & Media:**
 - `breaking-news.mp3` - Breaking news alert (search: "news alert", "breaking news")
@@ -73,7 +77,8 @@
 
 ---
 
-## 🚨 Crisis & Event Sounds - Save to: `client/public/sounds/events/`
+### Crisis & Event Sounds
+**Save to: `Dropbox/Replit/Audio/SFX/Events/`**
 
 **Crisis Alerts:**
 - `alarm-emergency.mp3` - Emergency alarm (search: "emergency alarm", "siren")
@@ -97,7 +102,8 @@
 
 ---
 
-## 🏛️ Ambient Backgrounds - Save to: `client/public/sounds/ambient/`
+### Ambient Backgrounds
+**Save to: `Dropbox/Replit/Audio/SFX/Ambient/`**
 
 **Office Ambience:**
 - `office-ambience.mp3` - General office background (search: "office ambience", "workplace")
@@ -114,7 +120,8 @@
 
 ---
 
-## ✨ Special Effect Sounds - Save to: `client/public/sounds/effects/`
+### Special Effect Sounds
+**Save to: `Dropbox/Replit/Audio/SFX/Effects/`**
 
 **Positive Feedback:**
 - `success-major.mp3` - Big achievement (search: "success fanfare", "victory")
@@ -134,7 +141,8 @@
 
 ---
 
-## 🎬 Cinematic Stings - Save to: `client/public/sounds/stings/`
+### Cinematic Stings
+**Save to: `Dropbox/Replit/Audio/SFX/Stings/`**
 
 **Dramatic Moments:**
 - `dramatic-sting.mp3` - Plot twist reveal (search: "dramatic sting", "dun dun dun")
@@ -149,7 +157,8 @@
 
 ---
 
-## 📱 Notification Sounds - Save to: `client/public/sounds/notifications/`
+### Notification Sounds
+**Save to: `Dropbox/Replit/Audio/SFX/Notifications/`**
 
 - `message-appear.mp3` - New message/event (search: "message notification", "popup")
 - `tweet-sound.mp3` - Social media alert (search: "tweet", "social media")
@@ -159,7 +168,8 @@
 
 ---
 
-## 🎵 Music Stingers - Save to: `client/public/sounds/music-stings/`
+### Music Stingers
+**Save to: `Dropbox/Replit/Audio/SFX/MusicStings/`**
 
 **Short Musical Elements (10-15 seconds):**
 - `intro-stinger.mp3` - Game intro music (search: "intro music", "opening fanfare")
@@ -169,50 +179,53 @@
 
 ---
 
-## 📊 Download Priority Guide
-
-### **PHASE 1 - Essential (Start Here):**
-1. All UI sounds (cards, buttons) - 9 files
-2. Character & turn sounds - 8 files
-3. Resource change sounds - 3 files
-**Total: ~20 files**
-
-### **PHASE 2 - Gameplay:**
-1. Political & news sounds - 12 files
-2. Crisis alerts - 3 files
-3. Positive/negative feedback - 6 files
-**Total: ~21 files**
-
-### **PHASE 3 - Polish:**
-1. Ambient backgrounds - 7 files
-2. Special effects & transitions - 9 files
-3. Dramatic stings - 8 files
-**Total: ~24 files**
-
-### **PHASE 4 - Optional:**
-1. Notifications - 5 files
-2. Music stingers - 4 files
-3. Additional event sounds
-**Total: ~9 files**
-
----
-
-## 📁 Final Folder Structure
+## 📁 Final Dropbox Folder Structure
 
 ```
-client/public/sounds/
-├── ui/                    (9 files - card, button, menu)
-├── game/                  (8 files - turns, phases, resources)
-├── political/             (12 files - news, government, events)
-├── events/                (12 files - crises, disasters, economy)
-├── ambient/               (7 files - background atmospheres)
-├── effects/               (9 files - feedback, transitions)
-├── stings/                (8 files - dramatic moments)
-├── notifications/         (5 files - alerts, messages)
-└── music-stings/          (4 files - short musical pieces)
+Dropbox/Replit/Audio/
+├── Music/                           (Already has 10 music files ✅)
+│   ├── campaign_rally.mp3
+│   ├── character_selection.mp3
+│   └── ... (8 more)
+│
+└── SFX/                             (Download Zapsplat sounds here 👇)
+    ├── UI/                          (9 files - card, button, menu)
+    ├── Game/                        (8 files - turns, phases, resources)
+    ├── Political/                   (12 files - news, government, events)
+    ├── Events/                      (12 files - crises, disasters, economy)
+    ├── Ambient/                     (7 files - background atmospheres)
+    ├── Effects/                     (9 files - feedback, transitions)
+    ├── Stings/                      (8 files - dramatic moments)
+    ├── Notifications/               (5 files - alerts, messages)
+    └── MusicStings/                 (4 files - short musical pieces)
 ```
 
 **Total Recommended Downloads: ~74 sound files**
+
+---
+
+## 📊 Download Priority Guide
+
+### **PHASE 1 - Essential (Start Here):**
+1. **UI/** folder - 9 files (cards, buttons, menus)
+2. **Game/** folder - 8 files (turns, resources, character)
+3. **Effects/** folder - 6 files (success/fail feedback)
+**Total: ~23 files**
+
+### **PHASE 2 - Gameplay:**
+1. **Political/** folder - 12 files (news, government)
+2. **Events/** folder - 12 files (crises, economy)
+**Total: ~24 files**
+
+### **PHASE 3 - Polish:**
+1. **Ambient/** folder - 7 files (backgrounds)
+2. **Stings/** folder - 8 files (dramatic moments)
+**Total: ~15 files**
+
+### **PHASE 4 - Optional:**
+1. **Notifications/** folder - 5 files
+2. **MusicStings/** folder - 4 files
+**Total: ~9 files**
 
 ---
 
@@ -242,25 +255,26 @@ client/public/sounds/
 
 ---
 
-## ✅ After Downloading
+## ✅ After Downloading to Dropbox Backend
 
-Once you have the sounds downloaded:
+Once you have the sounds in **Dropbox/Replit/Audio/SFX/**:
 
-1. **Upload to Replit:**
-   - Upload files to the exact paths listed above
-   - I'll verify the folder structure
-
-2. **I'll Handle:**
-   - Creating the sound manager system
-   - Implementing audio triggers
+1. **Tell me when ready** - I'll copy them to the game's public folder
+2. **I'll create:**
+   - Sound manager system
+   - Audio triggers for game events
    - Volume controls and mixing
-   - Sound effect timing
+   - Fallback handling
 
-3. **We'll Test:**
-   - Each sound in context
-   - Volume levels
-   - Timing and polish
+3. **Automatic sync:**
+   - Sounds will be copied to `client/public/sounds/` for gameplay
+   - Backend stays as your master archive
+   - Easy to update/replace sounds later
 
 ---
 
-**Questions?** Let me know which sounds you want to prioritize or if you need help with specific sound searches!
+**Current Status:**
+- ✅ Music folder ready (10 music files)
+- 📥 SFX folder ready for your Zapsplat downloads
+
+**Questions?** Let me know when you've downloaded Phase 1 sounds and I'll set up the audio system!
