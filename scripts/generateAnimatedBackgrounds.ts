@@ -34,14 +34,14 @@ const scenesToAnimate: SceneToAnimate[] = [
   },
   {
     name: 'Breaking News Set',
-    imagePath: 'Dropbox/Replit/Scenes/Backgrounds/breaking-news-set.png',
+    imagePath: 'Dropbox/Replit/Scenes/NewsScenes/breaking-news-set.png',
     prompt: 'News studio screens flickering with graphics, subtle camera movement, studio lights pulsing slightly, background monitors displaying data, urgent broadcast atmosphere, HD quality',
     duration: 10,
     outputFilename: 'breaking-news-set-animated.mp4'
   },
   {
     name: 'Rally Stage',
-    imagePath: 'Dropbox/Replit/Scenes/Backgrounds/rally-stage.png',
+    imagePath: 'Dropbox/Replit/Scenes/PublicSpaces/rally-stage.png',
     prompt: 'Massive crowd swaying and waving flags, campaign banners fluttering, stage lights sweeping across audience, people cheering with raised hands, political energy, wide cinematic shot',
     duration: 10,
     outputFilename: 'rally-stage-animated.mp4'
