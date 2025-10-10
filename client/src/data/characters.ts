@@ -34,7 +34,7 @@ export const characters: PoliticalCharacter[] = [
       "Solar Power: Gains energy bonuses during daylight decisions",
       "Reptilian Focus: Can delay decisions to gather more information"
     ],
-    portraitUrl: "/characters/rex-scaleston.png.svg"
+    portraitUrl: "/characters/rex-scaleston.png"
   },
   {
     id: "ronald-goldenberg",
@@ -54,7 +54,7 @@ export const characters: PoliticalCharacter[] = [
       "Media Magnet: All actions generate increased media attention",
       "Business Acumen: Economic decisions have enhanced effects"
     ],
-    portraitUrl: "/characters/ronald-goldenberg.png.svg"
+    portraitUrl: "/characters/ronald-goldenberg.png"
   },
   {
     id: "potus-9000",
@@ -74,7 +74,7 @@ export const characters: PoliticalCharacter[] = [
       "Emotional Immunity: Unaffected by public sentiment swings",
       "System Optimization: Can improve efficiency of government operations"
     ],
-    portraitUrl: "/characters/potus-9000.png.svg"
+    portraitUrl: "/characters/potus-9000.png"
   },
   {
     id: "alexandria-sanders",
@@ -94,7 +94,7 @@ export const characters: PoliticalCharacter[] = [
       "Policy Innovation: Can propose unconventional solutions",
       "Media Savvy: Effective at controlling narrative through social media"
     ],
-    portraitUrl: "/characters/alexandria-sanders.png.svg"
+    portraitUrl: "/characters/alexandria-sanders.png"
   },
   {
     id: "richard-moneybags",
@@ -114,7 +114,7 @@ export const characters: PoliticalCharacter[] = [
       "Corporate Connections: Has influence with business leaders",
       "Market Manipulation: Can influence economic conditions"
     ],
-    portraitUrl: "/characters/richard-moneybags.png.svg"
+    portraitUrl: "/characters/richard-moneybags.png"
   },
   {
     id: "general-steel",
@@ -134,7 +134,7 @@ export const characters: PoliticalCharacter[] = [
       "Strategic Thinking: Can anticipate long-term consequences",
       "Command Authority: Can override opposition through force of will"
     ],
-    portraitUrl: "/characters/general-steel.png.svg"
+    portraitUrl: "/characters/general-steel.png"
   },
   {
     id: "diana-newsworthy",
@@ -154,7 +154,7 @@ export const characters: PoliticalCharacter[] = [
       "Information Network: Has access to insider information",
       "Narrative Mastery: Can reframe any situation favorably"
     ],
-    portraitUrl: "/characters/diana-newsworthy.png.svg"
+    portraitUrl: "/characters/diana-newsworthy.png"
   },
   {
     id: "johnny-public",
@@ -174,7 +174,7 @@ export const characters: PoliticalCharacter[] = [
       "Everyman Appeal: Can connect with diverse voter groups",
       "Unpredictable: Opponents can't anticipate his moves"
     ],
-    portraitUrl: "/characters/johnny-public.png.svg"
+    portraitUrl: "/characters/johnny-public.png"
   },
   {
     id: "dr-technocrat",
@@ -194,7 +194,7 @@ export const characters: PoliticalCharacter[] = [
       "Scientific Method: Can test policies before full implementation",
       "Innovation Focus: Can develop novel solutions to complex problems"
     ],
-    portraitUrl: "/characters/dr-technocrat.png.svg"
+    portraitUrl: "/characters/dr-technocrat.png"
   },
   {
     id: "senator-tradition",
@@ -214,6 +214,6 @@ export const characters: PoliticalCharacter[] = [
       "Traditional Values: Appeals to voters seeking stability",
       "Political Experience: Can navigate complex legislative processes"
     ],
-    portraitUrl: "/characters/senator-tradition.png.svg"
+    portraitUrl: "/characters/senator-tradition.png"
   }
 ];
