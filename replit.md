@@ -6,6 +6,36 @@ Executive Disorder is a humorous political decision-making game built as a web a
 
 ## Recent Changes
 
+### October 11, 2025 - Opening Cinematics Complete
+**Major Update: 5 Intriguing AI-Generated Cinematic Videos**
+
+Successfully created captivating opening cinematics using Runway ML's Veo3 model:
+
+**Opening Cinematic Videos (5 videos, 49 MB total):**
+- `opening-01-political-chaos.mp4` (8.8 MB) - Presidential office chaos with papers flying and red alerts
+- `opening-02-media-frenzy.mp4` (13 MB) - Dynamic newsroom chaos with breaking news energy
+- `opening-03-power-ascension.mp4` (8.8 MB) - Epic government building rise at golden hour
+- `opening-04-critical-decision.mp4` (6.1 MB) - Intense desk scene with hovering decision
+- `opening-05-absurd-spectacle.mp4` (13 MB) - Surreal political rally with theatrical lighting
+
+**Thematic Alignment:**
+- Political Chaos: Sets tone for game's chaotic environment
+- Media Frenzy: Highlights media perception resource
+- Power Ascension: Represents player's journey to leadership
+- Critical Decision: Shows weight of decision-making mechanics
+- Absurd Spectacle: Captures satirical and absurd game tone
+
+**Technical Specifications:**
+- Format: MP4, 1280x720 HD, 8 seconds each
+- Model: Google Veo3 via Runway ML API
+- Cost: ~$2.50 for all 5 videos
+- Locations: `Dropbox/Replit/ExecutiveDisorder_Assets/09_Video_Assets/Opening_Cinematics/` and `client/public/videos/opening-cinematics/`
+
+**Documentation:**
+- Complete manifest: `OPENING_CINEMATICS_MANIFEST.md`
+- Quick reference: `README.md`
+- Integration examples and usage recommendations included
+
 ### October 10, 2025 - Character Expression System Complete
 **Major Update: 600 Expression Files Generated & Uploaded**
 
