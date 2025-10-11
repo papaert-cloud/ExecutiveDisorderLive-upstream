@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
+import type { PoliticalCharacter } from "../../data/characters";
 
 export type GamePhase = "title_screen" | "main_menu" | "menu" | "character_selection" | "playing" | "ended";
 export type TimeOfDay = "morning" | "afternoon" | "night";
@@ -9,6 +10,13 @@ interface GameState {
   timeOfDay: TimeOfDay;
   turn: number;
   isLoading: boolean;
+  selectedCharacter: PoliticalCharacter | null;
+  resources: {
+    popularity: number;
+    stability: number;
+    media: number;
+    economy: number;
+  };
   
   // Actions
   setGamePhase: (phase: GamePhase) => void;
@@ -17,6 +25,9 @@ interface GameState {
   resetGame: () => void;
   endGame: () => void;
   setLoading: (loading: boolean) => void;
+  setSelectedCharacter: (character: PoliticalCharacter) => void;
+  startGame: () => void;
+  makeDecision: (cardId: string, optionIndex: number) => void;
 }
 
 export const useGameState = create<GameState>()(
@@ -25,6 +36,13 @@ export const useGameState = create<GameState>()(
     timeOfDay: "morning",
     turn: 1,
     isLoading: false,
+    selectedCharacter: null,
+    resources: {
+      popularity: 50,
+      stability: 50,
+      media: 50,
+      economy: 50,
+    },
     
     setGamePhase: (phase) => {
       console.log('Game phase changed to:', phase);
@@ -57,7 +75,14 @@ export const useGameState = create<GameState>()(
         gamePhase: "menu",
         timeOfDay: "morning",
         turn: 1,
-        isLoading: false
+        isLoading: false,
+        selectedCharacter: null,
+        resources: {
+          popularity: 50,
+          stability: 50,
+          media: 50,
+          economy: 50,
+        },
       });
       console.log('Game reset');
     },
@@ -69,6 +94,28 @@ export const useGameState = create<GameState>()(
     
     setLoading: (loading) => {
       set({ isLoading: loading });
+    },
+    
+    setSelectedCharacter: (character) => {
+      set({ 
+        selectedCharacter: character,
+        resources: { ...character.startingStats }
+      });
+      console.log('Selected character:', character.name);
+    },
+    
+    startGame: () => {
+      set({ gamePhase: "playing" });
+      console.log('Game started');
+    },
+    
+    makeDecision: (cardId, optionIndex) => {
+      const { resources } = get();
+      // Find the card and apply effects (simplified for now)
+      console.log(`Decision made: ${cardId}, option: ${optionIndex}`);
+      // Effects would be applied here based on the card's options
+      // For now, just advance the turn
+      get().nextTurn();
     }
   }))
 );
