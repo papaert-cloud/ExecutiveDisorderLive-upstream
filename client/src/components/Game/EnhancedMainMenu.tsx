@@ -52,7 +52,7 @@ export default function EnhancedMainMenu() {
   return (
     <div className="relative w-full h-full overflow-hidden">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 z-background pointer-events-none">
+      <div className="absolute inset-0 layer-bg visual-bg">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" />
         <motion.div 
           className="absolute inset-0 opacity-40"
@@ -79,7 +79,7 @@ export default function EnhancedMainMenu() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-menu flex flex-col h-full pointer-events-none">
+      <div className="relative layer-menu flex flex-col h-full pointer-events-none">
         {/* Header with Logo */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
@@ -108,7 +108,7 @@ export default function EnhancedMainMenu() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="py-2 border-y border-white/20 backdrop-blur-md bg-black/30 z-ticker pointer-events-auto"
+          className="py-2 border-y border-white/20 backdrop-blur-md bg-black/30 layer-ticker"
         >
           <HeadlineTicker />
         </motion.div>
@@ -217,7 +217,7 @@ export default function EnhancedMainMenu() {
               transition={{ delay: 0.5 }}
               className="flex flex-col justify-center"
             >
-              <div className="backdrop-blur-xl bg-white/10 rounded-xl sm:rounded-3xl p-4 sm:p-8 border border-white/20 shadow-2xl z-carousel">
+              <div className="backdrop-blur-xl bg-white/10 rounded-xl sm:rounded-3xl p-4 sm:p-8 border border-white/20 shadow-2xl layer-ui">
                 <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center uppercase tracking-wide">
                   Quick Select Leader
                 </h2>

@@ -45,7 +45,7 @@ export default function TitleScreen() {
       transition={{ duration: 0.5 }}
     >
       {/* Animated Background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 layer-bg visual-bg">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900" />
         <motion.div 
           className="absolute inset-0"
