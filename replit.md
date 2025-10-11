@@ -6,6 +6,37 @@ Executive Disorder is a humorous political decision-making web application where
 
 ## Recent Changes
 
+### October 11, 2025 - Ending Cinematics Generated
+**5 High-Quality Dramatic Ending Videos**
+
+Successfully generated 5 AI-powered ending cinematics for game conclusion sequences:
+
+**Ending Cinematics (5 videos, 49.88 MB total):**
+- `ending-victory-triumph.mp4` (10.45 MB) - Perfect victory celebration
+- `ending-scandal-impeachment.mp4` (9.23 MB) - Political scandal and impeachment
+- `ending-economic-collapse.mp4` (10.18 MB) - Economic catastrophe ending
+- `ending-revolution-uprising.mp4` (9.29 MB) - Civil uprising and revolution
+- `ending-nuclear-catastrophe.mp4` (10.74 MB) - Apocalyptic worst-case scenario
+
+**Technical Specifications:**
+- Format: MP4 (H.264), 1280x768 HD (16:9)
+- Duration: 10 seconds each
+- AI Model: Runway ML Gen3a Turbo
+- Uploaded to Dropbox: `/Replit/ExecutiveDisorder_Assets/09_Video_Assets/Ending_Cinematics/`
+- Game assets: `client/public/videos/ending-cinematics/`
+
+**Trigger Conditions:**
+- Victory: All resources >70
+- Scandal: Media/Popularity <30
+- Economic: Economy <20
+- Revolution: Stability <20
+- Nuclear: All resources <25
+
+**Documentation:**
+- Complete manifest: `ENDING_CINEMATICS_MANIFEST.md`
+- Quick reference: `README.md`
+- Integration logic and code examples included
+
 ### October 11, 2025 - Replay Loop Videos Generated
 **9 High-Quality Seamless Background Loops**
 
