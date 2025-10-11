@@ -17,13 +17,25 @@ export default function CharacterSelection2D() {
   };
 
   return (
-    <div className="w-full h-full overflow-auto p-8" style={{
-      backgroundImage: 'url(/background.png)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      minHeight: '100vh'
-    }}>
+    <div className="relative w-full min-h-screen overflow-auto">
+      {/* Dynamic Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" />
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-600/30 via-transparent to-red-600/30 animate-pulse" />
+        </div>
+        <video
+          src="/videos/replay-loops/campaign-headquarters.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+      
+      <div className="relative z-10 p-8">
       <div className="flex flex-col items-center mb-8">
         <img src="/logo.png" alt="Executive Disorder" className="h-24 sm:h-32 w-auto mb-6 drop-shadow-2xl" />
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white text-center mb-3 drop-shadow-lg uppercase tracking-tight bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
@@ -38,10 +50,10 @@ export default function CharacterSelection2D() {
         {characters.map((character) => (
           <Card
             key={character.id}
-            className={`cursor-pointer transition-all transform hover:scale-105 ${
+            className={`cursor-pointer transition-all transform hover:scale-105 backdrop-blur-md ${
               selectedCharacter?.id === character.id
-                ? 'ring-4 ring-yellow-400 bg-gray-800/95 shadow-2xl shadow-yellow-500/50'
-                : 'bg-gray-900/90 hover:bg-gray-800/95 backdrop-blur-sm'
+                ? 'ring-4 ring-yellow-400 bg-white/20 shadow-2xl shadow-yellow-500/50 scale-105'
+                : 'bg-white/10 hover:bg-white/15 border border-white/20'
             }`}
             onClick={() => setSelectedCharacter(character)}
           >
@@ -74,7 +86,7 @@ export default function CharacterSelection2D() {
       </div>
 
       {selectedCharacter && (
-        <Card className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-md p-4 sm:p-6 max-w-5xl mx-auto shadow-2xl border-2 border-yellow-400/30">
+        <Card className="backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/10 p-4 sm:p-6 max-w-5xl mx-auto shadow-2xl border-2 border-yellow-400/50">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <div
@@ -119,6 +131,7 @@ export default function CharacterSelection2D() {
           </div>
         </Card>
       )}
+      </div>
     </div>
   );
 }
