@@ -223,16 +223,16 @@ export default function EnhancedGameplay() {
     if (!soundEnabled || !audioRef.current) return;
     
     const sounds: { [key: string]: string } = {
-      success: '/sounds/success.mp3',
-      disaster: '/sounds/disaster.mp3',
-      neutral: '/sounds/neutral.mp3',
-      alert: '/sounds/alert.mp3',
-      dramatic: '/sounds/dramatic.mp3',
-      click: '/sounds/click.mp3'
+      success: '/audio/music/victory_fanfare.mp3',
+      disaster: '/audio/music/economic_disaster.mp3',
+      neutral: '/audio/music/diplomatic_tension.mp3',
+      alert: '/audio/music/crisis_mode.mp3',
+      dramatic: '/audio/music/defeat_theme.mp3',
+      click: '/audio/music/main_theme.mp3'
     };
     
     audioRef.current.src = sounds[type] || sounds.click;
-    audioRef.current.volume = 0.5;
+    audioRef.current.volume = 0.3;
     audioRef.current.play().catch(() => {
       // Silently fail if audio can't play
     });
