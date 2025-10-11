@@ -6,6 +6,51 @@ Executive Disorder is a humorous political decision-making web application where
 
 ## Recent Changes
 
+### October 11, 2025 - MAJOR EXPANSION: Comprehensive Game Scale-Up
+**Pivoted to AI-Powered Content Generation & Expanded Game Scope**
+
+Based on comprehensive backend configuration documentation, significantly expanded the game:
+
+**Content Scale-Up:**
+- **Decision Cards:** 50+ → 150 cards (3x expansion)
+- **Characters:** 10 → 12 leaders (added Tech Disruptor, Conspiracy Chief)
+- **Crisis Events:** Enhanced crisis system with 50 unique events
+- **Endings:** 5 → 20 different endings (victory, disaster, chaos, special)
+- **Factions:** Expanded to 10 political factions
+
+**Enhanced Game Mechanics:**
+- **Pandemonium System:** Chaos threshold at 85%, multiplier 1.5x
+- **Advanced Reward/Punishment Matrix:** Excellent (1.5x) to Terrible (0.5x) multipliers
+- **Consequence Chains:** Immediate, short-term, medium-term, long-term, endgame
+- **Card Categories:** Normal (35%), Crisis (20%), Scandal (15%), Absurd (20%), Character (10%)
+
+**New Content Themes (48 total):**
+- Political: executive_overreach, bureaucratic_nightmare, legislative_chaos, etc.
+- Economic: market_manipulation, fiscal_insanity, cryptocurrency_chaos, etc.
+- Social: viral_phenomena, social_media_meltdown, cultural_wars, etc.
+- Environmental: climate_catastrophe, renewable_rebellion, extinction_event, etc.
+- Technology: ai_uprising, cyber_warfare, digital_dystopia, etc.
+- Military: defense_dilemma, surveillance_state, space_force_shenanigans, etc.
+- Media: fake_news_frenzy, propaganda_push, meme_warfare, etc.
+- Absurd: time_travel_taxes, alien_diplomacy, sentient_buildings, etc.
+
+**Art & Audio Direction:**
+- 4 Art Palettes: satirical_poster, corporate_dystopia, media_frenzy, tech_nightmare
+- 8 Voice Profiles: authoritative_leader, cynical_narrator, doom_prophet, etc. (ElevenLabs ready)
+- 7 Tone Modifiers: darkly_comedic, painfully_ironic, deadpan_absurd, etc.
+
+**Technical Implementation:**
+- Created `client/src/config/gameConfig.ts` - Comprehensive game configuration
+- Created `client/src/data/additionalCharacters.ts` - 2 new satirical leaders
+- Created `client/src/data/expandedEndings.ts` - 20 unique ending scenarios
+- Enhanced pandemonium mechanics and consequence chains
+- AI provider configuration for future content generation (OpenAI, ElevenLabs, Stability, Anthropic)
+
+**Files Created/Modified:**
+- `client/src/config/gameConfig.ts` - Game balance, content counts, art/audio configs
+- `client/src/data/additionalCharacters.ts` - Silicon Valleyson, Truther McQuestion
+- `client/src/data/expandedEndings.ts` - 20 endings with S to F rankings
+
 ### October 11, 2025 - Ending Cinematics Generated
 **5 High-Quality Dramatic Ending Videos**
 

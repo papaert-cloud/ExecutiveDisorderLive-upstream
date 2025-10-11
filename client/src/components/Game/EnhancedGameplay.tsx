@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGameState } from '../../lib/stores/useGameState';
 import { useCharacters } from '../../lib/stores/useCharacters';
 import { useResources } from '../../lib/stores/useResources';
-import { expandedDecisionCards, crisisCards, cascadeEffects, characterModifiers } from '../../data/expandedCards';
+import { expandedDecisionCards, crisisCards as crisisCardData, cascadeEffects, characterModifiers } from '../../data/expandedCards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, AlertTriangle, TrendingUp, TrendingDown, Zap, Star, Skull } from 'lucide-react';
 
@@ -87,6 +87,7 @@ export default function EnhancedGameplay() {
     setCascadeMessage(cascade.message);
     updateResources(cascade.effects);
     setChaos(prev => prev + 10);
+    setCascades(prev => prev + 1); // Track cascade count
     playSound('alert');
     
     setTimeout(() => {
@@ -94,14 +95,19 @@ export default function EnhancedGameplay() {
     }, 5000);
   };
 
+  // Store game state for ending detection
+  const [absurdCards, setAbsurdCards] = useState(0);
+  const [crisisCards, setCrisisCards] = useState(0);
+  const [cascades, setCascades] = useState(0);
+  
   // Check for game ending conditions
   useEffect(() => {
     if (!resources || gamePhase !== 'playing') return;
     
     const { popularity, stability, media, economy } = resources;
     
-    // Check ending conditions
-    if (popularity < 25 && stability < 25 && media < 25 && economy < 25) {
+    // Check ending conditions based on expanded endings
+    if (popularity < 20 && stability < 20 && media < 20 && economy < 20) {
       triggerEnding('ending-nuclear-catastrophe');
     } else if (economy < 15) {
       triggerEnding('ending-economic-collapse');
@@ -109,10 +115,21 @@ export default function EnhancedGameplay() {
       triggerEnding('ending-revolution-uprising');
     } else if ((media < 25 || popularity < 25) && turn > 30) {
       triggerEnding('ending-scandal-impeachment');
-    } else if (popularity > 80 && stability > 80 && media > 80 && economy > 80) {
+    } else if (popularity > 85 && stability > 85 && media > 85 && economy > 85) {
       triggerEnding('ending-victory-triumph');
     } else if (turn >= 100) {
-      triggerEnding(determineEnding());
+      // Save game state to localStorage for ending screen
+      localStorage.setItem('endingGameState', JSON.stringify({
+        resources,
+        turn,
+        chaos,
+        cardHistory,
+        absurdCards,
+        crisisCards,
+        cascades,
+        streak
+      }));
+      endGame();
     }
   }, [resources, turn, gamePhase]);
 
@@ -149,7 +166,8 @@ export default function EnhancedGameplay() {
     const crisisChance = chaos / 200;
     if (Math.random() < crisisChance) {
       setShowCrisis(true);
-      return crisisCards[Math.floor(Math.random() * crisisCards.length)];
+      setCrisisCards(prev => prev + 1); // Track crisis count
+      return crisisCardData[Math.floor(Math.random() * crisisCardData.length)];
     }
     
     // Get random card that hasn't been used recently
@@ -161,8 +179,15 @@ export default function EnhancedGameplay() {
       availableCards = expandedDecisionCards;
     }
     
+    const selectedCard = availableCards[Math.floor(Math.random() * availableCards.length)];
+    
+    // Track card types
+    if (selectedCard.category === 'absurd') {
+      setAbsurdCards(prev => prev + 1);
+    }
+    
     setShowCrisis(false);
-    return availableCards[Math.floor(Math.random() * availableCards.length)];
+    return selectedCard;
   };
 
   // Handle decision selection
