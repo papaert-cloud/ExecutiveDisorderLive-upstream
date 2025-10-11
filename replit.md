@@ -6,6 +6,50 @@ Executive Disorder is a humorous political decision-making web application where
 
 ## Recent Changes
 
+### October 11, 2025 - PAGE-BASED ARCHITECTURE: Complete UI Redesign
+**Transformed from Single-Page to Multi-Page Routing System**
+
+Successfully redesigned the entire game with page-based navigation for better performance and asset management:
+
+**New Page Structure (5 pages):**
+- **Title Page (`/`):** Rainbow gradient title, animated particles, click-to-enter
+- **Menu Page (`/menu`):** Modern card grid (New Game, Continue, Gallery, Settings), headline ticker
+- **Character Select (`/character-select`):** Grid of 12 characters with hover effects, stat previews
+- **Character Stats (`/character/:id`):** Full character bio, animated stats bars, abilities list, start button
+- **Game Page (`/game`):** Side-by-side layout (background scene + decision cards), live HUD
+
+**Complete Style Overhaul:**
+- Title: Bold rainbow gradient typography (amber→red→pink→purple→blue)
+- Menu: Dark gradient + animated grid overlay + scrolling ticker
+- Characters: Card-based grid with portraits, hover glow effects
+- Stats: Large 3:4 portrait, animated progress bars, yellow accents
+- Game: Split view design for backgrounds + decision cards
+
+**Technical Architecture:**
+- Implemented wouter routing (no Router wrapper needed)
+- Extended GameState: selectedCharacter, resources, setSelectedCharacter, startGame, makeDecision
+- Safe navigation: useEffect-based redirects, deterministic particle rendering
+- State flow: Character selection → Resource initialization → Game start
+
+**Benefits:**
+- Each page loads only needed assets (videos, audio, effects)
+- No single bloated component
+- Better performance and maintainability
+- Clean transitions between scenes
+- Ready for rich media integration
+
+**Files Created:**
+- `client/src/pages/TitlePage.tsx` - Rainbow title with particles
+- `client/src/pages/MenuPage.tsx` - Card-based menu
+- `client/src/pages/CharacterSelectPage.tsx` - Character grid
+- `client/src/pages/CharacterStatsPage.tsx` - Character details
+- `client/src/pages/GamePage.tsx` - Side-by-side gameplay
+- `PAGE_BASED_ARCHITECTURE.md` - Complete documentation
+
+**Files Modified:**
+- `client/src/App.tsx` - Routing implementation
+- `client/src/lib/stores/useGameState.tsx` - Extended state management
+
 ### October 11, 2025 - MAJOR EXPANSION: Comprehensive Game Scale-Up
 **Pivoted to AI-Powered Content Generation & Expanded Game Scope**
 
@@ -188,11 +232,12 @@ Successfully created branded opening cinematics with Executive Disorder logo ove
 ### Frontend Architecture
 
 -   **Framework & Build System:** React 18 with TypeScript, Vite for bundling, and GLSL shader support.
+-   **Routing System:** Page-based architecture using wouter for clean scene transitions. 5 distinct pages: Title, Menu, Character Select, Character Stats, Game.
 -   **UI Component System:** Radix UI primitives, Tailwind CSS for styling, custom HSL-based color tokens, and shadcn/ui patterns.
--   **Game Rendering:** Dual 2D DOM-based and 3D WebGL (Three.js via React Three Fiber) rendering, supporting GLTF/GLB models and GLSL shaders.
--   **State Management:** Zustand for game state (game phase, characters, resources) and React Query for server state. Local storage for persistence.
--   **Game Flow:** Character selection, card-based decisions affecting resources, turn-based progression, and multiple ending scenarios based on resource scores.
--   **Asset Loading:** All game content (cards, characters, endings, videos, images) loaded from static files - NO runtime API calls.
+-   **Game Rendering:** Multi-page approach with dedicated pages for each game phase. Future: Dual 2D DOM-based and 3D WebGL (Three.js via React Three Fiber) rendering.
+-   **State Management:** Zustand for game state (selectedCharacter, resources, turn, gamePhase) with extended actions. React Query for server state. Local storage for persistence.
+-   **Game Flow:** Title → Menu → Character Selection (grid) → Character Stats (detailed view) → Game (side-by-side cards + backgrounds). Turn-based progression with multiple endings.
+-   **Asset Loading:** Each page loads only needed assets. All game content (cards, characters, endings, videos, images) from static files - NO runtime API calls.
 
 ### Backend Architecture
 
