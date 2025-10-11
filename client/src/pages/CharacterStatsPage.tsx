@@ -32,8 +32,42 @@ export default function CharacterStatsPage() {
     { label: "Economy", value: character.startingStats.economy, color: "from-yellow-500 to-orange-500" },
   ];
 
+  // Select background video based on character (all 12 characters mapped)
+  const characterVideoMap: Record<string, string> = {
+    'rex-scaleston': '/videos/replay-loops/government-office-ambient.mp4',          // Iguana King - official setting
+    'tech-disruptor': '/videos/replay-loops/stock-market-displays.mp4',            // Silicon Valleyson - tech/business
+    'conspiracy-chief': '/videos/replay-loops/media-circus-exterior.mp4',          // Truther McQuestion - paranoia/media
+    'ronald-goldenberg': '/videos/replay-loops/political-rally-crowd.mp4',         // The Dealmaker - populist rallies
+    'potus-9000': '/videos/replay-loops/capitol-building-exterior.mp4',            // AI President - government authority
+    'alexandria-sanders': '/videos/replay-loops/protest-demonstration.mp4',        // The Progressive - activism
+    'richard-moneybags': '/videos/replay-loops/stock-market-displays.mp4',         // Billionaire - finance/markets
+    'general-steel': '/videos/replay-loops/capitol-building-exterior.mp4',         // Military leader - government power
+    'diana-newsworthy': '/videos/replay-loops/breaking-news-ticker.mp4',           // Media mogul - news/broadcasting
+    'johnny-public': '/videos/replay-loops/campaign-headquarters.mp4',             // Everyman - grassroots campaign
+    'dr-technocrat': '/videos/replay-loops/government-office-ambient.mp4',         // Expert bureaucrat - office setting
+    'senator-tradition': '/videos/replay-loops/press-conference-room.mp4',         // Traditional politician - formal press
+  };
+
+  const characterVideo = characterVideoMap[character.id] || '/videos/replay-loops/press-conference-room.mp4';
+
   return (
-    <div className="relative w-full h-full overflow-hidden bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950">
+    <div className="relative w-full h-full overflow-hidden">
+      {/* Background video */}
+      <div className="absolute inset-0">
+        <video
+          key={characterVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src={characterVideo} type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/50 via-purple-950/40 to-indigo-950/50" />
       {/* Header */}
       <div className="absolute top-0 left-0 right-0 bg-black/20 backdrop-blur-md border-b border-white/20 p-6 flex items-center gap-4 z-20">
         <button

@@ -11,7 +11,22 @@ export default function CharacterSelectPage() {
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950">
+    <div className="relative w-full h-full overflow-hidden">
+      {/* Background video */}
+      <div className="absolute inset-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/replay-loops/government-office-ambient.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/50 via-indigo-950/40 to-purple-950/50" />
       {/* Header */}
       <div className="absolute top-0 left-0 right-0 bg-black/20 backdrop-blur-md border-b border-white/20 p-6 flex items-center justify-between z-20">
         <button
