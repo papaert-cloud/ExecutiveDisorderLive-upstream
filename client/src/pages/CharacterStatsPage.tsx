@@ -35,7 +35,7 @@ export default function CharacterStatsPage() {
   return (
     <div className="relative w-full h-full overflow-hidden bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950">
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 bg-black/40 backdrop-blur-md border-b border-white/10 p-6 flex items-center gap-4 z-20">
+      <div className="absolute top-0 left-0 right-0 bg-black/20 backdrop-blur-md border-b border-white/20 p-6 flex items-center gap-4 z-20">
         <button
           onClick={() => setLocation("/character-select")}
           className="flex items-center gap-2 text-white/80 hover:text-white transition-colors group"
@@ -89,8 +89,8 @@ export default function CharacterStatsPage() {
             <h3 className="text-3xl font-bold text-white mb-4">Character Stats</h3>
             
             {/* Bio */}
-            <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 mb-6">
-              <p className="text-white/80 leading-relaxed">{character.fullBio}</p>
+            <div className="bg-black/20 backdrop-blur-lg border border-white/20 rounded-2xl p-6 mb-6">
+              <p className="text-white/90 leading-relaxed">{character.fullBio}</p>
             </div>
 
             {/* Stats bars */}
@@ -106,7 +106,7 @@ export default function CharacterStatsPage() {
                     <span className="text-white font-semibold">{stat.label}</span>
                     <span className="text-yellow-400 font-bold">{stat.value}</span>
                   </div>
-                  <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-3 bg-white/20 backdrop-blur-sm rounded-full overflow-hidden border border-white/10">
                     <motion.div
                       className={`h-full bg-gradient-to-r ${stat.color} rounded-full`}
                       initial={{ width: 0 }}
@@ -119,7 +119,7 @@ export default function CharacterStatsPage() {
             </div>
 
             {/* Abilities */}
-            <div className="bg-purple-600/20 backdrop-blur-md border border-purple-400/30 rounded-2xl p-6 mb-6">
+            <div className="bg-purple-600/15 backdrop-blur-lg border border-purple-400/40 rounded-2xl p-6 mb-6">
               <h4 className="text-purple-300 font-semibold mb-2">Special Abilities</h4>
               <ul className="text-white space-y-2">
                 {character.abilities.map((ability, idx) => (
