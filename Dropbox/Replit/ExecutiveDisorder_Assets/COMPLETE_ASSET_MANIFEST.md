@@ -1,6 +1,6 @@
 # Executive Disorder - Complete Asset Manifest
-**Date:** October 10, 2025  
-**Total Assets:** 222 files (356 MB)  
+**Date:** October 11, 2025  
+**Total Assets:** 227 files (405 MB)  
 **Status:** 🎯 95% Production Ready (Audio Pending)
 
 ---
@@ -296,8 +296,29 @@ Ending screen backgrounds for all game outcomes:
 
 ---
 
-## 🎬 09_Video_Assets (14 files, 79 MB)
+## 🎬 09_Video_Assets (19 files, 128 MB)
 **Status:** ✅ Complete - Runway ML Generated
+
+### Opening Cinematics (5 videos, 8s each) - NEW! ⭐
+1. **opening-01-political-chaos.mp4** (8.8 MB)
+   - Cinematic zoom through presidential office, papers flying, red alerts
+   - Theme: The descent into political chaos and disorder
+   
+2. **opening-02-media-frenzy.mp4** (13 MB)
+   - Dynamic newsroom chaos, breaking news, media circus energy
+   - Theme: Information overload and media perception
+   
+3. **opening-03-power-ascension.mp4** (8.8 MB)
+   - Epic rise up government building steps at golden hour
+   - Theme: The journey to political power
+   
+4. **opening-04-critical-decision.mp4** (6.1 MB)
+   - Intense desk scene with policy documents, hand hovering over choices
+   - Theme: The weight of decision-making
+   
+5. **opening-05-absurd-spectacle.mp4** (13 MB)
+   - Surreal political rally with confetti, empty podium, theatrical lighting
+   - Theme: The absurdity and spectacle of modern politics
 
 ### Animated Backgrounds (5 videos, 10s each):
 1. **oval-office-animated.mp4** (7.2 MB)
@@ -317,8 +338,8 @@ Ending screen backgrounds for all game outcomes:
 8. **event-diplomatic-tension.mp4** (4.3 MB)
 9. **event-media-chaos.mp4** (4.4 MB)
 
-**Provider:** Runway ML Gen-3 Alpha Turbo  
-**Cost:** ~$3-5 total
+**Provider:** Runway ML Veo3 & Gen-3 Alpha Turbo  
+**Cost:** ~$5.50 total
 
 ---
 
