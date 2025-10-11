@@ -6,6 +6,38 @@ Executive Disorder is a humorous political decision-making web application where
 
 ## Recent Changes
 
+### October 11, 2025 - Replay Loop Videos Generated
+**9 High-Quality Seamless Background Loops**
+
+Successfully generated 9 AI-powered seamless loop videos for dynamic gameplay backgrounds:
+
+**Replay Loop Videos (9 videos, 112 MB total):**
+- `government-office-ambient.mp4` (5.2 MB) - Formal office atmosphere
+- `political-rally-crowd.mp4` (19 MB) - Energetic rally with supporters
+- `breaking-news-ticker.mp4` (13 MB) - Newsroom with scrolling tickers
+- `capitol-building-exterior.mp4` (12 MB) - Majestic government building
+- `press-conference-room.mp4` (7.2 MB) - Official press briefing room
+- `protest-demonstration.mp4` (18.7 MB) - Peaceful political protest
+- `campaign-headquarters.mp4` (11.2 MB) - Busy campaign war room
+- `stock-market-displays.mp4` (14.3 MB) - Wall Street trading floor
+- `media-circus-exterior.mp4` (11.4 MB) - News vans and reporters
+
+**Technical Specifications:**
+- Format: MP4 (H.264), 1280x720 HD
+- Duration: 8 seconds each (seamless loops)
+- AI Model: Google Veo3 via Runway ML
+- Uploaded to Dropbox: `/Replit/ExecutiveDisorder_Assets/09_Video_Assets/Replay_Loop_Videos/`
+- Game assets: `client/public/videos/replay-loops/`
+
+**Usage:** Event-triggered backgrounds, resource-based displays, phase-specific atmospheres
+
+**Documentation:**
+- Complete manifest: `REPLAY_LOOPS_MANIFEST.md`
+- Quick reference: `README.md`
+- Integration examples included
+
+**Note:** 9 of 15 planned videos generated (API credit limit reached)
+
 ### October 11, 2025 - Final Opening Cinematics with Branding Complete
 **Major Update: Professional Cinematics with Executive Disorder Logo + Grand Opening**
 
