@@ -17,6 +17,31 @@ export default function GamePage() {
     setCurrentCardIndex((prev) => prev + 1);
   };
 
+  // Select event video based on card category and game state
+  const getEventVideo = () => {
+    const category = currentCard.category.toLowerCase();
+    
+    if (category.includes('crisis')) {
+      return '/videos/replay-loops/breaking-news-ticker.mp4';
+    } else if (category.includes('scandal')) {
+      return '/videos/replay-loops/media-circus-exterior.mp4';
+    } else if (category.includes('economic')) {
+      return '/videos/replay-loops/stock-market-displays.mp4';
+    } else if (category.includes('policy') || category.includes('legislative')) {
+      return '/videos/replay-loops/capitol-building-exterior.mp4';
+    } else if (category.includes('military') || category.includes('defense')) {
+      return '/videos/replay-loops/government-office-ambient.mp4';
+    } else if (category.includes('rally') || category.includes('campaign')) {
+      return '/videos/replay-loops/political-rally-crowd.mp4';
+    } else if (category.includes('protest')) {
+      return '/videos/replay-loops/protest-demonstration.mp4';
+    } else {
+      return '/videos/replay-loops/press-conference-room.mp4';
+    }
+  };
+
+  const eventVideo = getEventVideo();
+
   // Redirect if no character selected (post-render)
   useEffect(() => {
     if (!selectedCharacter) {
@@ -41,23 +66,21 @@ export default function GamePage() {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Background scene with parallax layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950" />
-      
-      {/* Animated background art */}
-      <div className="absolute inset-0 opacity-20">
-        <motion.div
-          className="absolute inset-0 bg-[url('/backgrounds/capitol.jpg')] bg-cover bg-center"
-          animate={{
-            scale: [1, 1.05, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
+      {/* Background video */}
+      <div className="absolute inset-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/replay-loops/political-rally-crowd.mp4" type="video/mp4" />
+        </video>
       </div>
+
+      {/* Gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 via-indigo-950/30 to-purple-950/40" />
 
       {/* Top HUD */}
       <div className="absolute top-0 left-0 right-0 bg-black/30 backdrop-blur-md border-b border-white/20 p-4 z-30">
@@ -114,24 +137,18 @@ export default function GamePage() {
             animate={{ x: 0, opacity: 1 }}
             className="flex flex-col justify-center"
           >
-            <div className="relative aspect-video rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl">
-              {/* Placeholder for dynamic background/event art */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, -5, 0],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                    }}
-                  >
-                    <Zap className="w-32 h-32 text-yellow-400 opacity-50" />
-                  </motion.div>
-                </div>
-              </div>
+            <div className="relative aspect-video rounded-3xl overflow-hidden border-2 border-white/30 shadow-2xl">
+              {/* Event video background - changes based on card category */}
+              <video
+                key={eventVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+              >
+                <source src={eventVideo} type="video/mp4" />
+              </video>
               
               {/* Event context overlay */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent backdrop-blur-sm p-6">

@@ -39,8 +39,21 @@ export default function MenuPage() {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950" />
+      {/* Background video */}
+      <div className="absolute inset-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/replay-loops/capitol-building-exterior.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/60 via-purple-950/40 to-slate-950/60" />
       
       {/* Animated grid overlay */}
       <div className="absolute inset-0 opacity-10">
