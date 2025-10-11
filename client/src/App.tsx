@@ -1,30 +1,19 @@
-import React from "react";
-import "@fontsource/inter";
-
+import { Route } from "wouter";
 import AppShell from "./components/Layout/AppShell";
-import Game2D from "./components/Game/Game2D";
-import GameUI from "./components/UI/GameUI";
-import LoadingScreen from "./components/UI/LoadingScreen";
-import AudioManager from "./lib/audio/AudioManager";
-import { useGameState } from "./lib/stores/useGameState";
+import TitlePage from "./pages/TitlePage";
+import MenuPage from "./pages/MenuPage";
+import CharacterSelectPage from "./pages/CharacterSelectPage";
+import CharacterStatsPage from "./pages/CharacterStatsPage";
+import GamePage from "./pages/GamePage";
 
 function App() {
-  const { isLoading } = useGameState();
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
   return (
     <AppShell>
-      {/* 2D Game Canvas */}
-      <Game2D />
-      
-      {/* UI Overlay */}
-      <GameUI />
-      
-      {/* Audio Manager */}
-      <AudioManager />
+      <Route path="/" component={TitlePage} />
+      <Route path="/menu" component={MenuPage} />
+      <Route path="/character-select" component={CharacterSelectPage} />
+      <Route path="/character/:id" component={CharacterStatsPage} />
+      <Route path="/game" component={GamePage} />
     </AppShell>
   );
 }
