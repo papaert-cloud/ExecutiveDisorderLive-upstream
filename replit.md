@@ -169,6 +169,22 @@ Successfully created branded opening cinematics with Executive Disorder logo ove
 
 ## System Architecture
 
+### Content Generation Workflow
+
+**⚠️ IMPORTANT: Two-Phase Architecture**
+
+**Phase 1: Pre-Generation (One-time, before deployment):**
+- Run backend generation system to create all 242+ assets (cards, leaders, crises, endings)
+- Export everything to Dropbox/Replit folder as JSON/YAML files
+- Generate all images, portraits, audio using AI APIs (ElevenLabs, Runway ML, etc.)
+- **AI APIs used ONLY in this phase, NOT during gameplay**
+
+**Phase 2: Game Runtime (What players use):**
+- Load pre-generated assets from static JSON/TypeScript files
+- Player tracking saves stats to localStorage/Dropbox
+- Game saves/loads work with pre-generated content
+- **NO API calls during gameplay - all assets are static**
+
 ### Frontend Architecture
 
 -   **Framework & Build System:** React 18 with TypeScript, Vite for bundling, and GLSL shader support.
@@ -176,12 +192,14 @@ Successfully created branded opening cinematics with Executive Disorder logo ove
 -   **Game Rendering:** Dual 2D DOM-based and 3D WebGL (Three.js via React Three Fiber) rendering, supporting GLTF/GLB models and GLSL shaders.
 -   **State Management:** Zustand for game state (game phase, characters, resources) and React Query for server state. Local storage for persistence.
 -   **Game Flow:** Character selection, card-based decisions affecting resources, turn-based progression, and multiple ending scenarios based on resource scores.
+-   **Asset Loading:** All game content (cards, characters, endings, videos, images) loaded from static files - NO runtime API calls.
 
 ### Backend Architecture
 
 -   **Server Framework:** Express.js with TypeScript, ESM modules, and tsx for development.
 -   **API Design:** RESTful API with centralized route registration, error handling middleware, and request/response logging.
 -   **Storage Layer:** Abstract storage interface with in-memory implementation (`MemStorage`) as default, designed for database-agnostic operations.
+-   **Pre-Generation Services:** ElevenLabs, Runway ML APIs used ONLY for asset pre-generation, disabled during gameplay.
 
 ### Data Storage Solutions
 
