@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Users, Settings, Award, Power, Save } from 'lucide-react';
 import { useGameState } from '../../lib/stores/useGameState';
 import { useCharacters } from '../../lib/stores/useCharacters';
+import { characters } from '../../data/characters';
 import LeaderCarousel from './LeaderCarousel';
 import HeadlineTicker from './HeadlineTicker';
 import SettingsModal from './SettingsModal';
@@ -24,8 +25,7 @@ export default function EnhancedMainMenu() {
   const handleNewGame = () => {
     if (selectedLeader) {
       // Set selected character based on carousel selection
-      const characters = require('../../data/characters').characters;
-      const character = characters.find((c: any) => c.id === selectedLeader);
+      const character = characters.find((c) => c.id === selectedLeader);
       if (character) {
         setSelectedCharacter(character);
         setGamePhase('playing');
@@ -50,9 +50,9 @@ export default function EnhancedMainMenu() {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden">
       {/* Dynamic Background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-background pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" />
         <motion.div 
           className="absolute inset-0 opacity-40"
@@ -79,7 +79,7 @@ export default function EnhancedMainMenu() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col h-full">
+      <div className="relative z-menu flex flex-col h-full pointer-events-none">
         {/* Header with Logo */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
@@ -108,14 +108,14 @@ export default function EnhancedMainMenu() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="py-2 border-y border-white/20 backdrop-blur-md bg-black/30"
+          className="py-2 border-y border-white/20 backdrop-blur-md bg-black/30 z-ticker pointer-events-auto"
         >
           <HeadlineTicker />
         </motion.div>
 
         {/* Main Menu Area */}
-        <div className="flex-1 flex items-center justify-center px-8 py-8">
-          <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-8 py-4 sm:py-8 overflow-auto pointer-events-auto">
+          <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
             {/* Left Column: Menu Buttons */}
             <motion.div
               initial={{ x: -50, opacity: 0 }}
@@ -123,8 +123,8 @@ export default function EnhancedMainMenu() {
               transition={{ delay: 0.3 }}
               className="flex flex-col justify-center"
             >
-              <div className="backdrop-blur-xl bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl">
-                <h2 className="text-2xl font-bold text-white mb-6 text-center uppercase tracking-wide">
+              <div className="backdrop-blur-xl bg-white/10 rounded-xl sm:rounded-3xl p-4 sm:p-8 border border-white/20 shadow-2xl">
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center uppercase tracking-wide">
                   Main Menu
                 </h2>
                 <div className="space-y-4">
@@ -133,7 +133,7 @@ export default function EnhancedMainMenu() {
                     whileHover={{ scale: 1.05, x: 10 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleNewGame}
-                    className="w-full backdrop-blur-md bg-gradient-to-r from-green-500/40 to-emerald-500/40 text-white text-xl font-bold py-4 px-6 rounded-xl border-2 border-green-400/60 shadow-lg hover:shadow-green-400/30 transition-all flex items-center justify-between group"
+                    className="w-full backdrop-blur-md bg-gradient-to-r from-green-500/40 to-emerald-500/40 text-white text-lg sm:text-xl font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl border-2 border-green-400/60 shadow-lg hover:shadow-green-400/30 transition-all flex items-center justify-between group min-h-[44px]"
                   >
                     <span className="flex items-center gap-3">
                       <Play className="w-6 h-6" />
@@ -154,7 +154,7 @@ export default function EnhancedMainMenu() {
                       hasSaveGame 
                         ? 'bg-gradient-to-r from-blue-500/40 to-purple-500/40 border-blue-400/60 hover:shadow-blue-400/30' 
                         : 'bg-gray-500/20 border-gray-400/30 opacity-50 cursor-not-allowed'
-                    } text-white text-xl font-bold py-4 px-6 rounded-xl border-2 shadow-lg transition-all flex items-center justify-between`}
+                    } text-white text-lg sm:text-xl font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl border-2 shadow-lg transition-all flex items-center justify-between min-h-[44px]`}
                   >
                     <span className="flex items-center gap-3">
                       <Save className="w-6 h-6" />
@@ -170,7 +170,7 @@ export default function EnhancedMainMenu() {
                     whileHover={{ scale: 1.05, x: 10 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setGamePhase('character_selection')}
-                    className="w-full backdrop-blur-md bg-gradient-to-r from-yellow-500/40 to-orange-500/40 text-white text-xl font-bold py-4 px-6 rounded-xl border-2 border-yellow-400/60 shadow-lg hover:shadow-yellow-400/30 transition-all flex items-center justify-between"
+                    className="w-full backdrop-blur-md bg-gradient-to-r from-yellow-500/40 to-orange-500/40 text-white text-lg sm:text-xl font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl border-2 border-yellow-400/60 shadow-lg hover:shadow-yellow-400/30 transition-all flex items-center justify-between min-h-[44px]"
                   >
                     <span className="flex items-center gap-3">
                       <Users className="w-6 h-6" />
@@ -184,7 +184,7 @@ export default function EnhancedMainMenu() {
                     whileHover={{ scale: 1.05, x: 10 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowSettings(true)}
-                    className="w-full backdrop-blur-md bg-gradient-to-r from-purple-500/40 to-pink-500/40 text-white text-xl font-bold py-4 px-6 rounded-xl border-2 border-purple-400/60 shadow-lg hover:shadow-purple-400/30 transition-all flex items-center justify-between"
+                    className="w-full backdrop-blur-md bg-gradient-to-r from-purple-500/40 to-pink-500/40 text-white text-lg sm:text-xl font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl border-2 border-purple-400/60 shadow-lg hover:shadow-purple-400/30 transition-all flex items-center justify-between min-h-[44px]"
                   >
                     <span className="flex items-center gap-3">
                       <Settings className="w-6 h-6" />
@@ -198,7 +198,7 @@ export default function EnhancedMainMenu() {
                     whileHover={{ scale: 1.05, x: 10 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleQuit}
-                    className="w-full backdrop-blur-md bg-gradient-to-r from-gray-500/40 to-gray-600/40 text-white text-xl font-bold py-4 px-6 rounded-xl border-2 border-gray-400/60 shadow-lg hover:shadow-gray-400/30 transition-all flex items-center justify-between"
+                    className="w-full backdrop-blur-md bg-gradient-to-r from-gray-500/40 to-gray-600/40 text-white text-lg sm:text-xl font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl border-2 border-gray-400/60 shadow-lg hover:shadow-gray-400/30 transition-all flex items-center justify-between min-h-[44px]"
                   >
                     <span className="flex items-center gap-3">
                       <Power className="w-6 h-6" />
@@ -217,8 +217,8 @@ export default function EnhancedMainMenu() {
               transition={{ delay: 0.5 }}
               className="flex flex-col justify-center"
             >
-              <div className="backdrop-blur-xl bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl">
-                <h2 className="text-2xl font-bold text-white mb-6 text-center uppercase tracking-wide">
+              <div className="backdrop-blur-xl bg-white/10 rounded-xl sm:rounded-3xl p-4 sm:p-8 border border-white/20 shadow-2xl z-carousel">
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center uppercase tracking-wide">
                   Quick Select Leader
                 </h2>
                 <LeaderCarousel onSelectLeader={setSelectedLeader} />
