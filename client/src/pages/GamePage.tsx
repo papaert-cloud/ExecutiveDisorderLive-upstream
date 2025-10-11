@@ -60,7 +60,7 @@ export default function GamePage() {
       </div>
 
       {/* Top HUD */}
-      <div className="absolute top-0 left-0 right-0 bg-black/60 backdrop-blur-lg border-b border-white/10 p-4 z-30">
+      <div className="absolute top-0 left-0 right-0 bg-black/30 backdrop-blur-md border-b border-white/20 p-4 z-30">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <button
             onClick={() => setLocation("/menu")}
@@ -134,9 +134,9 @@ export default function GamePage() {
               </div>
               
               {/* Event context overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent backdrop-blur-sm p-6">
                 <h3 className="text-white text-2xl font-bold mb-2">Current Situation</h3>
-                <p className="text-white/80">
+                <p className="text-white/90">
                   The nation watches as you navigate through crisis after crisis. 
                   Every decision ripples through the political landscape.
                 </p>
@@ -145,7 +145,7 @@ export default function GamePage() {
 
             {/* Effects/Audio indicators */}
             <div className="mt-4 flex gap-4">
-              <div className="flex-1 bg-black/40 backdrop-blur-md rounded-xl p-3 border border-white/10">
+              <div className="flex-1 bg-black/20 backdrop-blur-md rounded-xl p-3 border border-white/20">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">🎵</span>
                   <div className="flex-1">
@@ -154,7 +154,7 @@ export default function GamePage() {
                   </div>
                 </div>
               </div>
-              <div className="flex-1 bg-black/40 backdrop-blur-md rounded-xl p-3 border border-white/10">
+              <div className="flex-1 bg-black/20 backdrop-blur-md rounded-xl p-3 border border-white/20">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">✨</span>
                   <div className="flex-1">
@@ -172,7 +172,7 @@ export default function GamePage() {
             animate={{ x: 0, opacity: 1 }}
             className="flex flex-col justify-center"
           >
-            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl border-2 border-white/20 p-8 shadow-2xl">
+            <div className="bg-gradient-to-br from-slate-900/40 to-slate-950/60 backdrop-blur-xl rounded-3xl border-2 border-white/30 p-8 shadow-2xl">
               {/* Card header */}
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-3">
@@ -185,7 +185,7 @@ export default function GamePage() {
               </div>
 
               {/* Card description */}
-              <div className="bg-black/40 rounded-2xl p-6 mb-6">
+              <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/10">
                 <p className="text-white/90 text-lg leading-relaxed">{currentCard.description}</p>
               </div>
 
@@ -195,7 +195,7 @@ export default function GamePage() {
                   <motion.button
                     key={index}
                     onClick={() => handleChoice(index)}
-                    className="group w-full text-left bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600/40 hover:to-pink-600/40 border border-white/20 hover:border-yellow-400/50 rounded-2xl p-5 transition-all duration-300"
+                    className="group w-full text-left bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600/40 hover:to-pink-600/40 backdrop-blur-sm border border-white/30 hover:border-yellow-400/60 rounded-2xl p-5 transition-all duration-300"
                     whileHover={{ scale: 1.02, x: 10 }}
                     whileTap={{ scale: 0.98 }}
                   >

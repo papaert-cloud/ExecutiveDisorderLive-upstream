@@ -10,14 +10,14 @@ export default function MenuPage() {
       icon: Play,
       label: "NEW GAME",
       subtitle: "Choose leader",
-      gradient: "from-emerald-600 to-teal-600",
+      gradient: "from-emerald-600/40 to-teal-600/60",
       action: () => setLocation("/character-select"),
     },
     {
       icon: Play,
       label: "CONTINUE",
       subtitle: "No save found",
-      gradient: "from-slate-600 to-slate-700",
+      gradient: "from-slate-600/30 to-slate-700/50",
       action: () => alert("No save game found"),
       disabled: true,
     },
@@ -25,14 +25,14 @@ export default function MenuPage() {
       icon: Users,
       label: "CHARACTER GALLERY",
       subtitle: "View all leaders",
-      gradient: "from-amber-600 to-orange-600",
+      gradient: "from-amber-600/40 to-orange-600/60",
       action: () => setLocation("/character-select"),
     },
     {
       icon: Settings,
       label: "SETTINGS",
       subtitle: "Audio & gameplay",
-      gradient: "from-purple-600 to-pink-600",
+      gradient: "from-purple-600/40 to-pink-600/60",
       action: () => alert("Settings coming soon"),
     },
   ];
@@ -56,7 +56,7 @@ export default function MenuPage() {
       </div>
 
       {/* Headline ticker */}
-      <div className="absolute top-0 left-0 right-0 bg-black/40 backdrop-blur-md border-b border-white/10 py-3 overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 bg-black/20 backdrop-blur-md border-b border-white/20 py-3 overflow-hidden">
         <motion.div
           className="whitespace-nowrap text-white/70"
           animate={{ x: [0, -1000] }}
@@ -102,8 +102,8 @@ export default function MenuPage() {
               transition={{ delay: index * 0.1, duration: 0.4 }}
               className={`
                 group relative overflow-hidden rounded-2xl p-6 text-left
-                bg-gradient-to-br ${item.gradient}
-                ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 cursor-pointer'}
+                bg-gradient-to-br ${item.gradient} backdrop-blur-lg border-2 border-white/20
+                ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 cursor-pointer hover:border-white/40'}
                 transition-all duration-300 shadow-xl
               `}
               whileHover={!item.disabled ? { scale: 1.05 } : {}}

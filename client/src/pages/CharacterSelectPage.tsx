@@ -13,7 +13,7 @@ export default function CharacterSelectPage() {
   return (
     <div className="relative w-full h-full overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950">
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 bg-black/40 backdrop-blur-md border-b border-white/10 p-6 flex items-center justify-between z-20">
+      <div className="absolute top-0 left-0 right-0 bg-black/20 backdrop-blur-md border-b border-white/20 p-6 flex items-center justify-between z-20">
         <button
           onClick={() => setLocation("/menu")}
           className="flex items-center gap-2 text-white/80 hover:text-white transition-colors group"
@@ -38,7 +38,7 @@ export default function CharacterSelectPage() {
               initial={{ scale: 0, rotate: -10 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: index * 0.05, type: "spring" }}
-              className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-white/10 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/20"
+              className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900/40 to-slate-950/60 backdrop-blur-lg border-2 border-white/20 hover:border-yellow-400/60 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/20"
               whileHover={{ y: -10 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -58,7 +58,7 @@ export default function CharacterSelectPage() {
               </div>
 
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-sm opacity-80 group-hover:opacity-60 transition-opacity" />
 
               {/* Character info */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
