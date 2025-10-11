@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
-export type GamePhase = "menu" | "character_selection" | "playing" | "ended";
+export type GamePhase = "title_screen" | "main_menu" | "menu" | "character_selection" | "playing" | "ended";
 export type TimeOfDay = "morning" | "afternoon" | "night";
 
 interface GameState {
@@ -21,7 +21,7 @@ interface GameState {
 
 export const useGameState = create<GameState>()(
   subscribeWithSelector((set, get) => ({
-    gamePhase: "menu",
+    gamePhase: "title_screen",
     timeOfDay: "morning",
     turn: 1,
     isLoading: false,
