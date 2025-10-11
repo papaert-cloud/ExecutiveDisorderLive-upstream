@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Users, Settings, Award, Power, Save } from 'lucide-react';
 import { useGameState } from '../../lib/stores/useGameState';
+import { useCharacters } from '../../lib/stores/useCharacters';
 import LeaderCarousel from './LeaderCarousel';
 import HeadlineTicker from './HeadlineTicker';
 import SettingsModal from './SettingsModal';
 import AnalyticsFooter from './AnalyticsFooter';
 
 export default function EnhancedMainMenu() {
-  const { setGamePhase, setSelectedCharacter } = useGameState();
+  const { setGamePhase } = useGameState();
+  const { setSelectedCharacter } = useCharacters();
   const [showSettings, setShowSettings] = useState(false);
   const [hasSaveGame, setHasSaveGame] = useState(false);
   const [selectedLeader, setSelectedLeader] = useState<string | null>(null);
