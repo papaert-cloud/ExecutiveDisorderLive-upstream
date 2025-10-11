@@ -154,25 +154,43 @@ interface GameState {
 
 ## Design System
 
+### Glassmorphic UI Philosophy
+**Executive Disorder uses translucent glassmorphic design to allow simultaneous display of multiple media assets:**
+- All UI elements use semi-transparent backgrounds (20-60% opacity)
+- Backdrop-blur effects create depth and definition
+- Background videos/images show through all overlays
+- Text maintains readability with proper contrast
+- Borders use 20-40% white opacity for subtle definition
+
 ### Color Palette
 - **Title:** Rainbow gradient (amber → red → pink → purple → blue)
-- **Menu:** Indigo/purple gradient with card-based layout
-- **Character Select:** Slate/indigo/purple gradient
-- **Character Stats:** Purple/indigo with yellow accents
-- **Game:** Dark slate with dynamic backgrounds
+- **Menu:** Indigo/purple gradient with translucent card-based layout
+- **Character Select:** Slate/indigo/purple gradient with glass cards
+- **Character Stats:** Purple/indigo with yellow accents and glass panels
+- **Game:** Dark slate with translucent decision cards over dynamic backgrounds
+
+### Glassmorphic Components
+- **Headers/HUD:** `bg-black/20 backdrop-blur-md border-white/20`
+- **Decision Cards:** `bg-slate-900/40 to-slate-950/60 backdrop-blur-xl border-white/30`
+- **Info Panels:** `bg-black/20 backdrop-blur-lg border-white/20`
+- **Menu Cards:** `bg-gradient/40-60 backdrop-blur-lg border-white/20`
+- **Character Cards:** `bg-slate-900/40 to-slate-950/60 backdrop-blur-lg`
+- **Overlays:** `bg-black/20-80 backdrop-blur-sm` (varies by depth)
 
 ### Typography
 - **Titles:** Bold, large scale (7xl - 9xl)
 - **Headings:** 2xl - 4xl, white with gradients
-- **Body:** lg - xl, white/80 opacity
+- **Body:** lg - xl, white/90 opacity (increased from 80 for readability)
 - **Accents:** Yellow-400 for highlights
+- **Contrast:** All text uses white/90 or higher over translucent backgrounds
 
 ### Animations
 - Framer Motion for page transitions
 - Particle animations (deterministic)
-- Hover effects on cards
-- Stats bar fill animations
-- Button hover/tap feedback
+- Hover effects on cards (scale, glow, border highlight)
+- Stats bar fill animations with gradient
+- Button hover/tap feedback with scale transforms
+- Glassmorphic shine effects on interaction
 
 ## Technical Decisions
 
