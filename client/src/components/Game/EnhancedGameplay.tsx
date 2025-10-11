@@ -343,9 +343,9 @@ export default function EnhancedGameplay() {
         )}
       </AnimatePresence>
 
-      {/* Game HUD */}
+      {/* Game HUD with Glassmorphic Design */}
       <div className="absolute top-0 left-0 right-0 z-30 p-4">
-        <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/10">
+        <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-6 shadow-2xl border border-white/20">
           
           {/* Character & Turn Info */}
           <div className="flex justify-between items-center mb-4">
@@ -456,7 +456,7 @@ export default function EnhancedGameplay() {
             animate={{ y: 0, opacity: 1 }}
             className="max-w-7xl mx-auto"
           >
-            <div className="bg-gradient-to-br from-gray-900/98 to-black/98 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border border-white/20">
+            <div className="backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border-2 border-white/30">
               
               {/* Card Header */}
               <div className="mb-4 sm:mb-6">
@@ -487,13 +487,13 @@ export default function EnhancedGameplay() {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => handleDecision(option)}
                     disabled={isDeciding}
-                    className={`relative p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl transition-all group ${
-                      isDeciding ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-2xl'
+                    className={`relative p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl transition-all group backdrop-blur-md ${
+                      isDeciding ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-2xl hover:scale-[1.02]'
                     } bg-gradient-to-br ${
-                      index === 0 ? 'from-blue-600/30 to-purple-600/30 border-2 border-blue-500/50' :
-                      index === 1 ? 'from-green-600/30 to-teal-600/30 border-2 border-green-500/50' :
-                      'from-orange-600/30 to-red-600/30 border-2 border-orange-500/50'
-                    }`}
+                      index === 0 ? 'from-blue-500/25 to-purple-500/25 border-2 border-blue-400/60' :
+                      index === 1 ? 'from-green-500/25 to-teal-500/25 border-2 border-green-400/60' :
+                      'from-orange-500/25 to-red-500/25 border-2 border-orange-400/60'
+                    } shadow-lg`}
                   >
                     <p className="text-white font-black text-sm sm:text-base md:text-lg mb-2 sm:mb-4 leading-tight uppercase tracking-tight">
                       {option.text}
