@@ -4,49 +4,157 @@ import { Trophy, RefreshCw, Home, Share2, Star, TrendingUp } from 'lucide-react'
 import { useGameState } from '../../lib/stores/useGameState';
 import { useCharacters } from '../../lib/stores/useCharacters';
 import { useResources } from '../../lib/stores/useResources';
+import { expandedEndings, type GameEnding } from '../../data/expandedEndings';
 
 export default function EnhancedGameEnding() {
   const { resetGame, setGamePhase, turn } = useGameState();
   const { selectedCharacter } = useCharacters();
   const { resources } = useResources();
-  const [endingType, setEndingType] = useState('');
+  const [ending, setEnding] = useState<GameEnding | null>(null);
   const [showStats, setShowStats] = useState(false);
-  const [score, setScore] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   useEffect(() => {
-    // Determine ending type based on resources
-    const { popularity, stability, media, economy } = resources;
+    // Load game state from localStorage (passed from gameplay)
+    const savedState = localStorage.getItem('endingGameState');
+    const gameState = savedState ? JSON.parse(savedState) : {
+      resources,
+      turn,
+      chaos: 0,
+      cardHistory: [],
+      absurdCards: 0,
+      crisisCards: 0,
+      cascades: 0,
+      streak: 0
+    };
     
-    let ending = '';
-    if (popularity > 80 && stability > 80 && media > 80 && economy > 80) {
-      ending = 'ending-victory-triumph';
-      setScore(5000 + (turn * 100));
-    } else if (popularity < 25 && stability < 25 && media < 25 && economy < 25) {
-      ending = 'ending-nuclear-catastrophe';
-      setScore(100);
-    } else if (economy < 20) {
-      ending = 'ending-economic-collapse';
-      setScore(500 + (turn * 10));
-    } else if (stability < 20) {
-      ending = 'ending-revolution-uprising';
-      setScore(300 + (turn * 10));
-    } else if (media < 30 || popularity < 30) {
-      ending = 'ending-scandal-impeachment';
-      setScore(1000 + (turn * 20));
-    } else {
-      // Default ending
-      ending = 'ending-scandal-impeachment';
-      setScore(2000 + (turn * 30));
+    // Check each ending condition
+    let selectedEnding: GameEnding | null = null;
+    
+    // Check special/combo endings first (highest priority)
+    for (const e of expandedEndings) {
+      if (e.trigger.type === 'special' || e.trigger.type === 'combo') {
+        if (checkCondition(e, gameState)) {
+          selectedEnding = e;
+          break;
+        }
+      }
     }
     
-    setEndingType(ending);
+    // If no special ending, check resource-based endings
+    if (!selectedEnding) {
+      for (const e of expandedEndings) {
+        if (e.trigger.type === 'resources') {
+          if (checkCondition(e, gameState)) {
+            selectedEnding = e;
+            break;
+          }
+        }
+      }
+    }
+    
+    // Check turn-based endings
+    if (!selectedEnding) {
+      for (const e of expandedEndings) {
+        if (e.trigger.type === 'turn') {
+          if (checkCondition(e, gameState)) {
+            selectedEnding = e;
+            break;
+          }
+        }
+      }
+    }
+    
+    // Default to balanced victory if survived to end
+    if (!selectedEnding) {
+      selectedEnding = expandedEndings[1]; // balanced-victory
+    }
+    
+    setEnding(selectedEnding);
+    
+    // Clear saved state
+    localStorage.removeItem('endingGameState');
     
     // Show stats after video plays
     setTimeout(() => {
       setShowStats(true);
     }, 10000); // After 10 second video
   }, [resources, turn]);
+  
+  const checkCondition = (ending: GameEnding, state: any): boolean => {
+    const { resources, turn: currentTurn, chaos, absurdCards: absurdCount, crisisCards: crisisCount, cascades: cascadeCount } = state;
+    const { type, conditions } = ending.trigger;
+    
+    if (type === 'resources') {
+      // Check for "all above threshold"
+      if (conditions.all !== undefined) {
+        return Object.values(resources).every((v: any) => v >= conditions.all);
+      }
+      
+      // Check for "all below threshold"
+      if (conditions.allBelow !== undefined) {
+        return Object.values(resources).every((v: any) => v <= conditions.allBelow);
+      }
+      
+      // Check individual resource conditions (assume >= for victory, <= for disaster)
+      return Object.entries(conditions).every(([key, value]) => {
+        const resourceValue = resources[key];
+        const threshold = value as number;
+        
+        // If it's a high value (>50), check if resource is above threshold
+        // If it's a low value (<50), check if resource is below threshold
+        if (threshold >= 50) {
+          return resourceValue >= threshold;
+        } else {
+          return resourceValue <= threshold;
+        }
+      });
+    }
+    
+    if (type === 'turn') {
+      return currentTurn >= conditions.turns;
+    }
+    
+    if (type === 'special') {
+      // Check special conditions like chaos, absurd cards, etc.
+      if (conditions.chaos !== undefined) {
+        return chaos >= conditions.chaos;
+      }
+      if (conditions.absurdCards !== undefined) {
+        return absurdCount >= conditions.absurdCards;
+      }
+      if (conditions.crisisCards !== undefined) {
+        return crisisCount >= conditions.crisisCards;
+      }
+      if (conditions.cascades !== undefined) {
+        return cascadeCount >= conditions.cascades;
+      }
+      return false;
+    }
+    
+    if (type === 'combo') {
+      return Object.entries(conditions).every(([key, value]) => {
+        const numValue = value as number;
+        
+        if (key === 'allBelow') {
+          return Object.values(resources).every((v: any) => v <= numValue);
+        }
+        
+        if (resources[key] !== undefined) {
+          // Use same logic as resources: high values check >=, low values check <=
+          if (numValue >= 50) {
+            return resources[key] >= numValue;
+          } else {
+            return resources[key] <= numValue;
+          }
+        }
+        
+        return true;
+      });
+    }
+    
+    return false;
+  };
   
   const handlePlayAgain = () => {
     resetGame();
@@ -58,56 +166,25 @@ export default function EnhancedGameEnding() {
     setGamePhase('menu');
   };
   
-  const getEndingTitle = () => {
-    switch(endingType) {
-      case 'ending-victory-triumph':
-        return '🎉 GLORIOUS VICTORY!';
-      case 'ending-scandal-impeachment':
-        return '📰 SCANDALOUS ENDING!';
-      case 'ending-economic-collapse':
-        return '💸 ECONOMIC DISASTER!';
-      case 'ending-revolution-uprising':
-        return '✊ REVOLUTIONARY CHAOS!';
-      case 'ending-nuclear-catastrophe':
-        return '☢️ TOTAL CATASTROPHE!';
-      default:
-        return '🎭 GAME OVER!';
+  const getRankColor = () => {
+    if (!ending) return 'from-gray-400 to-gray-600';
+    
+    switch(ending.rank) {
+      case 'S': return 'from-yellow-400 to-yellow-600';
+      case 'A': return 'from-purple-400 to-purple-600';
+      case 'B': return 'from-blue-400 to-blue-600';
+      case 'C': return 'from-green-400 to-green-600';
+      case 'D': return 'from-orange-400 to-orange-600';
+      case 'F': return 'from-red-400 to-red-600';
+      default: return 'from-gray-400 to-gray-600';
     }
   };
-  
-  const getEndingMessage = () => {
-    switch(endingType) {
-      case 'ending-victory-triumph':
-        return 'Against all odds, you actually succeeded! Your masterful political maneuvering has secured your place in history!';
-      case 'ending-scandal-impeachment':
-        return 'The media had a field day with your administration. Your political career ends in disgrace and late-night comedy sketches.';
-      case 'ending-economic-collapse':
-        return 'Your economic policies have bankrupted the nation. Citizens are now using currency as wallpaper. Congratulations?';
-      case 'ending-revolution-uprising':
-        return 'The people have spoken... with pitchforks. Your reign ends with a hasty exit via helicopter.';
-      case 'ending-nuclear-catastrophe':
-        return 'You somehow managed to fail at everything simultaneously. This is actually impressive in the worst possible way.';
-      default:
-        return 'Your political journey has come to an end. Was it worth it? Probably not.';
-    }
-  };
-  
-  const getRank = () => {
-    if (score > 4000) return { rank: 'S', title: 'Political Genius', color: 'from-yellow-400 to-yellow-600' };
-    if (score > 3000) return { rank: 'A', title: 'Master Manipulator', color: 'from-purple-400 to-purple-600' };
-    if (score > 2000) return { rank: 'B', title: 'Competent Leader', color: 'from-blue-400 to-blue-600' };
-    if (score > 1000) return { rank: 'C', title: 'Average Politician', color: 'from-green-400 to-green-600' };
-    if (score > 500) return { rank: 'D', title: 'Political Amateur', color: 'from-orange-400 to-orange-600' };
-    return { rank: 'F', title: 'Complete Disaster', color: 'from-red-400 to-red-600' };
-  };
-  
-  const rank = getRank();
   
   return (
     <div className="relative w-full h-full overflow-hidden bg-black">
       {/* Ending Video */}
       <AnimatePresence>
-        {!showStats && (
+        {!showStats && ending && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -116,7 +193,7 @@ export default function EnhancedGameEnding() {
           >
             <video
               ref={videoRef}
-              src={`/videos/ending-cinematics/${endingType}.mp4`}
+              src={ending.video}
               autoPlay
               muted={false}
               onEnded={() => setShowStats(true)}
@@ -129,10 +206,10 @@ export default function EnhancedGameEnding() {
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 1, type: "spring", stiffness: 100 }}
-                className="text-7xl md:text-9xl font-black text-white drop-shadow-2xl text-center"
+                className="text-7xl md:text-9xl font-black text-white drop-shadow-2xl text-center px-4"
                 style={{ textShadow: '0 0 60px rgba(0,0,0,0.9)' }}
               >
-                {getEndingTitle()}
+                {ending.name.toUpperCase()}
               </motion.h1>
             </div>
           </motion.div>
@@ -141,7 +218,7 @@ export default function EnhancedGameEnding() {
       
       {/* Stats Screen */}
       <AnimatePresence>
-        {showStats && (
+        {showStats && ending && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -160,8 +237,8 @@ export default function EnhancedGameEnding() {
                 transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
                 className="flex justify-center mb-8"
               >
-                <div className={`w-40 h-40 rounded-full bg-gradient-to-br ${rank.color} flex items-center justify-center shadow-2xl`}>
-                  <span className="text-7xl font-black text-white">{rank.rank}</span>
+                <div className={`w-40 h-40 rounded-full bg-gradient-to-br ${getRankColor()} flex items-center justify-center shadow-2xl`}>
+                  <span className="text-7xl font-black text-white">{ending.rank}</span>
                 </div>
               </motion.div>
               
@@ -172,8 +249,11 @@ export default function EnhancedGameEnding() {
                 transition={{ delay: 0.6 }}
                 className="text-center mb-8"
               >
-                <h2 className="text-4xl font-black text-white mb-2">{rank.title}</h2>
-                <p className="text-xl text-gray-400">Final Score: {score.toLocaleString()}</p>
+                <h2 className="text-4xl font-black text-white mb-2">{ending.name}</h2>
+                <p className="text-xl text-gray-400">Final Score: {ending.score.toLocaleString()}</p>
+                <div className="mt-2 inline-block px-4 py-1 bg-white/10 rounded-full">
+                  <span className="text-sm text-gray-300 font-bold uppercase">{ending.category}</span>
+                </div>
               </motion.div>
               
               {/* Ending Message */}
@@ -184,7 +264,7 @@ export default function EnhancedGameEnding() {
                 className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-6 mb-8 border border-purple-500/30"
               >
                 <p className="text-lg text-purple-200 text-center leading-relaxed">
-                  {getEndingMessage()}
+                  {ending.description}
                 </p>
               </motion.div>
               
@@ -230,7 +310,7 @@ export default function EnhancedGameEnding() {
                     <Trophy className="w-8 h-8 text-blue-400" />
                   </div>
                 )}
-                {endingType.includes('victory') && (
+                {ending.category === 'victory' && (
                   <div className="bg-green-500/20 rounded-full p-3 border border-green-500/50">
                     <TrendingUp className="w-8 h-8 text-green-400" />
                   </div>

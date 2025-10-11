@@ -37,6 +37,46 @@ export const characters: PoliticalCharacter[] = [
     portraitUrl: "/characters/rex-scaleston.png"
   },
   {
+    id: "tech-disruptor",
+    name: "Silicon Valleyson",
+    title: "The Tech Disruptor",
+    shortBio: "A billionaire tech mogul who believes every problem can be solved with an app or blockchain.",
+    fullBio: "A billionaire tech mogul who believes every problem can be solved with an app, blockchain, or AI. Has never held public office but claims to have 'disrupted' democracy itself. Known for tweeting policy decisions at 3 AM and referring to citizens as 'users.' Thinks government should be run like a startup, which terrifies everyone who remembers his last three startups.",
+    startingStats: {
+      popularity: 60,
+      stability: 45,
+      media: 75,
+      economy: 65
+    },
+    themeColor: "#3b82f6",
+    abilities: [
+      "Tech Solutions: Technology-related decisions have 50% stronger effects",
+      "Viral Marketing: Media influence spreads faster",
+      "Disruptive Innovation: Can bypass traditional political processes"
+    ],
+    portraitUrl: "/characters/tech-disruptor.png"
+  },
+  {
+    id: "conspiracy-chief",
+    name: "Truther McQuestion",
+    title: "The Conspiracy Chief",
+    shortBio: "A former podcast host who rode a wave of paranoia into the highest office.",
+    fullBio: "A former podcast host who rode a wave of paranoia into the highest office. Believes the moon landing was faked but NASA is real... too real. Makes policy decisions based on 'alternative facts' and claims the deep state is trying to hide the truth about everything. His cabinet meetings start with 'Have you ever noticed...?' and end in chaos.",
+    startingStats: {
+      popularity: 55,
+      stability: 35,
+      media: 40,
+      economy: 50
+    },
+    themeColor: "#f97316",
+    abilities: [
+      "Alternative Reality: Absurd decisions backfire 30% less",
+      "Conspiracy Theory: Can spin any disaster as 'all part of the plan'",
+      "Paranoid Vigilance: Detects hidden consequences before they happen"
+    ],
+    portraitUrl: "/characters/conspiracy-chief.png"
+  },
+  {
     id: "ronald-goldenberg",
     name: "Ronald Goldenberg",
     title: "The Dealmaker",
