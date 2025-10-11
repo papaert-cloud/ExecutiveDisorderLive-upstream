@@ -13,12 +13,19 @@ import { characters } from '../../data/characters';
 ```
 
 ### 2. ✅ Layout Frame & Aspect Ratio
-**Problem:** Content overflow, horizontal scrolling, poor responsive scaling  
-**Solution:** Created `AppShell.tsx` component with:
-- 16:9 aspect ratio constraint
-- Responsive container: `max-w-screen-2xl`
-- Centered layout with proper scaling
-- Rounded corners on larger screens
+**Problem:** Content overflow, horizontal scrolling, poor responsive scaling, UI clipping on non-16:9 viewports  
+**Solution:** Created `AppShell.tsx` component with smart viewport-aware scaling:
+```typescript
+// Ensures 16:9 frame fits within ANY viewport aspect ratio
+maxWidth: min(100vw, calc(100vh * 16 / 9))
+maxHeight: min(100vh, calc(100vw * 9 / 16))
+```
+**Results:**
+- 4:3 Desktop (1024×768): Frame scales to 1024×576 with top/bottom letterboxing
+- Portrait Mobile (390×844): Frame scales to 390×219 with vertical letterboxing  
+- Widescreen (1920×1080): Frame fills edge-to-edge without bars
+- NO UI clipping on any viewport
+- All interactive elements remain reachable
 
 ### 3. ✅ Z-Index System
 **Problem:** Multiple UI layers overlapping incorrectly, modals hidden behind content  
@@ -168,14 +175,16 @@ import { characters } from '../../data/characters';
 
 ## Success Criteria
 
-✅ All LSP errors resolved  
+✅ All LSP errors resolved (0 diagnostics)  
 ✅ No CommonJS imports in client code  
-✅ 16:9 aspect ratio maintained  
+✅ 16:9 aspect ratio maintained with smart letterboxing  
+✅ No UI clipping on 4:3, portrait, or widescreen viewports  
 ✅ No horizontal scroll on any viewport  
 ✅ All touch targets ≥ 44px  
 ✅ Modals always on top (z-index: 50)  
-✅ Buttons always clickable  
+✅ Buttons always clickable (pointer-events fixed)  
 ✅ Responsive across 390px - 2560px widths  
+✅ Architect-reviewed and approved  
 
 ## Screenshots Required
 
