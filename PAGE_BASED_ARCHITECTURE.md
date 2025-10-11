@@ -280,11 +280,40 @@ setLocation("/my-new-page");
 - **Character Stats:** Single character portrait + data
 - **Game Page:** Decision cards, background scenes, effects
 
+### Background Videos Implemented
+**All pages now feature dynamic video backgrounds:**
+
+**MenuPage:**
+- Video: capitol-building-exterior.mp4 (static)
+- Shows majestic government building
+
+**CharacterSelectPage:**
+- Video: government-office-ambient.mp4 (static)
+- Professional office atmosphere
+
+**CharacterStatsPage:**
+- Dynamic videos based on character (12 mappings)
+- Examples: Tech → stock markets, Progressive → protests, Media → breaking news
+- Thematically appropriate for each leader
+
+**GamePage:**
+- Main background: political-rally-crowd.mp4
+- Event panel: Dynamic based on card category
+- Categories: crisis, scandal, economic, policy, military, rally, protest
+- Videos change with each decision card
+
+**Technical Details:**
+- All videos: autoPlay, loop, muted, playsInline
+- React key prop forces remount on video change
+- Gradient overlays provide depth (40-60% opacity)
+- Videos visible through glassmorphic UI
+- Smooth transitions between scenes
+
 ### Future Enhancements
-- Lazy load character portraits on Character Select
-- Preload next decision card background
-- Stream audio assets on demand
-- Load video backgrounds per game phase
+- Add ending cinematic videos for game conclusions
+- Implement audio tracks with video backgrounds
+- Preload next video for seamless transitions
+- Add video effects for crisis events
 
 ## Testing Checklist
 
