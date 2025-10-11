@@ -46,7 +46,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-modal flex items-center justify-center backdrop-blur-md bg-black/50 pointer-events-auto p-4"
+      className="layer-modal backdrop-blur-md bg-black/50 pointer-events-auto p-4"
       onClick={handleBackdropClick}
     >
       <motion.div
