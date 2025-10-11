@@ -6,6 +6,37 @@ Executive Disorder is a humorous political decision-making game built as a web a
 
 ## Recent Changes
 
+### October 11, 2025 - Extended Opening Cinematics Complete
+**Major Update: 12-Second Extended Cinematic Versions**
+
+Successfully extended all 5 opening cinematics to 12 seconds each using cinematic slow-motion processing:
+
+**Extended Opening Cinematics (5 videos, 29 MB total):**
+- `opening-01-political-chaos-extended.mp4` (5.25 MB) - 12s cinematic slow-motion version
+- `opening-02-media-frenzy-extended.mp4` (7.53 MB) - 12s cinematic slow-motion version
+- `opening-03-power-ascension-extended.mp4` (4.87 MB) - 12s cinematic slow-motion version
+- `opening-04-critical-decision-extended.mp4` (3.90 MB) - 12s cinematic slow-motion version
+- `opening-05-absurd-spectacle-extended.mp4` (7.56 MB) - 12s cinematic slow-motion version
+
+**Improvements Over Original:**
+- **50% longer duration** (8s → 12s) for better storytelling
+- **Cinematic slow-motion effect** adds dramatic weight
+- **40% smaller file size** (29 MB vs 49 MB) due to re-encoding
+- **Enhanced emotional impact** with slower, more deliberate pacing
+- **Better thematic capture** of Executive Disorder's political satire scope
+
+**Technical Specifications:**
+- Format: MP4 (H.264), 1280x720 HD
+- Duration: 12 seconds each, 60 seconds total
+- Extension Method: FFmpeg `setpts` filter at 0.67x speed
+- Audio: AAC 192 kbps, pitch-preserved with `atempo` filter
+- Locations: `Dropbox/Replit/ExecutiveDisorder_Assets/09_Video_Assets/Opening_Cinematics_Extended/` and `client/public/videos/opening-cinematics-extended/`
+
+**Documentation:**
+- Extended manifest: `EXTENDED_CINEMATICS_MANIFEST.md`
+- Quick reference: `README.md` in extended folder
+- Complete comparison with original 8-second versions
+
 ### October 11, 2025 - Opening Cinematics Complete
 **Major Update: 5 Intriguing AI-Generated Cinematic Videos**
 
