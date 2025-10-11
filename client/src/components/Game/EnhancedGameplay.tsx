@@ -349,13 +349,13 @@ export default function EnhancedGameplay() {
           
           {/* Character & Turn Info */}
           <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-                <span className="text-2xl">👤</span>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+                <span className="text-xl sm:text-2xl">👤</span>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-white">{selectedCharacter.name}</h2>
-                <p className="text-sm text-purple-400">{selectedCharacter.title}</p>
+                <h2 className="text-base sm:text-xl md:text-2xl font-black text-white uppercase truncate max-w-[200px] sm:max-w-none">{selectedCharacter.name}</h2>
+                <p className="text-xs sm:text-sm text-purple-400 font-bold truncate">{selectedCharacter.title}</p>
               </div>
             </div>
             
@@ -450,44 +450,44 @@ export default function EnhancedGameplay() {
 
       {/* Decision Card */}
       {currentCard && !showEnding && (
-        <div className="absolute inset-x-0 bottom-0 z-30 p-6">
+        <div className="absolute inset-x-0 bottom-0 z-30 p-2 sm:p-4 md:p-6">
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="max-w-5xl mx-auto"
+            className="max-w-7xl mx-auto"
           >
-            <div className="bg-gradient-to-br from-gray-900/98 to-black/98 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
+            <div className="bg-gradient-to-br from-gray-900/98 to-black/98 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border border-white/20">
               
               {/* Card Header */}
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`text-sm font-black uppercase tracking-widest ${
+              <div className="mb-4 sm:mb-6">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <span className={`text-xs sm:text-sm font-black uppercase tracking-wider ${
                     showCrisis ? 'text-red-500 animate-pulse' : 'text-yellow-400'
                   }`}>
                     {showCrisis ? '⚠️ CRISIS EVENT ⚠️' : currentCard.category}
                   </span>
                   {showCrisis && (
-                    <Star className="w-6 h-6 text-red-500 animate-spin" />
+                    <Star className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 animate-spin" />
                   )}
                 </div>
-                <h2 className="text-4xl font-black text-white mb-4 leading-tight">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white mb-2 sm:mb-4 leading-tight uppercase tracking-tight">
                   {currentCard.title}
                 </h2>
-                <p className="text-xl text-gray-300 leading-relaxed">
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed line-clamp-2 sm:line-clamp-none">
                   {currentCard.description}
                 </p>
               </div>
               
               {/* Decision Options */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                 {currentCard.options.map((option: any, index: number) => (
                   <motion.button
                     key={index}
-                    whileHover={{ scale: 1.05, rotate: 1 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.03, rotate: 0.5 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => handleDecision(option)}
                     disabled={isDeciding}
-                    className={`relative p-6 rounded-2xl transition-all group ${
+                    className={`relative p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl transition-all group ${
                       isDeciding ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-2xl'
                     } bg-gradient-to-br ${
                       index === 0 ? 'from-blue-600/30 to-purple-600/30 border-2 border-blue-500/50' :
@@ -495,7 +495,7 @@ export default function EnhancedGameplay() {
                       'from-orange-600/30 to-red-600/30 border-2 border-orange-500/50'
                     }`}
                   >
-                    <p className="text-white font-bold text-lg mb-4 leading-tight">
+                    <p className="text-white font-black text-sm sm:text-base md:text-lg mb-2 sm:mb-4 leading-tight uppercase tracking-tight">
                       {option.text}
                     </p>
                     

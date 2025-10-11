@@ -64,15 +64,15 @@ export default function MainMenu() {
                 damping: 20,
                 delay: 0.2
               }}
-              className="mb-8"
+              className="mb-12 text-center px-4 max-w-6xl"
             >
-              <h1 className="text-8xl font-black bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent drop-shadow-2xl">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent drop-shadow-2xl uppercase tracking-tighter leading-none">
                 EXECUTIVE
               </h1>
-              <h2 className="text-7xl font-black bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent drop-shadow-2xl text-center -mt-4">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent drop-shadow-2xl uppercase tracking-tighter -mt-2 leading-none">
                 DISORDER
               </h2>
-              <p className="text-2xl text-gray-300 text-center mt-4 font-bold italic animate-pulse">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-yellow-400 text-center mt-4 font-black italic animate-pulse uppercase tracking-wide">
                 "Where Democracy Meets Pandemonium!"
               </p>
             </motion.div>
@@ -89,10 +89,10 @@ export default function MainMenu() {
                 whileHover={{ scale: 1.05, rotate: 1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleStartGame}
-                className="relative group overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 text-white text-2xl font-black py-6 px-12 rounded-2xl shadow-2xl transition-all hover:shadow-green-500/50"
+                className="relative group overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 text-white text-xl sm:text-2xl font-black py-5 sm:py-6 px-8 sm:px-12 rounded-2xl shadow-2xl transition-all hover:shadow-green-500/50 uppercase tracking-wide"
               >
-                <span className="relative z-10 flex items-center justify-center gap-4">
-                  <Play className="w-8 h-8" />
+                <span className="relative z-10 flex items-center justify-center gap-3 sm:gap-4">
+                  <Play className="w-6 h-6 sm:w-8 sm:h-8" />
                   START CHAOS
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 to-yellow-400/30 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
