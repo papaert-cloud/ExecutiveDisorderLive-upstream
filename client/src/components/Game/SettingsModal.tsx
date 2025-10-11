@@ -46,14 +46,14 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/50"
+      className="fixed inset-0 z-modal flex items-center justify-center backdrop-blur-md bg-black/50 pointer-events-auto p-4"
       onClick={handleBackdropClick}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/10 rounded-3xl p-8 max-w-2xl w-full mx-4 border-2 border-white/30 shadow-2xl"
+        className="backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/10 rounded-xl sm:rounded-3xl p-4 sm:p-8 max-w-2xl w-full border-2 border-white/30 shadow-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

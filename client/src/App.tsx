@@ -1,6 +1,7 @@
 import React from "react";
 import "@fontsource/inter";
 
+import AppShell from "./components/Layout/AppShell";
 import Game2D from "./components/Game/Game2D";
 import GameUI from "./components/UI/GameUI";
 import LoadingScreen from "./components/UI/LoadingScreen";
@@ -15,7 +16,7 @@ function App() {
   }
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+    <AppShell>
       {/* 2D Game Canvas */}
       <Game2D />
       
@@ -24,7 +25,7 @@ function App() {
       
       {/* Audio Manager */}
       <AudioManager />
-    </div>
+    </AppShell>
   );
 }
 

@@ -38,7 +38,7 @@ export default function TitleScreen() {
 
   return (
     <motion.div 
-      className="relative w-full h-screen overflow-hidden cursor-pointer"
+      className="relative w-full h-full overflow-hidden cursor-pointer"
       onClick={handleContinue}
       initial={{ opacity: 0 }}
       animate={{ opacity: transitioning ? 0 : 1 }}
