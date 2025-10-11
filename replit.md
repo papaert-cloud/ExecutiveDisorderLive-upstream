@@ -4,6 +4,38 @@
 
 Executive Disorder is a humorous political decision-making web application where players choose a satirical political character and navigate decisions affecting popularity, stability, media perception, and economy. The game features a dual 2D/3D rendering approach, focusing on comedic, absurd political scenarios. Built with React, TypeScript, and Express, it aims to create an engaging satirical experience combining modern web technologies with game mechanics.
 
+## Recent Changes
+
+### October 11, 2025 - Final Opening Cinematics with Branding Complete
+**Major Update: Professional Cinematics with Executive Disorder Logo + Grand Opening**
+
+Successfully created branded opening cinematics with Executive Disorder logo overlays and a grand 48-second combined cinematic:
+
+**Final Cinematics (5 videos, 39.8 MB total):**
+- `opening-01-political-chaos-final.mp4` (5.0 MB) - With "CHAOS INCOMING" title + logo
+- `opening-02-media-frenzy-final.mp4` (7.1 MB) - With "BREAKING NEWS" title + logo
+- `opening-03-power-ascension-final.mp4` (4.6 MB) - With "RISE TO POWER" title + logo
+- `opening-04-critical-decision-final.mp4` (3.8 MB) - With "CHOOSE WISELY" title + logo
+- `grand-opening-cinematic.mp4` (19.5 MB) - All 4 scenes combined (48s epic narrative)
+
+**Branding Features:**
+- **Executive Disorder Logo** appears in last 3 seconds of each video
+- **Scene-specific title cards** ("CHAOS INCOMING", "BREAKING NEWS", etc.)
+- **Gold "EXECUTIVE DISORDER" text** with professional fade animations
+- **Grand cinematic** tells complete story: Rise to Power → Chaos → Media → Decision
+
+**Technical Specifications:**
+- Format: MP4 (H.264), 1920x1080 Full HD
+- Individual duration: 12 seconds each
+- Grand cinematic: 47.7 seconds
+- Uploaded to Dropbox cloud: `/Replit/ExecutiveDisorder_Assets/09_Video_Assets/Opening_Cinematics_Final/`
+- Game assets: `client/public/videos/opening-cinematics-final/`
+
+**Documentation:**
+- Complete manifest: `FINAL_CINEMATICS_MANIFEST.md`
+- Quick reference: `README.md` 
+- Integration examples and 4 usage options
+
 ## User Preferences
 
 **Communication Style:** Simple, everyday language.
