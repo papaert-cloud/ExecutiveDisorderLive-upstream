@@ -18,6 +18,8 @@ export default function GamePage() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [statChanges, setStatChanges] = useState<StatChange[]>([]);
   const [previousResources, setPreviousResources] = useState(resources);
+  const [showCrisis, setShowCrisis] = useState(false);
+  const [crisisVideo, setCrisisVideo] = useState<string>("");
   
   // Load cards from Dropbox, fallback to local data
   const { data: dropboxCards, isLoading: cardsLoading } = useDropboxCards();
@@ -72,6 +74,25 @@ export default function GamePage() {
   const handleChoice = (choiceIndex: number) => {
     makeDecision(currentCard.id, choiceIndex);
     setCurrentCardIndex((prev) => prev + 1);
+    
+    // Trigger crisis news every 5 turns
+    const nextTurn = turn + 1;
+    if (nextTurn % 5 === 0) {
+      const crisisVideos = [
+        '/videos/crisis/crisis-economic-crash.mp4',
+        '/videos/crisis/crisis-diplomatic-emergency.mp4',
+        '/videos/crisis/crisis-cyber-attack.mp4',
+        '/videos/crisis/crisis-health-emergency.mp4'
+      ];
+      const randomCrisis = crisisVideos[Math.floor(Math.random() * crisisVideos.length)];
+      setCrisisVideo(randomCrisis);
+      setShowCrisis(true);
+      
+      // Auto-dismiss after 5 seconds
+      setTimeout(() => {
+        setShowCrisis(false);
+      }, 5000);
+    }
   };
 
   // Select event video based on card category and game state
@@ -142,6 +163,46 @@ export default function GamePage() {
 
       {/* Gradient overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 via-indigo-950/30 to-purple-950/40" />
+
+      {/* Crisis News Overlay - Shows every 5 turns */}
+      <AnimatePresence>
+        {showCrisis && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md"
+            onClick={() => setShowCrisis(false)}
+          >
+            <motion.div
+              className="relative w-full max-w-5xl aspect-video rounded-3xl overflow-hidden border-4 border-red-500 shadow-2xl"
+              initial={{ y: 100 }}
+              animate={{ y: 0 }}
+              exit={{ y: -100 }}
+            >
+              {/* Crisis video */}
+              <video
+                autoPlay
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+                src={crisisVideo}
+              />
+              
+              {/* Breaking News Banner */}
+              <div className="absolute top-0 left-0 right-0 bg-red-600 py-3 px-6 flex items-center gap-4">
+                <span className="animate-pulse text-white font-black text-2xl">🚨 BREAKING NEWS</span>
+                <span className="text-white/90 font-semibold text-lg">Crisis Alert - Turn {turn + 1}</span>
+              </div>
+              
+              {/* Click to dismiss hint */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 backdrop-blur-sm px-6 py-2 rounded-full">
+                <p className="text-white text-sm">Click anywhere to dismiss</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Stat change notifications */}
       <AnimatePresence>
@@ -256,37 +317,45 @@ export default function GamePage() {
             animate={{ x: 0, opacity: 1 }}
             className="flex flex-col justify-center"
           >
-            <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/40 shadow-2xl bg-gradient-to-br from-slate-900/60 to-slate-950/80 backdrop-blur-xl">
-              {/* Card thumbnail - translucent overlay */}
+            <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/40 shadow-2xl bg-gradient-to-br from-slate-900/70 to-slate-950/80 backdrop-blur-xl">
+              {/* Card visual - no Dropbox loading (images don't exist) */}
               <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-purple-500/30 bg-black/20 backdrop-blur-sm">
-                  {/* Thumbnail image from Dropbox - will be loaded dynamically */}
-                  <img
-                    src={`/api/dropbox/image/Replit/ExecutiveDisorder_Assets/02_Decision_Cards/${currentCard.id}.png`}
-                    alt={currentCard.title}
-                    className="w-full h-full object-cover opacity-80 mix-blend-screen"
-                    onError={(e) => {
-                      // Fallback to gradient if image not found
-                      (e.target as HTMLImageElement).style.opacity = '0';
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-purple-500/30 bg-gradient-to-br from-purple-600/50 via-pink-600/50 to-orange-600/50 backdrop-blur-sm">
+                  
+                  {/* Animated gradient background */}
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-br from-purple-600/60 via-pink-600/60 to-orange-600/60"
+                    animate={{
+                      backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                    }}
+                    transition={{
+                      duration: 10,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      backgroundSize: '200% 200%'
                     }}
                   />
                   
-                  {/* Fallback gradient when image not available */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/40 via-pink-600/40 to-orange-600/40" />
-                  
                   {/* Category badge */}
-                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-purple-400/50">
+                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-purple-400/50 z-10">
                     <p className="text-purple-300 font-bold text-sm uppercase tracking-wide">{currentCard.category}</p>
                   </div>
                   
                   {/* Card number */}
-                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-yellow-400/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-yellow-400/50">
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-yellow-400/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-yellow-400/50 z-10">
                     <span className="text-yellow-300 font-black text-lg">#{(currentCardIndex % activeCards.length) + 1}</span>
+                  </div>
+                  
+                  {/* Decorative icon in center */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
+                    <span className="text-9xl">📋</span>
                   </div>
                   
                   {/* Loading indicator */}
                   {cardsLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-20">
                       <div className="text-white text-lg">Loading cards...</div>
                     </div>
                   )}

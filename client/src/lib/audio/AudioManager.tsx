@@ -18,16 +18,12 @@ export default function AudioManager() {
     }
   }, [backgroundMusic, setBackgroundMusic]);
 
-  // Control music based on game phase
+  // Control music based on game phase - DISABLED (placeholder audio files cause errors)
   useEffect(() => {
-    if (audioRef.current && !isMuted) {
-      if (gamePhase === 'playing' || gamePhase === 'character_selection') {
-        audioRef.current.play().catch(e => {
-          console.log('Audio play prevented:', e);
-        });
-      } else {
-        audioRef.current.pause();
-      }
+    // Audio disabled until real audio files are provided
+    // Current audio files are 32-byte placeholders causing playback errors
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
   }, [gamePhase, isMuted]);
 
