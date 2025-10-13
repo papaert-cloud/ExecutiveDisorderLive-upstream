@@ -5,13 +5,14 @@ export function useDropboxCards() {
   return useQuery({
     queryKey: ["dropbox-cards"],
     queryFn: async () => {
-      const response = await fetch("/api/dropbox/json/Replit/ExecutiveDisorder_Assets/Cards/decision-cards.json");
+      const response = await fetch("/api/dropbox/cards/all");
       if (!response.ok) {
         console.warn("Failed to load cards from Dropbox, using fallback");
         // Return empty array to trigger fallback
         return [];
       }
       const data = await response.json();
+      console.log(`✅ Loaded ${data.length} cards from Dropbox`);
       return data as DecisionCard[];
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
