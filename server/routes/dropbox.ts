@@ -76,4 +76,35 @@ router.get("/image/:path(*)", async (req, res) => {
   }
 });
 
+// Get JSON data from Dropbox
+router.get("/json/:path(*)", async (req, res) => {
+  try {
+    const dbx = await getDropboxClient();
+    const path = `/${req.params.path}`;
+    
+    const response = await dbx.filesDownload({ path });
+    const fileBlob = (response.result as any).fileBinary;
+    
+    // Convert ArrayBuffer/Buffer to string properly
+    let textContent: string;
+    if (Buffer.isBuffer(fileBlob)) {
+      textContent = fileBlob.toString('utf8');
+    } else if (fileBlob instanceof ArrayBuffer) {
+      textContent = Buffer.from(fileBlob).toString('utf8');
+    } else {
+      textContent = String(fileBlob);
+    }
+    
+    // Parse JSON and return
+    const jsonData = JSON.parse(textContent);
+    
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes cache
+    res.json(jsonData);
+  } catch (error: any) {
+    console.error('Dropbox JSON error:', error);
+    res.status(404).json({ error: 'JSON file not found', message: error.message });
+  }
+});
+
 export default router;
