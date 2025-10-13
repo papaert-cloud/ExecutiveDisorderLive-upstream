@@ -51,30 +51,31 @@ export default function GamePage() {
     }
   }, [activeCards]);
   
-  // Get current card with smart selection to avoid repeats
-  const currentCard = useMemo(() => {
-    if (shuffledDeck.length === 0) return activeCards[0];
-    
-    // If deck exhausted, reshuffle immediately
-    if (deckIndex >= shuffledDeck.length) {
+  // Re-shuffle when deck is exhausted
+  useEffect(() => {
+    if (deckIndex >= shuffledDeck.length && shuffledDeck.length > 0) {
       const reshuffled = shuffleArray(activeCards);
       setShuffledDeck(reshuffled);
       setDeckIndex(0);
       console.log('Deck exhausted - reshuffling for continued play');
-      return reshuffled[0];
     }
+  }, [deckIndex, shuffledDeck.length, activeCards]);
+
+  // Get current card with smart selection to avoid repeats
+  const currentCard = useMemo(() => {
+    if (shuffledDeck.length === 0) return activeCards[0];
     
-    let selectedCard = shuffledDeck[deckIndex];
+    const safeIndex = deckIndex % shuffledDeck.length;
+    let selectedCard = shuffledDeck[safeIndex];
     
     // Prevent immediate repeats using history
-    if (cardHistory.length > 0 && cardHistory[cardHistory.length - 1] === selectedCard.id) {
-      // Find next card not in recent history
-      const nextIndex = (deckIndex + 1) % shuffledDeck.length;
+    if (cardHistory.length > 0 && cardHistory[cardHistory.length - 1] === selectedCard?.id) {
+      const nextIndex = (safeIndex + 1) % shuffledDeck.length;
       selectedCard = shuffledDeck[nextIndex];
       console.log('Prevented immediate repeat, skipping to next card');
     }
     
-    return selectedCard;
+    return selectedCard || activeCards[0];
   }, [shuffledDeck, deckIndex, activeCards, cardHistory]);
 
   // Track stat changes and show feedback
