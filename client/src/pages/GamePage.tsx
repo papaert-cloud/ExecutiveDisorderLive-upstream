@@ -1,16 +1,66 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { useGameState } from "../lib/stores/useGameState";
 import { decisionCards } from "../data/cards";
+
+interface StatChange {
+  label: string;
+  value: number;
+  color: string;
+}
 
 export default function GamePage() {
   const [, setLocation] = useLocation();
   const { selectedCharacter, resources, turn, makeDecision } = useGameState();
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [statChanges, setStatChanges] = useState<StatChange[]>([]);
+  const [previousResources, setPreviousResources] = useState(resources);
 
   const currentCard = decisionCards[currentCardIndex % decisionCards.length];
+
+  // Track stat changes and show feedback
+  useEffect(() => {
+    const changes: StatChange[] = [];
+    
+    if (resources.popularity !== previousResources.popularity) {
+      changes.push({
+        label: "Popularity",
+        value: resources.popularity - previousResources.popularity,
+        color: "text-blue-400"
+      });
+    }
+    if (resources.stability !== previousResources.stability) {
+      changes.push({
+        label: "Stability",
+        value: resources.stability - previousResources.stability,
+        color: "text-green-400"
+      });
+    }
+    if (resources.media !== previousResources.media) {
+      changes.push({
+        label: "Media",
+        value: resources.media - previousResources.media,
+        color: "text-purple-400"
+      });
+    }
+    if (resources.economy !== previousResources.economy) {
+      changes.push({
+        label: "Economy",
+        value: resources.economy - previousResources.economy,
+        color: "text-yellow-400"
+      });
+    }
+
+    if (changes.length > 0) {
+      setStatChanges(changes);
+      // Clear changes after animation
+      setTimeout(() => setStatChanges([]), 2000);
+    }
+
+    setPreviousResources(resources);
+  }, [resources]);
 
   const handleChoice = (choiceIndex: number) => {
     makeDecision(currentCard.id, choiceIndex);
@@ -82,6 +132,39 @@ export default function GamePage() {
       {/* Gradient overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 via-indigo-950/30 to-purple-950/40" />
 
+      {/* Stat change notifications */}
+      <AnimatePresence>
+        {statChanges.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -50, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -50, scale: 0.8 }}
+            className="absolute top-24 left-1/2 transform -translate-x-1/2 z-50 bg-black/80 backdrop-blur-xl rounded-2xl border-2 border-white/30 p-4 shadow-2xl"
+          >
+            <div className="flex items-center gap-4">
+              {statChanges.map((change, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center gap-2"
+                >
+                  {change.value > 0 ? (
+                    <TrendingUp className={`w-5 h-5 ${change.color}`} />
+                  ) : (
+                    <TrendingDown className={`w-5 h-5 ${change.color}`} />
+                  )}
+                  <span className={`font-bold ${change.color}`}>
+                    {change.value > 0 ? '+' : ''}{change.value} {change.label}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Top HUD */}
       <div className="absolute top-0 left-0 right-0 bg-black/30 backdrop-blur-md border-b border-white/20 p-4 z-30">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -108,22 +191,47 @@ export default function GamePage() {
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Stats with animations */}
           <div className="flex gap-6">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-white/60 text-xs mb-1">{stat.label}</div>
-                <div className="flex items-center gap-2">
-                  <div className="w-16 h-2 bg-white/20 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full ${stat.color} transition-all duration-500`}
-                      style={{ width: `${stat.value}%` }}
-                    />
+            {stats.map((stat) => {
+              const change = statChanges.find(c => c.label === stat.label);
+              const changeValue = change?.value ?? 0;
+              
+              return (
+                <motion.div 
+                  key={stat.label} 
+                  className="text-center"
+                  animate={{ scale: change ? [1, 1.1, 1] : 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="text-white/60 text-xs mb-1">{stat.label}</div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-16 h-2 bg-white/20 rounded-full overflow-hidden">
+                      <motion.div
+                        className={`h-full ${stat.color}`}
+                        initial={false}
+                        animate={{ width: `${stat.value}%` }}
+                        transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                      />
+                    </div>
+                    <motion.span 
+                      className="text-white font-bold text-sm"
+                      animate={{ 
+                        scale: change ? [1, 1.2, 1] : 1,
+                        color: changeValue > 0 
+                          ? "#4ade80" 
+                          : changeValue < 0
+                          ? "#f87171"
+                          : "#ffffff"
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {stat.value}
+                    </motion.span>
                   </div>
-                  <span className="text-white font-bold text-sm">{stat.value}</span>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -157,28 +265,6 @@ export default function GamePage() {
                   The nation watches as you navigate through crisis after crisis. 
                   Every decision ripples through the political landscape.
                 </p>
-              </div>
-            </div>
-
-            {/* Effects/Audio indicators */}
-            <div className="mt-4 flex gap-4">
-              <div className="flex-1 bg-black/20 backdrop-blur-md rounded-xl p-3 border border-white/20">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">🎵</span>
-                  <div className="flex-1">
-                    <div className="text-white/60 text-xs">Background Music</div>
-                    <div className="text-white text-sm">Political Tension Theme</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 bg-black/20 backdrop-blur-md rounded-xl p-3 border border-white/20">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">✨</span>
-                  <div className="flex-1">
-                    <div className="text-white/60 text-xs">Active Effect</div>
-                    <div className="text-white text-sm">Normal Conditions</div>
-                  </div>
-                </div>
               </div>
             </div>
           </motion.div>
