@@ -76,11 +76,11 @@ export default function CharacterSelectPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent backdrop-blur-sm opacity-70 group-hover:opacity-50 transition-opacity" />
 
               {/* Character info */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-white font-bold text-lg mb-1 line-clamp-1">
-                  {character.name.split(' ').slice(0, 2).join(' ').toUpperCase()}...
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <h3 className="text-white font-black text-xs sm:text-sm md:text-base leading-tight mb-1">
+                  {character.name.toUpperCase()}
                 </h3>
-                <p className="text-yellow-400 text-sm mb-2">{character.title}</p>
+                <p className="text-yellow-400 text-xs mb-2 line-clamp-1">{character.title}</p>
                 
                 {/* Stats preview */}
                 <div className="grid grid-cols-2 gap-2 text-xs">
