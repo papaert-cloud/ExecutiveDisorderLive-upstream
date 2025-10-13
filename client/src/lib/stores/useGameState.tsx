@@ -117,20 +117,39 @@ export const useGameState = create<GameState>()(
         const effects = card.options[optionIndex].effects;
         
         // Use functional setter to avoid stale state from rapid clicks
-        set((state) => ({
-          resources: {
+        set((state) => {
+          const newResources = {
             popularity: Math.max(0, Math.min(100, state.resources.popularity + effects.popularity)),
             stability: Math.max(0, Math.min(100, state.resources.stability + effects.stability)),
             media: Math.max(0, Math.min(100, state.resources.media + effects.media)),
             economy: Math.max(0, Math.min(100, state.resources.economy + effects.economy)),
-          }
-        }));
+          };
+          
+          return { resources: newResources };
+        });
         
         console.log(`Decision made: ${cardId}, option: ${optionIndex}`, effects);
       }
       
       // Advance the turn
       get().nextTurn();
+      
+      // Check game over conditions after turn advance
+      const state = get();
+      const { resources, turn } = state;
+      
+      // Game over if any resource hits 0 (immediate)
+      if (resources.popularity <= 0 || resources.stability <= 0 || 
+          resources.media <= 0 || resources.economy <= 0) {
+        console.log('GAME OVER: A critical resource has reached zero!', resources);
+        get().endGame();
+      }
+      
+      // Game complete if reached turn 20 (immediate)
+      else if (turn >= 20) {
+        console.log('GAME COMPLETE: Reached final turn 20!');
+        get().endGame();
+      }
     }
   }))
 );
