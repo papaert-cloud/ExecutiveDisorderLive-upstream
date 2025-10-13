@@ -368,24 +368,24 @@ export default function GamePage() {
             className="flex flex-col justify-center"
           >
             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/60 shadow-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl">
-              {/* Card visual - category-specific themes */}
+              {/* Card visual - category-specific themes - MORE TRANSPARENT */}
               <div className="absolute inset-0 flex items-center justify-center p-8">
                 <div className={`relative w-full h-full rounded-2xl overflow-hidden border-4 shadow-2xl ${
-                  currentCard.category === 'economic' ? 'border-green-400/50 bg-gradient-to-br from-green-600/40 via-emerald-600/40 to-teal-600/40' :
-                  currentCard.category === 'domestic' ? 'border-blue-400/50 bg-gradient-to-br from-blue-600/40 via-indigo-600/40 to-violet-600/40' :
-                  currentCard.category === 'foreign' ? 'border-red-400/50 bg-gradient-to-br from-red-600/40 via-rose-600/40 to-pink-600/40' :
-                  currentCard.category === 'social' ? 'border-purple-400/50 bg-gradient-to-br from-purple-600/40 via-fuchsia-600/40 to-pink-600/40' :
-                  'border-orange-400/50 bg-gradient-to-br from-orange-600/40 via-red-600/40 to-rose-600/40'
-                } backdrop-blur-md`}>
+                  currentCard.category === 'economic' ? 'border-green-400/30 bg-gradient-to-br from-green-600/15 via-emerald-600/15 to-teal-600/15' :
+                  currentCard.category === 'domestic' ? 'border-blue-400/30 bg-gradient-to-br from-blue-600/15 via-indigo-600/15 to-violet-600/15' :
+                  currentCard.category === 'foreign' ? 'border-red-400/30 bg-gradient-to-br from-red-600/15 via-rose-600/15 to-pink-600/15' :
+                  currentCard.category === 'social' ? 'border-purple-400/30 bg-gradient-to-br from-purple-600/15 via-fuchsia-600/15 to-pink-600/15' :
+                  'border-orange-400/30 bg-gradient-to-br from-orange-600/15 via-red-600/15 to-rose-600/15'
+                } backdrop-blur-sm`}>
                   
-                  {/* Animated gradient overlay - more translucent */}
+                  {/* Animated gradient overlay - HIGHLY translucent */}
                   <motion.div 
                     className={`absolute inset-0 ${
-                      currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/35 via-emerald-500/35 to-teal-500/35' :
-                      currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/35 via-indigo-500/35 to-violet-500/35' :
-                      currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/35 via-rose-500/35 to-pink-500/35' :
-                      currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/35 via-fuchsia-500/35 to-pink-500/35' :
-                      'bg-gradient-to-br from-orange-500/35 via-red-500/35 to-rose-500/35'
+                      currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/20 via-emerald-500/20 to-teal-500/20' :
+                      currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/20 via-indigo-500/20 to-violet-500/20' :
+                      currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/20 via-rose-500/20 to-pink-500/20' :
+                      currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/20 via-fuchsia-500/20 to-pink-500/20' :
+                      'bg-gradient-to-br from-orange-500/20 via-red-500/20 to-rose-500/20'
                     }`}
                     animate={{
                       backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
@@ -428,8 +428,8 @@ export default function GamePage() {
                     <span className="text-yellow-100 font-black text-2xl">#{turn}</span>
                   </div>
                   
-                  {/* Large category icon in center */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-50">
+                  {/* Large category icon in center - highly transparent */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-25">
                     <span className="text-[16rem] drop-shadow-2xl filter brightness-110">
                       {currentCard.category === 'economic' ? '💸' :
                        currentCard.category === 'domestic' ? '🏛️' :
