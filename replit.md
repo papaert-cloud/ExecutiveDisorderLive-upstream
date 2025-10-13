@@ -42,8 +42,12 @@ The game utilizes a two-phase architecture:
 -   **UI/UX Decisions:**
     -   **Glassmorphic UI:** All elements use semi-transparent backgrounds (20-60% opacity) with `backdrop-blur`.
     -   **Styling:** Tailwind CSS, custom HSL-based color tokens, and `shadcn/ui` patterns.
+    -   **Typography:** Google Fonts - Space Grotesk (headings), Inter (UI text) with preconnect optimization.
+    -   **Animations:** 10 custom Framer Motion animations (fadeIn, slideUp/Down, float, glow, gradient, shimmer).
     -   **Color Schemes:** Title uses a bold rainbow gradient. Menu features dark gradients, animated grid overlays, and a scrolling ticker. Characters are displayed in a card-based grid with hover glow effects.
     -   **Templates:** Modern card grid for the menu, grid for character selection, and a split-view design for the game page.
+    -   **Responsive Design:** Mobile-first approach optimized for all devices (Samsung Galaxy S24 Ultra, iPhones, tablets, laptops).
+    -   **Accessibility:** WCAG-compliant focus rings, reduced motion support, high contrast mode, screen reader utilities.
 -   **Game Rendering:** Multi-page approach. Future plans include dual 2D DOM-based and 3D WebGL (Three.js via React Three Fiber) rendering.
 -   **State Management:** Zustand for core game state, React Query for server state, and local storage for persistence.
 -   **Game Flow:** Title → Menu → Character Selection → Character Stats → Game. Turn-based progression with multiple endings.
@@ -65,8 +69,9 @@ The game utilizes a two-phase architecture:
 
 -   **Database & ORM:** Neon serverless PostgreSQL, Drizzle ORM.
 -   **3D Graphics & Rendering:** Three.js, React Three Fiber, Drei, Postprocessing.
--   **UI & Styling:** Radix UI, Tailwind CSS, Inter font, Class Variance Authority (CVA).
+-   **UI & Styling:** Radix UI, Tailwind CSS, Space Grotesk + Inter fonts, Class Variance Authority (CVA), Framer Motion.
 -   **Utilities & Tooling:** date-fns, cmdk, nanoid, Zod, wouter.
 -   **Development Tools:** Replit-specific Vite plugin, TypeScript, Path aliases, `vite-plugin-glsl`.
+-   **Responsive Features:** Mobile-optimized viewport, PWA-ready meta tags, safe area support, touch-friendly tap targets.
 -   **Asset Support:** Standard web image formats, GLTF/GLB 3D models, MP3/OGG/WAV audio, JSON-based fonts.
 -   **AI Content Generation (Pre-generation phase only):** ElevenLabs, Runway ML Gen3a Turbo, Google Veo3.
