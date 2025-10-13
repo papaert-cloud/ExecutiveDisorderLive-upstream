@@ -75,7 +75,7 @@ export const characters: PoliticalCharacter[] = [
       "Conspiracy Theory: Can spin any disaster as 'all part of the plan'",
       "Paranoid Vigilance: Detects hidden consequences before they happen"
     ],
-    portraitUrl: "/api/image/attached_assets/generated_images/Truther_McQuestion_worried_expression_cfd3f68a.png"
+    portraitUrl: "/characters/truther-mcquestion.png"
   },
   {
     id: "ronald-goldenberg",
@@ -95,7 +95,7 @@ export const characters: PoliticalCharacter[] = [
       "Media Magnet: All actions generate increased media attention",
       "Business Acumen: Economic decisions have enhanced effects"
     ],
-    portraitUrl: "/api/image/attached_assets/generated_images/Ronald_Goldsberg_happy_expression_5a29b882.png"
+    portraitUrl: "/characters/ronald-goldenberg.png"
   },
   {
     id: "alexandria-sanders",
@@ -135,7 +135,7 @@ export const characters: PoliticalCharacter[] = [
       "Emotional Immunity: Unaffected by public sentiment swings",
       "System Optimization: Can improve efficiency of government operations"
     ],
-    portraitUrl: "/api/image/attached_assets/generated_images/Potus_9000_happy_expression_a19ca8c1.png"
+    portraitUrl: "/characters/potus-9000.png"
   },
   {
     id: "richard-moneybags",
@@ -195,7 +195,7 @@ export const characters: PoliticalCharacter[] = [
       "Information Network: Has access to insider information",
       "Narrative Mastery: Can reframe any situation favorably"
     ],
-    portraitUrl: "/api/image/attached_assets/generated_images/Diana_Newsworthy_confident_expression_016298db.png"
+    portraitUrl: "/characters/diana-newsworthy.png"
   },
   {
     id: "johnny-public",
