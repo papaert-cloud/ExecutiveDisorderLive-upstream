@@ -317,14 +317,14 @@ export default function GamePage() {
             animate={{ x: 0, opacity: 1 }}
             className="flex flex-col justify-center"
           >
-            <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/40 shadow-2xl bg-gradient-to-br from-slate-900/70 to-slate-950/80 backdrop-blur-xl">
-              {/* Card visual - no Dropbox loading (images don't exist) */}
+            <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/60 shadow-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl">
+              {/* Card visual - enhanced visibility */}
               <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-purple-500/30 bg-gradient-to-br from-purple-600/50 via-pink-600/50 to-orange-600/50 backdrop-blur-sm">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-purple-400/60 bg-gradient-to-br from-purple-600/80 via-pink-600/80 to-orange-600/80 backdrop-blur-md shadow-2xl">
                   
-                  {/* Animated gradient background */}
+                  {/* Animated gradient overlay */}
                   <motion.div 
-                    className="absolute inset-0 bg-gradient-to-br from-purple-600/60 via-pink-600/60 to-orange-600/60"
+                    className="absolute inset-0 bg-gradient-to-br from-purple-500/70 via-pink-500/70 to-orange-500/70"
                     animate={{
                       backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
                     }}
@@ -339,24 +339,24 @@ export default function GamePage() {
                   />
                   
                   {/* Category badge */}
-                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-purple-400/50 z-10">
-                    <p className="text-purple-300 font-bold text-sm uppercase tracking-wide">{currentCard.category}</p>
+                  <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-purple-300/70 z-10 shadow-lg">
+                    <p className="text-purple-200 font-black text-base uppercase tracking-wider">{currentCard.category}</p>
                   </div>
                   
                   {/* Card number */}
-                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-yellow-400/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-yellow-400/50 z-10">
-                    <span className="text-yellow-300 font-black text-lg">#{(currentCardIndex % activeCards.length) + 1}</span>
+                  <div className="absolute bottom-4 right-4 w-16 h-16 bg-yellow-400/30 backdrop-blur-md rounded-full flex items-center justify-center border-3 border-yellow-300/70 z-10 shadow-xl">
+                    <span className="text-yellow-100 font-black text-2xl">#{(currentCardIndex % activeCards.length) + 1}</span>
                   </div>
                   
-                  {/* Decorative icon in center */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                    <span className="text-9xl">📋</span>
+                  {/* Large decorative icon in center */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-60">
+                    <span className="text-[12rem] drop-shadow-2xl">📋</span>
                   </div>
                   
                   {/* Loading indicator */}
                   {cardsLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-20">
-                      <div className="text-white text-lg">Loading cards...</div>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-20">
+                      <div className="text-white text-xl font-bold">Loading cards...</div>
                     </div>
                   )}
                 </div>
