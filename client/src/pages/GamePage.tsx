@@ -239,32 +239,40 @@ export default function GamePage() {
       {/* Main game area - Side by side layout */}
       <div className="relative z-10 h-full pt-20 pb-8 px-8">
         <div className="max-w-7xl mx-auto h-full grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left: Background scene / event visualization */}
+          {/* Left: Card thumbnail from Dropbox */}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             className="flex flex-col justify-center"
           >
-            <div className="relative aspect-video rounded-3xl overflow-hidden border-2 border-white/30 shadow-2xl">
-              {/* Event video background - changes based on card category */}
-              <video
-                key={eventVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover"
-              >
-                <source src={eventVideo} type="video/mp4" />
-              </video>
-              
-              {/* Event context overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent backdrop-blur-sm p-6">
-                <h3 className="text-white text-2xl font-bold mb-2">Current Situation</h3>
-                <p className="text-white/90">
-                  The nation watches as you navigate through crisis after crisis. 
-                  Every decision ripples through the political landscape.
-                </p>
+            <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/40 shadow-2xl bg-gradient-to-br from-slate-900/60 to-slate-950/80 backdrop-blur-xl">
+              {/* Card thumbnail - translucent overlay */}
+              <div className="absolute inset-0 flex items-center justify-center p-8">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-purple-500/30 bg-black/20 backdrop-blur-sm">
+                  {/* Thumbnail image from Dropbox - will be loaded dynamically */}
+                  <img
+                    src={`/api/dropbox/image/Replit/ExecutiveDisorder_Assets/02_Decision_Cards/${currentCard.id}.png`}
+                    alt={currentCard.title}
+                    className="w-full h-full object-cover opacity-80 mix-blend-screen"
+                    onError={(e) => {
+                      // Fallback to gradient if image not found
+                      (e.target as HTMLImageElement).style.opacity = '0';
+                    }}
+                  />
+                  
+                  {/* Fallback gradient when image not available */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/40 via-pink-600/40 to-orange-600/40" />
+                  
+                  {/* Category badge */}
+                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-purple-400/50">
+                    <p className="text-purple-300 font-bold text-sm uppercase tracking-wide">{currentCard.category}</p>
+                  </div>
+                  
+                  {/* Card number */}
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-yellow-400/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-yellow-400/50">
+                    <span className="text-yellow-300 font-black text-lg">#{(currentCardIndex % decisionCards.length) + 1}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
