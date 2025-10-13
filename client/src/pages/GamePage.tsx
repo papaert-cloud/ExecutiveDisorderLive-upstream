@@ -12,10 +12,19 @@ interface StatChange {
   color: string;
 }
 
+// Fisher-Yates shuffle algorithm for random card selection
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 export default function GamePage() {
   const [, setLocation] = useLocation();
   const { selectedCharacter, resources, turn, makeDecision } = useGameState();
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [statChanges, setStatChanges] = useState<StatChange[]>([]);
   const [previousResources, setPreviousResources] = useState(resources);
   const [showCrisis, setShowCrisis] = useState(false);
@@ -27,7 +36,46 @@ export default function GamePage() {
     return (dropboxCards && dropboxCards.length > 0) ? dropboxCards : decisionCards;
   }, [dropboxCards]);
 
-  const currentCard = activeCards[currentCardIndex % activeCards.length];
+  // Smart randomization: Shuffle cards and track history to prevent repetition
+  const [shuffledDeck, setShuffledDeck] = useState<typeof decisionCards>([]);
+  const [deckIndex, setDeckIndex] = useState(0);
+  const [cardHistory, setCardHistory] = useState<string[]>([]);
+  
+  // Initialize shuffled deck on mount or when cards change
+  useEffect(() => {
+    if (activeCards.length > 0) {
+      const shuffled = shuffleArray(activeCards);
+      setShuffledDeck(shuffled);
+      setDeckIndex(0);
+      console.log(`Shuffled deck of ${shuffled.length} cards for dynamic gameplay`);
+    }
+  }, [activeCards]);
+  
+  // Get current card with smart selection to avoid repeats
+  const currentCard = useMemo(() => {
+    if (shuffledDeck.length === 0) return activeCards[0];
+    
+    // If deck exhausted, reshuffle immediately
+    if (deckIndex >= shuffledDeck.length) {
+      const reshuffled = shuffleArray(activeCards);
+      setShuffledDeck(reshuffled);
+      setDeckIndex(0);
+      console.log('Deck exhausted - reshuffling for continued play');
+      return reshuffled[0];
+    }
+    
+    let selectedCard = shuffledDeck[deckIndex];
+    
+    // Prevent immediate repeats using history
+    if (cardHistory.length > 0 && cardHistory[cardHistory.length - 1] === selectedCard.id) {
+      // Find next card not in recent history
+      const nextIndex = (deckIndex + 1) % shuffledDeck.length;
+      selectedCard = shuffledDeck[nextIndex];
+      console.log('Prevented immediate repeat, skipping to next card');
+    }
+    
+    return selectedCard;
+  }, [shuffledDeck, deckIndex, activeCards, cardHistory]);
 
   // Track stat changes and show feedback
   useEffect(() => {
@@ -73,7 +121,8 @@ export default function GamePage() {
 
   const handleChoice = (choiceIndex: number) => {
     makeDecision(currentCard.id, choiceIndex);
-    setCurrentCardIndex((prev) => prev + 1);
+    setDeckIndex((prev) => prev + 1);
+    setCardHistory((prev) => [...prev, currentCard.id].slice(-10)); // Keep last 10 cards in history
     
     // Trigger crisis news every 5 turns
     const nextTurn = turn + 1;
@@ -321,21 +370,21 @@ export default function GamePage() {
               {/* Card visual - category-specific themes */}
               <div className="absolute inset-0 flex items-center justify-center p-8">
                 <div className={`relative w-full h-full rounded-2xl overflow-hidden border-4 shadow-2xl ${
-                  currentCard.category === 'economic' ? 'border-green-400/60 bg-gradient-to-br from-green-600/80 via-emerald-600/80 to-teal-600/80' :
-                  currentCard.category === 'domestic' ? 'border-blue-400/60 bg-gradient-to-br from-blue-600/80 via-indigo-600/80 to-violet-600/80' :
-                  currentCard.category === 'foreign' ? 'border-red-400/60 bg-gradient-to-br from-red-600/80 via-rose-600/80 to-pink-600/80' :
-                  currentCard.category === 'social' ? 'border-purple-400/60 bg-gradient-to-br from-purple-600/80 via-fuchsia-600/80 to-pink-600/80' :
-                  'border-orange-400/60 bg-gradient-to-br from-orange-600/80 via-red-600/80 to-rose-600/80'
+                  currentCard.category === 'economic' ? 'border-green-400/50 bg-gradient-to-br from-green-600/40 via-emerald-600/40 to-teal-600/40' :
+                  currentCard.category === 'domestic' ? 'border-blue-400/50 bg-gradient-to-br from-blue-600/40 via-indigo-600/40 to-violet-600/40' :
+                  currentCard.category === 'foreign' ? 'border-red-400/50 bg-gradient-to-br from-red-600/40 via-rose-600/40 to-pink-600/40' :
+                  currentCard.category === 'social' ? 'border-purple-400/50 bg-gradient-to-br from-purple-600/40 via-fuchsia-600/40 to-pink-600/40' :
+                  'border-orange-400/50 bg-gradient-to-br from-orange-600/40 via-red-600/40 to-rose-600/40'
                 } backdrop-blur-md`}>
                   
-                  {/* Animated gradient overlay */}
+                  {/* Animated gradient overlay - more translucent */}
                   <motion.div 
                     className={`absolute inset-0 ${
-                      currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/70 via-emerald-500/70 to-teal-500/70' :
-                      currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/70 via-indigo-500/70 to-violet-500/70' :
-                      currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/70 via-rose-500/70 to-pink-500/70' :
-                      currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/70 via-fuchsia-500/70 to-pink-500/70' :
-                      'bg-gradient-to-br from-orange-500/70 via-red-500/70 to-rose-500/70'
+                      currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/35 via-emerald-500/35 to-teal-500/35' :
+                      currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/35 via-indigo-500/35 to-violet-500/35' :
+                      currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/35 via-rose-500/35 to-pink-500/35' :
+                      currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/35 via-fuchsia-500/35 to-pink-500/35' :
+                      'bg-gradient-to-br from-orange-500/35 via-red-500/35 to-rose-500/35'
                     }`}
                     animate={{
                       backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
@@ -375,7 +424,7 @@ export default function GamePage() {
                   
                   {/* Card number */}
                   <div className="absolute bottom-4 right-4 w-16 h-16 bg-yellow-400/30 backdrop-blur-md rounded-full flex items-center justify-center border-3 border-yellow-300/70 z-10 shadow-xl">
-                    <span className="text-yellow-100 font-black text-2xl">#{(currentCardIndex % activeCards.length) + 1}</span>
+                    <span className="text-yellow-100 font-black text-2xl">#{turn}</span>
                   </div>
                   
                   {/* Large category icon in center */}
