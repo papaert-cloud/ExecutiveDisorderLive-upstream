@@ -279,40 +279,50 @@ export default function GamePage() {
               {/* Card header */}
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-3xl">📋</span>
+                  <span className="text-4xl">📋</span>
                   <div className="flex-1">
-                    <h2 className="text-2xl font-bold text-white">{currentCard.title}</h2>
-                    <p className="text-purple-400 text-sm capitalize">{currentCard.category}</p>
+                    <h2 className="text-3xl sm:text-4xl font-black text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 bg-clip-text leading-tight">
+                      {currentCard.title}
+                    </h2>
+                    <p className="text-purple-300 text-base sm:text-lg font-semibold capitalize mt-1">{currentCard.category}</p>
                   </div>
                 </div>
               </div>
 
               {/* Card description */}
-              <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/10">
-                <p className="text-white/90 text-lg leading-relaxed">{currentCard.description}</p>
+              <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border-2 border-purple-500/30">
+                <p className="text-white text-xl sm:text-2xl font-semibold leading-relaxed">{currentCard.description}</p>
               </div>
 
               {/* Options */}
               <div className="space-y-4">
-                {currentCard.options.map((option, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => handleChoice(index)}
-                    className="group w-full text-left bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600/40 hover:to-pink-600/40 backdrop-blur-sm border border-white/30 hover:border-yellow-400/60 rounded-2xl p-5 transition-all duration-300"
-                    whileHover={{ scale: 1.02, x: 10 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="w-8 h-8 rounded-full bg-yellow-400/20 flex items-center justify-center flex-shrink-0 group-hover:bg-yellow-400/40 transition-colors">
-                        <span className="text-yellow-400 font-bold">{String.fromCharCode(65 + index)}</span>
+                {currentCard.options.map((option, index) => {
+                  const optionColors = [
+                    "from-blue-600/30 to-cyan-600/30 hover:from-blue-500/50 hover:to-cyan-500/50 border-blue-400/40 hover:border-cyan-300",
+                    "from-green-600/30 to-emerald-600/30 hover:from-green-500/50 hover:to-emerald-500/50 border-green-400/40 hover:border-emerald-300",
+                    "from-amber-600/30 to-orange-600/30 hover:from-amber-500/50 hover:to-orange-500/50 border-amber-400/40 hover:border-orange-300"
+                  ];
+                  
+                  return (
+                    <motion.button
+                      key={index}
+                      onClick={() => handleChoice(index)}
+                      className={`group w-full text-left bg-gradient-to-r ${optionColors[index % 3]} backdrop-blur-sm border-2 rounded-2xl p-6 transition-all duration-300`}
+                      whileHover={{ scale: 1.03, x: 10 }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-full bg-yellow-400/30 flex items-center justify-center flex-shrink-0 group-hover:bg-yellow-400/50 transition-colors border-2 border-yellow-400/50">
+                          <span className="text-yellow-300 font-black text-lg">{String.fromCharCode(65 + index)}</span>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white text-xl sm:text-2xl font-bold mb-2 leading-tight">{option.text}</p>
+                          <p className="text-yellow-300 text-base font-semibold">Click to decide</p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <p className="text-white font-semibold mb-1">{option.text}</p>
-                        <p className="text-white/60 text-sm">Click to decide</p>
-                      </div>
-                    </div>
-                  </motion.button>
-                ))}
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
