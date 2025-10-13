@@ -1,9 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
 import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { useGameState } from "../lib/stores/useGameState";
 import { decisionCards } from "../data/cards";
+import { useDropboxCards } from "../hooks/useDropboxCards";
 
 interface StatChange {
   label: string;
@@ -17,8 +18,14 @@ export default function GamePage() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [statChanges, setStatChanges] = useState<StatChange[]>([]);
   const [previousResources, setPreviousResources] = useState(resources);
+  
+  // Load cards from Dropbox, fallback to local data
+  const { data: dropboxCards, isLoading: cardsLoading } = useDropboxCards();
+  const activeCards = useMemo(() => {
+    return (dropboxCards && dropboxCards.length > 0) ? dropboxCards : decisionCards;
+  }, [dropboxCards]);
 
-  const currentCard = decisionCards[currentCardIndex % decisionCards.length];
+  const currentCard = activeCards[currentCardIndex % activeCards.length];
 
   // Track stat changes and show feedback
   useEffect(() => {
@@ -270,8 +277,15 @@ export default function GamePage() {
                   
                   {/* Card number */}
                   <div className="absolute bottom-4 right-4 w-12 h-12 bg-yellow-400/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-yellow-400/50">
-                    <span className="text-yellow-300 font-black text-lg">#{(currentCardIndex % decisionCards.length) + 1}</span>
+                    <span className="text-yellow-300 font-black text-lg">#{(currentCardIndex % activeCards.length) + 1}</span>
                   </div>
+                  
+                  {/* Loading indicator */}
+                  {cardsLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                      <div className="text-white text-lg">Loading cards...</div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
