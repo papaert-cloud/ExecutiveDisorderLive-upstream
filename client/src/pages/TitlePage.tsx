@@ -13,16 +13,17 @@ export default function TitlePage() {
   const handleStart = () => {
     setHasStarted(true);
     
-    // Start both video and audio with sound
+    // Start video only (audio disabled - files are placeholders)
     if (videoRef.current) {
-      videoRef.current.muted = false;
-      videoRef.current.play();
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(e => console.log('Video play prevented:', e));
     }
     
-    if (audioRef.current) {
-      audioRef.current.volume = 0.6;
-      audioRef.current.play();
-    }
+    // Audio disabled - placeholder files cause errors
+    // if (audioRef.current) {
+    //   audioRef.current.volume = 0.6;
+    //   audioRef.current.play();
+    // }
   };
 
   const handleEnter = () => {
