@@ -126,13 +126,17 @@ export default function GamePage() {
       {/* Background video */}
       <div className="absolute inset-0">
         <video
+          key={eventVideo}
           autoPlay
           loop
           muted
           playsInline
           className="w-full h-full object-cover"
+          onError={(e) => {
+            console.error('Video playback error:', e);
+          }}
         >
-          <source src="/videos/replay-loops/political-rally-crowd.mp4" type="video/mp4" />
+          <source src={eventVideo} type="video/mp4" />
         </video>
       </div>
 
