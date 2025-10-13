@@ -78,7 +78,7 @@ export default function CharacterSelectPage() {
               {/* Character info */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h3 className="text-white font-bold text-lg mb-1 line-clamp-1">
-                  {character.name.split(' ').slice(0, 2).join(' ')}...
+                  {character.name.split(' ').slice(0, 2).join(' ').toUpperCase()}...
                 </h3>
                 <p className="text-yellow-400 text-sm mb-2">{character.title}</p>
                 
