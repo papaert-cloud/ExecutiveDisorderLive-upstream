@@ -29,6 +29,13 @@ export default function MenuPage() {
       action: () => setLocation("/character-select"),
     },
     {
+      icon: Info,
+      label: "HOW TO PLAY?",
+      subtitle: "Rules & strategy",
+      gradient: "from-cyan-600/40 to-blue-600/60",
+      action: () => setLocation("/how-to-play"),
+    },
+    {
       icon: Settings,
       label: "SETTINGS",
       subtitle: "Audio & gameplay",

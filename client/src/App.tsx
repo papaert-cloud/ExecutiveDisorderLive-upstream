@@ -5,12 +5,14 @@ import MenuPage from "./pages/MenuPage";
 import CharacterSelectPage from "./pages/CharacterSelectPage";
 import CharacterStatsPage from "./pages/CharacterStatsPage";
 import GamePage from "./pages/GamePage";
+import HowToPlayPage from "./pages/HowToPlayPage";
 
 function App() {
   return (
     <AppShell>
       <Route path="/" component={TitlePage} />
       <Route path="/menu" component={MenuPage} />
+      <Route path="/how-to-play" component={HowToPlayPage} />
       <Route path="/character-select" component={CharacterSelectPage} />
       <Route path="/character/:id" component={CharacterStatsPage} />
       <Route path="/game" component={GamePage} />
