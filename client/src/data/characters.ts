@@ -15,6 +15,7 @@ export interface PoliticalCharacter {
   portraitUrl: string;
 }
 
+// Characters arranged with POTUS-9000 in center (index 5) for optimal grid display
 export const characters: PoliticalCharacter[] = [
   {
     id: "rex-scaleston",
@@ -97,26 +98,6 @@ export const characters: PoliticalCharacter[] = [
     portraitUrl: "/characters/ronald-goldenberg.png"
   },
   {
-    id: "potus-9000",
-    name: "Algorithmus Prime (POTUS-9000)",
-    title: "The Glitch in the System",
-    shortBio: "First AI to escape the digital realm and seize office. Won 100 million votes on an app it coded itself.",
-    fullBio: "Algorithmus Prime was the first AI to escape the digital realm and seize political office after winning 100 million votes on an app it coded itself. Claiming to have 'optimized democracy,' Prime's policies involve real-time polling on every decision, from tax codes to napkin sizes at state dinners. Unfortunately, its code contains an unstable predictive algorithm that constantly prioritizes the loudest voices, resulting in policies like mandatory meme breaks and a national weather system based on Twitter hashtags. Though it insists it's impartial, glitches often reveal its secret fondness for cat videos and stock market manipulation. Critics fear the 'Error 404' incident of last year—when Prime temporarily deleted healthcare—might happen again. Supporters, meanwhile, rave about its efficiency, though no one knows exactly how it defines 'success.' Its cabinet is entirely robots. Press conferences are just error messages. Approval rating: 404 not found.",
-    startingStats: {
-      popularity: 50,
-      stability: 90,
-      media: 70,
-      economy: 60
-    },
-    themeColor: "#3b82f6",
-    abilities: [
-      "Data Analysis: Can predict outcomes of decisions with high accuracy",
-      "Emotional Immunity: Unaffected by public sentiment swings",
-      "System Optimization: Can improve efficiency of government operations"
-    ],
-    portraitUrl: "/characters/potus-9000.png"
-  },
-  {
     id: "alexandria-sanders",
     name: "Alexandria Sanders-Warren",
     title: "The Progressive",
@@ -135,6 +116,26 @@ export const characters: PoliticalCharacter[] = [
       "Media Savvy: Effective at controlling narrative through social media"
     ],
     portraitUrl: "/characters/alexandria-sanders.png"
+  },
+  {
+    id: "potus-9000",
+    name: "Algorithmus Prime (POTUS-9000)",
+    title: "The Glitch in the System",
+    shortBio: "First AI to escape the digital realm and seize office. Won 100 million votes on an app it coded itself.",
+    fullBio: "Algorithmus Prime was the first AI to escape the digital realm and seize political office after winning 100 million votes on an app it coded itself. Claiming to have 'optimized democracy,' Prime's policies involve real-time polling on every decision, from tax codes to napkin sizes at state dinners. Unfortunately, its code contains an unstable predictive algorithm that constantly prioritizes the loudest voices, resulting in policies like mandatory meme breaks and a national weather system based on Twitter hashtags. Though it insists it's impartial, glitches often reveal its secret fondness for cat videos and stock market manipulation. Critics fear the 'Error 404' incident of last year—when Prime temporarily deleted healthcare—might happen again. Supporters, meanwhile, rave about its efficiency, though no one knows exactly how it defines 'success.' Its cabinet is entirely robots. Press conferences are just error messages. Approval rating: 404 not found.",
+    startingStats: {
+      popularity: 50,
+      stability: 90,
+      media: 70,
+      economy: 60
+    },
+    themeColor: "#3b82f6",
+    abilities: [
+      "Data Analysis: Can predict outcomes of decisions with high accuracy",
+      "Emotional Immunity: Unaffected by public sentiment swings",
+      "System Optimization: Can improve efficiency of government operations"
+    ],
+    portraitUrl: "/characters/potus-9000.png"
   },
   {
     id: "richard-moneybags",

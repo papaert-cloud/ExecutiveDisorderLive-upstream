@@ -47,19 +47,13 @@ export default function CharacterSelectPage() {
       <div className="relative z-10 h-full pt-24 pb-8 px-4 sm:px-8 overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6 max-w-7xl mx-auto">
           {characters.map((character, index) => {
-            const isFeatured = character.id === 'potus-9000' || character.id === 'rex-scaleston';
-            
             return (<motion.button
               key={character.id}
               onClick={() => handleSelectCharacter(character.id)}
               initial={{ scale: 0, rotate: -10 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: index * 0.05, type: "spring" }}
-              className={`group relative aspect-[3/4] rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:scale-105 ${
-                isFeatured
-                  ? 'bg-gradient-to-br from-amber-900/60 to-yellow-900/60 border-4 border-yellow-400 hover:border-yellow-300 shadow-2xl shadow-yellow-400/50 hover:shadow-yellow-400/80 ring-2 ring-yellow-400/50 animate-pulse-slow'
-                  : 'bg-gradient-to-br from-slate-900/40 to-slate-950/60 border-2 border-white/20 hover:border-yellow-400/60 hover:shadow-2xl hover:shadow-yellow-400/20'
-              }`}
+              className="group relative aspect-[3/4] rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:scale-105 bg-gradient-to-br from-slate-900/40 to-slate-950/60 border-2 border-white/20 hover:border-yellow-400/60 hover:shadow-2xl hover:shadow-yellow-400/20"
               whileHover={{ y: -10 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -78,8 +72,8 @@ export default function CharacterSelectPage() {
                 )}
               </div>
 
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-sm opacity-80 group-hover:opacity-60 transition-opacity" />
+              {/* Gradient overlay - reduced for better visibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent backdrop-blur-sm opacity-70 group-hover:opacity-50 transition-opacity" />
 
               {/* Character info */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -109,18 +103,9 @@ export default function CharacterSelectPage() {
                 </div>
               </div>
 
-              {/* Featured badge for highlighted characters */}
-              {isFeatured && (
-                <div className="absolute top-2 right-2 bg-yellow-400 text-black text-xs font-black px-3 py-1 rounded-full shadow-lg z-10 animate-float">
-                  ⭐ FEATURED
-                </div>
-              )}
-
               {/* Hover glow effect */}
               <motion.div
-                className={`absolute inset-0 bg-gradient-to-t to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ${
-                  isFeatured ? 'from-yellow-400/40' : 'from-yellow-400/20'
-                }`}
+                className="absolute inset-0 bg-gradient-to-t from-yellow-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
               />
             </motion.button>);
           })}
