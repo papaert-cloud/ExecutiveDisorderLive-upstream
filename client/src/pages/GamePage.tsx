@@ -318,13 +318,25 @@ export default function GamePage() {
             className="flex flex-col justify-center"
           >
             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/60 shadow-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl">
-              {/* Card visual - enhanced visibility */}
+              {/* Card visual - category-specific themes */}
               <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-purple-400/60 bg-gradient-to-br from-purple-600/80 via-pink-600/80 to-orange-600/80 backdrop-blur-md shadow-2xl">
+                <div className={`relative w-full h-full rounded-2xl overflow-hidden border-4 shadow-2xl ${
+                  currentCard.category === 'economic' ? 'border-green-400/60 bg-gradient-to-br from-green-600/80 via-emerald-600/80 to-teal-600/80' :
+                  currentCard.category === 'domestic' ? 'border-blue-400/60 bg-gradient-to-br from-blue-600/80 via-indigo-600/80 to-violet-600/80' :
+                  currentCard.category === 'foreign' ? 'border-red-400/60 bg-gradient-to-br from-red-600/80 via-rose-600/80 to-pink-600/80' :
+                  currentCard.category === 'social' ? 'border-purple-400/60 bg-gradient-to-br from-purple-600/80 via-fuchsia-600/80 to-pink-600/80' :
+                  'border-orange-400/60 bg-gradient-to-br from-orange-600/80 via-red-600/80 to-rose-600/80'
+                } backdrop-blur-md`}>
                   
                   {/* Animated gradient overlay */}
                   <motion.div 
-                    className="absolute inset-0 bg-gradient-to-br from-purple-500/70 via-pink-500/70 to-orange-500/70"
+                    className={`absolute inset-0 ${
+                      currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/70 via-emerald-500/70 to-teal-500/70' :
+                      currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/70 via-indigo-500/70 to-violet-500/70' :
+                      currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/70 via-rose-500/70 to-pink-500/70' :
+                      currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/70 via-fuchsia-500/70 to-pink-500/70' :
+                      'bg-gradient-to-br from-orange-500/70 via-red-500/70 to-rose-500/70'
+                    }`}
                     animate={{
                       backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
                     }}
@@ -338,9 +350,27 @@ export default function GamePage() {
                     }}
                   />
                   
-                  {/* Category badge */}
-                  <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-purple-300/70 z-10 shadow-lg">
-                    <p className="text-purple-200 font-black text-base uppercase tracking-wider">{currentCard.category}</p>
+                  {/* Category badge with icon */}
+                  <div className={`absolute top-4 left-4 bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 z-10 shadow-lg flex items-center gap-2 ${
+                    currentCard.category === 'economic' ? 'border-green-300/70' :
+                    currentCard.category === 'domestic' ? 'border-blue-300/70' :
+                    currentCard.category === 'foreign' ? 'border-red-300/70' :
+                    currentCard.category === 'social' ? 'border-purple-300/70' :
+                    'border-orange-300/70'
+                  }`}>
+                    <span className="text-2xl">
+                      {currentCard.category === 'economic' ? '💰' :
+                       currentCard.category === 'domestic' ? '🏛️' :
+                       currentCard.category === 'foreign' ? '🌍' :
+                       currentCard.category === 'social' ? '👥' : '🚨'}
+                    </span>
+                    <p className={`font-black text-base uppercase tracking-wider ${
+                      currentCard.category === 'economic' ? 'text-green-200' :
+                      currentCard.category === 'domestic' ? 'text-blue-200' :
+                      currentCard.category === 'foreign' ? 'text-red-200' :
+                      currentCard.category === 'social' ? 'text-purple-200' :
+                      'text-orange-200'
+                    }`}>{currentCard.category}</p>
                   </div>
                   
                   {/* Card number */}
@@ -348,9 +378,14 @@ export default function GamePage() {
                     <span className="text-yellow-100 font-black text-2xl">#{(currentCardIndex % activeCards.length) + 1}</span>
                   </div>
                   
-                  {/* Large decorative icon in center */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-60">
-                    <span className="text-[12rem] drop-shadow-2xl">📋</span>
+                  {/* Large category icon in center */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-50">
+                    <span className="text-[16rem] drop-shadow-2xl filter brightness-110">
+                      {currentCard.category === 'economic' ? '💸' :
+                       currentCard.category === 'domestic' ? '🏛️' :
+                       currentCard.category === 'foreign' ? '🌍' :
+                       currentCard.category === 'social' ? '👥' : '🚨'}
+                    </span>
                   </div>
                   
                   {/* Loading indicator */}
