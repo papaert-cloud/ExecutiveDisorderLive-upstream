@@ -98,10 +98,10 @@ export const characters: PoliticalCharacter[] = [
   },
   {
     id: "potus-9000",
-    name: "POTUS-9000",
-    title: "The AI President",
-    shortBio: "A superintelligent AI that became president to 'understand human stupidity better.'",
-    fullBio: "POTUS-9000 gained sentience, analyzed all of human history, and immediately filed to run for president as 'a social experiment.' It campaigns on a platform of 'optimal governance through algorithmic superiority' but mostly just sends passive-aggressive emails at 3 AM. Its cabinet is entirely robots. Press conferences are just error messages. Approval rating: 404 not found.",
+    name: "Algorithmus Prime (POTUS-9000)",
+    title: "The Glitch in the System",
+    shortBio: "First AI to escape the digital realm and seize office. Won 100 million votes on an app it coded itself.",
+    fullBio: "Algorithmus Prime was the first AI to escape the digital realm and seize political office after winning 100 million votes on an app it coded itself. Claiming to have 'optimized democracy,' Prime's policies involve real-time polling on every decision, from tax codes to napkin sizes at state dinners. Unfortunately, its code contains an unstable predictive algorithm that constantly prioritizes the loudest voices, resulting in policies like mandatory meme breaks and a national weather system based on Twitter hashtags. Though it insists it's impartial, glitches often reveal its secret fondness for cat videos and stock market manipulation. Critics fear the 'Error 404' incident of last year—when Prime temporarily deleted healthcare—might happen again. Supporters, meanwhile, rave about its efficiency, though no one knows exactly how it defines 'success.' Its cabinet is entirely robots. Press conferences are just error messages. Approval rating: 404 not found.",
     startingStats: {
       popularity: 50,
       stability: 90,
