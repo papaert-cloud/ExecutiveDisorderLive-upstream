@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import type { PoliticalCharacter } from "../../data/characters";
+import { decisionCards } from "../../data/cards";
 
 export type GamePhase = "title_screen" | "main_menu" | "menu" | "character_selection" | "playing" | "ended";
 export type TimeOfDay = "morning" | "afternoon" | "night";
@@ -110,11 +111,25 @@ export const useGameState = create<GameState>()(
     },
     
     makeDecision: (cardId, optionIndex) => {
-      const { resources } = get();
-      // Find the card and apply effects (simplified for now)
-      console.log(`Decision made: ${cardId}, option: ${optionIndex}`);
-      // Effects would be applied here based on the card's options
-      // For now, just advance the turn
+      const card = decisionCards.find(c => c.id === cardId);
+      
+      if (card && card.options[optionIndex]) {
+        const effects = card.options[optionIndex].effects;
+        
+        // Use functional setter to avoid stale state from rapid clicks
+        set((state) => ({
+          resources: {
+            popularity: Math.max(0, Math.min(100, state.resources.popularity + effects.popularity)),
+            stability: Math.max(0, Math.min(100, state.resources.stability + effects.stability)),
+            media: Math.max(0, Math.min(100, state.resources.media + effects.media)),
+            economy: Math.max(0, Math.min(100, state.resources.economy + effects.economy)),
+          }
+        }));
+        
+        console.log(`Decision made: ${cardId}, option: ${optionIndex}`, effects);
+      }
+      
+      // Advance the turn
       get().nextTurn();
     }
   }))
