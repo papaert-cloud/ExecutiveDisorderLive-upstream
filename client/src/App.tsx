@@ -5,6 +5,7 @@ import MenuPage from "./pages/MenuPage";
 import CharacterSelectPage from "./pages/CharacterSelectPage";
 import CharacterStatsPage from "./pages/CharacterStatsPage";
 import GamePage from "./pages/GamePage";
+import EndingPage from "./pages/EndingPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Route path="/character-select" component={CharacterSelectPage} />
       <Route path="/character/:id" component={CharacterStatsPage} />
       <Route path="/game" component={GamePage} />
+      <Route path="/ending" component={EndingPage} />
     </AppShell>
   );
 }

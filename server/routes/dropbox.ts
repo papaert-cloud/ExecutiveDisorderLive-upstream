@@ -178,7 +178,8 @@ router.get("/cards/all", async (req, res) => {
         // Convert to game card format with safe defaults
         const choices = dropboxCard.choices || dropboxCard.options || [];
         
-        const gameCard = {
+        // Build game card with optional image URL
+        const gameCard: any = {
           id: dropboxCard.id || file.name.replace('.json', ''),
           title: dropboxCard.title || 'Untitled Decision',
           description: dropboxCard.description || 'A critical decision awaits...',
@@ -199,6 +200,11 @@ router.get("/cards/all", async (req, res) => {
             };
           }).filter((opt: any) => opt && opt.text) // Remove any invalid options
         };
+        
+        // Add image URL if available from various possible fields
+        if (dropboxCard.imageUrl || dropboxCard.image || dropboxCard.media || dropboxCard.cardImage) {
+          gameCard.imageUrl = dropboxCard.imageUrl || dropboxCard.image || dropboxCard.media || dropboxCard.cardImage;
+        }
         
         gameCards.push(gameCard);
       } catch (error) {
