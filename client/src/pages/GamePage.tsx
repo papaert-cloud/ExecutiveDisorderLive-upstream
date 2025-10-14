@@ -9,6 +9,8 @@ import { useDropboxCards } from "../hooks/useDropboxCards";
 import CardDisplay from "../components/Game/CardDisplay";
 import AudioSystem from "../components/Audio/AudioSystem";
 import { useAudio } from "../lib/stores/useAudio";
+import VisualEffects, { useStatChangeEffects } from "../components/Effects/VisualEffects";
+import ParticleEffect from "../components/Effects/ParticleEffect";
 
 interface StatChange {
   label: string;
@@ -34,6 +36,13 @@ export default function GamePage() {
   const [showCrisis, setShowCrisis] = useState(false);
   const [crisisVideo, setCrisisVideo] = useState<string>("");
   const { isMuted } = useAudio();
+  
+  // Visual effects state
+  const [screenShake, setScreenShake] = useState(false);
+  const [crisisAlert, setCrisisAlert] = useState(false);
+  const [showParticles, setShowParticles] = useState(false);
+  const [particleType, setParticleType] = useState<'success' | 'danger' | 'warning' | 'info'>('info');
+  const { statChanges: visualStatChanges, showStatChange } = useStatChangeEffects();
   
   // Load cards from Dropbox, fallback to local data, plus satirical cards
   const { data: dropboxCards, isLoading: cardsLoading } = useDropboxCards();
@@ -122,13 +131,38 @@ export default function GamePage() {
     const option = currentCard.options[optionIndex];
     const changes: StatChange[] = [];
     
-    // Animate resource changes
+    // Determine if this is a critical decision (large stat changes)
+    const totalChange = Math.abs(option.effects.popularity) + Math.abs(option.effects.stability) + 
+                       Math.abs(option.effects.media) + Math.abs(option.effects.economy);
+    const isCritical = totalChange >= 30;
+    const isNegative = (option.effects.popularity + option.effects.stability + 
+                       option.effects.media + option.effects.economy) < -10;
+    
+    // Trigger visual effects for critical decisions
+    if (isCritical) {
+      setScreenShake(true);
+      setTimeout(() => setScreenShake(false), 500);
+    }
+    
+    // Show particles based on decision impact
+    if (totalChange >= 20) {
+      setParticleType(isNegative ? 'danger' : 'success');
+      setShowParticles(true);
+      setTimeout(() => setShowParticles(false), 2000);
+    }
+    
+    // Animate resource changes with floating indicators
+    const centerX = window.innerWidth / 2;
+    const baseY = window.innerHeight / 2;
+    let offsetIndex = 0;
+    
     if (option.effects.popularity !== 0) {
       changes.push({
         label: "Popularity",
         value: option.effects.popularity,
         color: option.effects.popularity > 0 ? "text-green-400" : "text-red-400"
       });
+      showStatChange("Popularity", option.effects.popularity, centerX - 100, baseY + (offsetIndex++ * 40));
     }
     if (option.effects.stability !== 0) {
       changes.push({
@@ -136,6 +170,7 @@ export default function GamePage() {
         value: option.effects.stability,
         color: option.effects.stability > 0 ? "text-blue-400" : "text-orange-400"
       });
+      showStatChange("Stability", option.effects.stability, centerX + 100, baseY + (offsetIndex++ * 40));
     }
     if (option.effects.media !== 0) {
       changes.push({
@@ -143,6 +178,7 @@ export default function GamePage() {
         value: option.effects.media,
         color: option.effects.media > 0 ? "text-purple-400" : "text-pink-400"
       });
+      showStatChange("Media", option.effects.media, centerX - 100, baseY + (offsetIndex++ * 40));
     }
     if (option.effects.economy !== 0) {
       changes.push({
@@ -150,6 +186,7 @@ export default function GamePage() {
         value: option.effects.economy,
         color: option.effects.economy > 0 ? "text-yellow-400" : "text-gray-400"
       });
+      showStatChange("Economy", option.effects.economy, centerX + 100, baseY + (offsetIndex++ * 40));
     }
     
     // Show stat changes briefly
@@ -174,10 +211,22 @@ export default function GamePage() {
       const randomCrisis = crisisVideos[Math.floor(Math.random() * crisisVideos.length)];
       setCrisisVideo(randomCrisis);
       setShowCrisis(true);
+      
+      // Trigger crisis visual effects
+      setCrisisAlert(true);
+      setScreenShake(true);
+      setParticleType('danger');
+      setShowParticles(true);
+      
       console.log(`Crisis event triggered at turn ${turn}`);
       
-      // Auto-hide after 7 seconds
-      setTimeout(() => setShowCrisis(false), 7000);
+      // Auto-hide effects
+      setTimeout(() => {
+        setShowCrisis(false);
+        setCrisisAlert(false);
+        setScreenShake(false);
+        setShowParticles(false);
+      }, 7000);
     }
   }, [turn]);
 
@@ -405,6 +454,20 @@ export default function GamePage() {
 
       {/* Audio System for narration */}
       <AudioSystem muted={isMuted} />
+
+      {/* Visual Effects */}
+      <VisualEffects 
+        showScreenShake={screenShake}
+        showCrisisAlert={crisisAlert}
+        statChanges={visualStatChanges}
+      />
+      
+      {/* Particle Effects */}
+      <ParticleEffect 
+        active={showParticles}
+        type={particleType}
+        intensity={50}
+      />
 
       {/* Main game area */}
       <div className="relative z-10 h-full pt-20 pb-8 px-8">
