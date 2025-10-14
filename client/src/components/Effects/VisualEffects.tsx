@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface StatChange {
@@ -10,28 +10,52 @@ interface StatChange {
 }
 
 interface VisualEffectsProps {
-  showScreenShake?: boolean;
-  showCrisisAlert?: boolean;
+  screenShakeTrigger?: number;  // Changed to trigger ID
+  crisisAlertTrigger?: number;   // Changed to trigger ID
   statChanges?: StatChange[];
 }
 
 export default function VisualEffects({ 
-  showScreenShake = false, 
-  showCrisisAlert = false,
+  screenShakeTrigger = 0, 
+  crisisAlertTrigger = 0,
   statChanges = []
 }: VisualEffectsProps) {
   const [shake, setShake] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [particles, setParticles] = useState<Array<{ id: string; x: number; y: number; color: string }>>([]);
+  
+  const prevShakeTrigger = useRef(0);
+  const prevCrisisTrigger = useRef(0);
+  const shakeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const crisisTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Screen shake effect - triggers when ID changes
   useEffect(() => {
-    if (showScreenShake) {
+    if (screenShakeTrigger > prevShakeTrigger.current && screenShakeTrigger > 0) {
+      prevShakeTrigger.current = screenShakeTrigger;
+      
+      // Clear any existing timeout
+      if (shakeTimeoutRef.current) {
+        clearTimeout(shakeTimeoutRef.current);
+      }
+      
       setShake(true);
-      setTimeout(() => setShake(false), 500);
+      shakeTimeoutRef.current = setTimeout(() => setShake(false), 500);
     }
-  }, [showScreenShake]);
+  }, [screenShakeTrigger]);
 
+  // Crisis alert effect - triggers when ID changes
   useEffect(() => {
-    if (showCrisisAlert) {
+    if (crisisAlertTrigger > prevCrisisTrigger.current && crisisAlertTrigger > 0) {
+      prevCrisisTrigger.current = crisisAlertTrigger;
+      
+      // Clear any existing timeout
+      if (crisisTimeoutRef.current) {
+        clearTimeout(crisisTimeoutRef.current);
+      }
+      
+      setShowAlert(true);
+      
       // Generate crisis particles
       const newParticles = Array.from({ length: 20 }, (_, i) => ({
         id: `crisis-${Date.now()}-${i}`,
@@ -40,9 +64,13 @@ export default function VisualEffects({
         color: 'rgb(239, 68, 68)' // red
       }));
       setParticles(newParticles);
-      setTimeout(() => setParticles([]), 2000);
+      
+      crisisTimeoutRef.current = setTimeout(() => {
+        setShowAlert(false);
+        setParticles([]);
+      }, 2000);
     }
-  }, [showCrisisAlert]);
+  }, [crisisAlertTrigger]);
 
   return (
     <>
@@ -110,7 +138,7 @@ export default function VisualEffects({
 
       {/* Crisis alert overlay */}
       <AnimatePresence>
-        {showCrisisAlert && (
+        {showAlert && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.3, 0] }}

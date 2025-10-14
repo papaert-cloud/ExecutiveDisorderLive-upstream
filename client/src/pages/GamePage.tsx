@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useLocation } from "wouter";
 import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { useGameState } from "../lib/stores/useGameState";
@@ -37,12 +37,16 @@ export default function GamePage() {
   const [crisisVideo, setCrisisVideo] = useState<string>("");
   const { isMuted } = useAudio();
   
-  // Visual effects state
-  const [screenShake, setScreenShake] = useState(false);
-  const [crisisAlert, setCrisisAlert] = useState(false);
+  // Visual effects state - using trigger IDs instead of booleans
+  const [screenShakeTrigger, setScreenShakeTrigger] = useState(0);
+  const [crisisAlertTrigger, setCrisisAlertTrigger] = useState(0);
   const [showParticles, setShowParticles] = useState(false);
   const [particleType, setParticleType] = useState<'success' | 'danger' | 'warning' | 'info'>('info');
   const { statChanges: visualStatChanges, showStatChange } = useStatChangeEffects();
+  
+  // Refs to track timeouts for cleanup
+  const particleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const crisisTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Load cards from Dropbox, fallback to local data, plus satirical cards
   const { data: dropboxCards, isLoading: cardsLoading } = useDropboxCards();
@@ -140,15 +144,19 @@ export default function GamePage() {
     
     // Trigger visual effects for critical decisions
     if (isCritical) {
-      setScreenShake(true);
-      setTimeout(() => setScreenShake(false), 500);
+      setScreenShakeTrigger(prev => prev + 1);  // Increment to trigger effect
     }
     
     // Show particles based on decision impact
     if (totalChange >= 20) {
+      // Clear any existing particle timeout
+      if (particleTimeoutRef.current) {
+        clearTimeout(particleTimeoutRef.current);
+      }
+      
       setParticleType(isNegative ? 'danger' : 'success');
       setShowParticles(true);
-      setTimeout(() => setShowParticles(false), 2000);
+      particleTimeoutRef.current = setTimeout(() => setShowParticles(false), 2000);
     }
     
     // Animate resource changes with floating indicators
@@ -213,19 +221,25 @@ export default function GamePage() {
       setShowCrisis(true);
       
       // Trigger crisis visual effects
-      setCrisisAlert(true);
-      setScreenShake(true);
+      setCrisisAlertTrigger(prev => prev + 1);  // Increment to trigger effect
+      setScreenShakeTrigger(prev => prev + 1);  // Increment to trigger effect
+      
+      // Clear existing particle timeout and set particles
+      if (particleTimeoutRef.current) {
+        clearTimeout(particleTimeoutRef.current);
+      }
       setParticleType('danger');
       setShowParticles(true);
+      particleTimeoutRef.current = setTimeout(() => setShowParticles(false), 2000);
       
       console.log(`Crisis event triggered at turn ${turn}`);
       
-      // Auto-hide effects
-      setTimeout(() => {
+      // Auto-hide crisis overlay (particles managed by their own timeout)
+      if (crisisTimeoutRef.current) {
+        clearTimeout(crisisTimeoutRef.current);
+      }
+      crisisTimeoutRef.current = setTimeout(() => {
         setShowCrisis(false);
-        setCrisisAlert(false);
-        setScreenShake(false);
-        setShowParticles(false);
       }, 7000);
     }
   }, [turn]);
@@ -243,10 +257,15 @@ export default function GamePage() {
     const minResource = Math.min(popularity, stability, media, economy);
     
     if (minResource <= 20 && minResource > 0) {
+      // Clear existing particle timeout
+      if (particleTimeoutRef.current) {
+        clearTimeout(particleTimeoutRef.current);
+      }
+      
       // Show warning effects for critically low resources
       setParticleType('warning');
       setShowParticles(true);
-      setTimeout(() => setShowParticles(false), 1500);
+      particleTimeoutRef.current = setTimeout(() => setShowParticles(false), 1500);
     }
   }, [resources]);
 
@@ -470,8 +489,8 @@ export default function GamePage() {
 
       {/* Visual Effects */}
       <VisualEffects 
-        showScreenShake={screenShake}
-        showCrisisAlert={crisisAlert}
+        screenShakeTrigger={screenShakeTrigger}
+        crisisAlertTrigger={crisisAlertTrigger}
         statChanges={visualStatChanges}
       />
       

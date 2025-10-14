@@ -51,6 +51,9 @@ export default function ParticleEffect({
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    // Clear particles when type changes to prevent color mixing
+    particlesRef.current = [];
+
     // Create particles
     const createParticle = (): Particle => ({
       x: Math.random() * canvas.width,
