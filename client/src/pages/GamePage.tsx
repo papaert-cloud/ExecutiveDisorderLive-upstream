@@ -347,7 +347,7 @@ export default function GamePage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md"
+            className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md cursor-pointer"
             onClick={() => setShowCrisis(false)}
           >
             <motion.div

@@ -58,7 +58,12 @@ export default function CardDisplay({ card, onSelect, disabled = false }: CardDi
                 key={index}
                 whileHover={{ scale: disabled ? 1 : 1.02 }}
                 whileTap={{ scale: disabled ? 1 : 0.98 }}
-                onClick={() => !disabled && onSelect(index)}
+                onClick={() => {
+                  console.log('Button clicked!', { index, disabled, cardTitle: card.title });
+                  if (!disabled) {
+                    onSelect(index);
+                  }
+                }}
                 disabled={disabled}
                 className={`
                   w-full p-4 rounded-lg text-left transition-all
