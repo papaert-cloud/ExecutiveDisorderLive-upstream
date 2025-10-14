@@ -1,67 +1,43 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useGameState } from "../../lib/stores/useGameState";
-import { useResources } from "../../lib/stores/useResources";
+import React, { useEffect, useRef } from "react";
 
 interface AudioSystemProps {
   muted?: boolean;
+  musicTrack?: string; // Optional background music track
 }
 
-export default function AudioSystem({ muted = false }: AudioSystemProps) {
-  const { turn } = useGameState();
-  const { resources } = useResources();
-  const { popularity, stability, media, economy } = resources;
-  const [lastAudioPlayed, setLastAudioPlayed] = useState<string>("");
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+export default function AudioSystem({ muted = false, musicTrack }: AudioSystemProps) {
+  const musicRef = useRef<HTMLAudioElement | null>(null);
   
-  // Play narration based on game state
+  // Background music player
   useEffect(() => {
-    if (muted) return;
+    if (muted || !musicTrack) return;
     
-    const playAudio = async (audioPath: string) => {
-      if (lastAudioPlayed === audioPath) return; // Don't repeat same audio
-      
+    const playMusic = async () => {
       try {
-        if (audioRef.current) {
-          audioRef.current.pause();
+        if (musicRef.current) {
+          musicRef.current.pause();
         }
         
-        const audio = new Audio(audioPath);
-        audio.volume = 0.7;
-        audioRef.current = audio;
+        const music = new Audio(musicTrack);
+        music.volume = 0.3;
+        music.loop = true;
+        musicRef.current = music;
         
-        await audio.play();
-        setLastAudioPlayed(audioPath);
+        await music.play();
       } catch (error) {
-        console.log("Audio playback skipped:", error);
+        console.log("Music playback skipped:", error);
       }
     };
     
-    // Check for critical states
-    const minResource = Math.min(popularity, stability, media, economy);
-    
-    if (minResource <= 20) {
-      playAudio("/audio/narration/low-resources-warning.mp3");
-    } else if (turn === 1) {
-      playAudio("/audio/narration/game-start.mp3");
-    } else if (turn % 5 === 0 && turn > 0) {
-      playAudio("/audio/narration/crisis-alert.mp3");
-    } else if (popularity > 80) {
-      playAudio("/audio/narration/popularity-boost.mp3");
-    } else if (stability < 30) {
-      playAudio("/audio/narration/stability-crisis.mp3");
-    } else if (media < 30) {
-      playAudio("/audio/narration/media-scandal.mp3");
-    } else if (economy < 30) {
-      playAudio("/audio/narration/economic-meltdown.mp3");
-    }
-  }, [turn, popularity, stability, media, economy, muted, lastAudioPlayed]);
+    playMusic();
+  }, [musicTrack, muted]);
   
   // Cleanup
   useEffect(() => {
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
+      if (musicRef.current) {
+        musicRef.current.pause();
+        musicRef.current = null;
       }
     };
   }, []);
@@ -69,24 +45,12 @@ export default function AudioSystem({ muted = false }: AudioSystemProps) {
   return null; // This is a non-visual component
 }
 
-// Hook for playing specific audio files
+// Hook for playing UI sounds and effects only (NO voice/narration)
 export function usePlayAudio() {
-  const playNarration = async (narrationName: string) => {
-    try {
-      const audio = new Audio(`/audio/narration/${narrationName}.mp3`);
-      audio.volume = 0.7;
-      await audio.play();
-      return audio;
-    } catch (error) {
-      console.error("Failed to play narration:", error);
-      return null;
-    }
-  };
-  
-  const playEffect = async (effectName: string) => {
+  const playEffect = async (effectName: string, volume: number = 0.5) => {
     try {
       const audio = new Audio(`/audio/sfx/${effectName}.mp3`);
-      audio.volume = 0.5;
+      audio.volume = volume;
       await audio.play();
       return audio;
     } catch (error) {
@@ -95,5 +59,30 @@ export function usePlayAudio() {
     }
   };
   
-  return { playNarration, playEffect };
+  const playUISound = async (soundName: string, volume: number = 0.4) => {
+    try {
+      const audio = new Audio(`/audio/ui/${soundName}.mp3`);
+      audio.volume = volume;
+      await audio.play();
+      return audio;
+    } catch (error) {
+      console.error("Failed to play UI sound:", error);
+      return null;
+    }
+  };
+  
+  const playMusic = async (musicName: string, volume: number = 0.3, loop: boolean = true) => {
+    try {
+      const audio = new Audio(`/audio/music/${musicName}.mp3`);
+      audio.volume = volume;
+      audio.loop = loop;
+      await audio.play();
+      return audio;
+    } catch (error) {
+      console.error("Failed to play music:", error);
+      return null;
+    }
+  };
+  
+  return { playEffect, playUISound, playMusic };
 }
