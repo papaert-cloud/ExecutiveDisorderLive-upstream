@@ -177,6 +177,42 @@ export default function GamePage() {
     }
   }, [selectedCharacter, setLocation]);
 
+  // Game ending logic - check for win/lose conditions
+  useEffect(() => {
+    const { popularity, stability, media, economy } = resources;
+    
+    // Lose condition: Any stat drops to 0 or below
+    if (popularity <= 0 || stability <= 0 || media <= 0 || economy <= 0) {
+      console.log('Game Over - Resource depletion detected');
+      // Navigate to ending page with failure state
+      setLocation('/ending?result=fail&reason=resource');
+      return;
+    }
+    
+    // Win condition: Turn 50 reached with balanced stats (all above 30)
+    if (turn >= 50 && popularity > 30 && stability > 30 && media > 30 && economy > 30) {
+      console.log('Victory - 50 turns completed with balanced governance');
+      setLocation('/ending?result=win&rank=S');
+      return;
+    }
+    
+    // Alternative endings based on turn milestones
+    if (turn >= 50) {
+      // Calculate average stats to determine ranking
+      const avgStats = (popularity + stability + media + economy) / 4;
+      let rank = 'F';
+      
+      if (avgStats >= 70) rank = 'S';
+      else if (avgStats >= 60) rank = 'A';
+      else if (avgStats >= 50) rank = 'B';
+      else if (avgStats >= 40) rank = 'C';
+      else if (avgStats >= 30) rank = 'D';
+      
+      console.log(`Game Complete - Turn 50 reached with rank ${rank}`);
+      setLocation(`/ending?result=complete&rank=${rank}`);
+    }
+  }, [resources, turn, setLocation]);
+
   if (!selectedCharacter) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -368,7 +404,7 @@ export default function GamePage() {
             className="flex flex-col justify-center"
           >
             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-white/60 shadow-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl">
-              {/* Card visual - category-specific themes - MORE TRANSPARENT */}
+              {/* Card visual - category-specific themes with image support */}
               <div className="absolute inset-0 flex items-center justify-center p-8">
                 <div className={`relative w-full h-full rounded-2xl overflow-hidden border-4 shadow-2xl ${
                   currentCard.category === 'economic' ? 'border-green-400/30 bg-gradient-to-br from-green-600/15 via-emerald-600/15 to-teal-600/15' :
@@ -378,27 +414,52 @@ export default function GamePage() {
                   'border-orange-400/30 bg-gradient-to-br from-orange-600/15 via-red-600/15 to-rose-600/15'
                 } backdrop-blur-sm`}>
                   
-                  {/* Animated gradient overlay - HIGHLY translucent */}
-                  <motion.div 
-                    className={`absolute inset-0 ${
-                      currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/20 via-emerald-500/20 to-teal-500/20' :
-                      currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/20 via-indigo-500/20 to-violet-500/20' :
-                      currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/20 via-rose-500/20 to-pink-500/20' :
-                      currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/20 via-fuchsia-500/20 to-pink-500/20' :
-                      'bg-gradient-to-br from-orange-500/20 via-red-500/20 to-rose-500/20'
-                    }`}
-                    animate={{
-                      backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-                    }}
-                    transition={{
-                      duration: 10,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{
-                      backgroundSize: '200% 200%'
-                    }}
-                  />
+                  {/* Card image if available */}
+                  {currentCard.imageUrl ? (
+                    <img 
+                      src={currentCard.imageUrl} 
+                      alt={currentCard.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('Card image failed to load:', currentCard.imageUrl);
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <>
+                      {/* Animated gradient overlay - HIGHLY translucent */}
+                      <motion.div 
+                        className={`absolute inset-0 ${
+                          currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/20 via-emerald-500/20 to-teal-500/20' :
+                          currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/20 via-indigo-500/20 to-violet-500/20' :
+                          currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/20 via-rose-500/20 to-pink-500/20' :
+                          currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/20 via-fuchsia-500/20 to-pink-500/20' :
+                          'bg-gradient-to-br from-orange-500/20 via-red-500/20 to-rose-500/20'
+                        }`}
+                        animate={{
+                          backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                        }}
+                        transition={{
+                          duration: 10,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        style={{
+                          backgroundSize: '200% 200%'
+                        }}
+                      />
+                      
+                      {/* Large category icon in center - highly transparent */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-25">
+                        <span className="text-[16rem] drop-shadow-2xl filter brightness-110">
+                          {currentCard.category === 'economic' ? '💸' :
+                           currentCard.category === 'domestic' ? '🏛️' :
+                           currentCard.category === 'foreign' ? '🌍' :
+                           currentCard.category === 'social' ? '👥' : '🚨'}
+                        </span>
+                      </div>
+                    </>
+                  )}
                   
                   {/* Category badge with icon */}
                   <div className={`absolute top-4 left-4 bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 z-10 shadow-lg flex items-center gap-2 ${
@@ -426,16 +487,6 @@ export default function GamePage() {
                   {/* Card number */}
                   <div className="absolute bottom-4 right-4 w-16 h-16 bg-yellow-400/30 backdrop-blur-md rounded-full flex items-center justify-center border-3 border-yellow-300/70 z-10 shadow-xl">
                     <span className="text-yellow-100 font-black text-2xl">#{turn}</span>
-                  </div>
-                  
-                  {/* Large category icon in center - highly transparent */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-25">
-                    <span className="text-[16rem] drop-shadow-2xl filter brightness-110">
-                      {currentCard.category === 'economic' ? '💸' :
-                       currentCard.category === 'domestic' ? '🏛️' :
-                       currentCard.category === 'foreign' ? '🌍' :
-                       currentCard.category === 'social' ? '👥' : '🚨'}
-                    </span>
                   </div>
                   
                   {/* Loading indicator */}
