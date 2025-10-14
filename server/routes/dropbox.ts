@@ -234,4 +234,177 @@ router.get("/cards/all", async (req, res) => {
   }
 });
 
+// Update a card file with new data (for adding actionText)
+router.post("/cards/update/:filename", async (req, res) => {
+  try {
+    const dbx = await getDropboxClient();
+    const filename = req.params.filename;
+    const cardData = req.body;
+    
+    const cardsPath = '/Replit/ExecutiveDisorder_Assets/10_Game_Data/JSON/cards';
+    const filePath = `${cardsPath}/${filename}`;
+    
+    // Convert card data to JSON string
+    const jsonContent = JSON.stringify(cardData, null, 2);
+    
+    // Upload the updated file (overwrite mode)
+    await dbx.filesUpload({
+      path: filePath,
+      contents: jsonContent,
+      mode: { '.tag': 'overwrite' }
+    });
+    
+    // Clear cache to force reload
+    cardsCache = null;
+    
+    console.log(`✅ Updated card file: ${filename}`);
+    res.json({ success: true, filename });
+  } catch (error: any) {
+    console.error('❌ Error updating card:', error);
+    res.status(500).json({ error: 'Failed to update card', message: error.message });
+  }
+});
+
+// Batch update all cards with actionText
+router.post("/cards/batch-update-actiontext", async (req, res) => {
+  try {
+    const dbx = await getDropboxClient();
+    const cardsPath = '/Replit/ExecutiveDisorder_Assets/10_Game_Data/JSON/cards';
+    
+    // List all card files
+    const listResponse = await dbx.filesListFolder({ path: cardsPath });
+    const cardFiles = listResponse.result.entries.filter(entry => 
+      entry['.tag'] === 'file' && entry.name.endsWith('.json')
+    );
+    
+    console.log(`Processing ${cardFiles.length} cards for actionText update...`);
+    
+    let updatedCount = 0;
+    
+    for (const file of cardFiles) {
+      try {
+        const filePath = (file as any).path_lower || (file as any).path_display;
+        if (!filePath) continue;
+        
+        // Download card
+        const downloadResponse = await dbx.filesDownload({ path: filePath });
+        const fileBlob = (downloadResponse.result as any).fileBinary;
+        
+        let textContent: string;
+        if (Buffer.isBuffer(fileBlob)) {
+          textContent = fileBlob.toString('utf8');
+        } else if (fileBlob instanceof ArrayBuffer) {
+          textContent = Buffer.from(fileBlob).toString('utf8');
+        } else {
+          textContent = String(fileBlob);
+        }
+        
+        const cardData = JSON.parse(textContent);
+        
+        // Check if card already has actionText
+        const choices = cardData.choices || cardData.options || [];
+        const hasActionText = choices.some((c: any) => c.actionText || c.action || c.buttonText);
+        
+        if (hasActionText) {
+          console.log(`⏭️ Skipping ${file.name} - already has actionText`);
+          continue;
+        }
+        
+        // Generate actionText based on scenario
+        const updatedChoices = choices.map((choice: any, index: number) => {
+          const actionText = generateActionText(cardData, choice, index);
+          return {
+            ...choice,
+            actionText
+          };
+        });
+        
+        cardData.choices = updatedChoices;
+        if (cardData.options) cardData.options = updatedChoices;
+        
+        // Upload updated card
+        const jsonContent = JSON.stringify(cardData, null, 2);
+        await dbx.filesUpload({
+          path: filePath,
+          contents: jsonContent,
+          mode: { '.tag': 'overwrite' }
+        });
+        
+        updatedCount++;
+        console.log(`✅ Updated ${file.name} with actionText`);
+        
+      } catch (error) {
+        console.error(`❌ Error processing ${file.name}:`, error);
+      }
+    }
+    
+    // Clear cache
+    cardsCache = null;
+    
+    console.log(`🎉 Batch update complete: ${updatedCount}/${cardFiles.length} cards updated`);
+    res.json({ success: true, updated: updatedCount, total: cardFiles.length });
+    
+  } catch (error: any) {
+    console.error('❌ Batch update error:', error);
+    res.status(500).json({ error: 'Batch update failed', message: error.message });
+  }
+});
+
+// Helper function to generate satirical actionText based on scenario
+function generateActionText(card: any, choice: any, index: number): string {
+  const title = (card.title || '').toLowerCase();
+  const desc = (card.description || '').toLowerCase();
+  const choiceText = (choice.text || choice.choiceText || '').toLowerCase();
+  const theme = (card.theme || '').toLowerCase();
+  
+  // Context-aware satirical button text
+  if (choiceText.includes('blame') || choiceText.includes('fault')) return 'BLAME IT';
+  if (choiceText.includes('deny') || choiceText.includes('ignore')) return 'DENY IT';
+  if (choiceText.includes('fire') || choiceText.includes('dismiss')) return 'FIRE';
+  if (choiceText.includes('hire') || choiceText.includes('appoint')) return 'HIRE';
+  if (choiceText.includes('promote')) return 'PROMOTE';
+  if (choiceText.includes('veto') || choiceText.includes('reject')) return 'VETO';
+  if (choiceText.includes('sign') || choiceText.includes('approve')) return 'APPROVE';
+  if (choiceText.includes('tweet') || choiceText.includes('post')) return 'TWEET IT';
+  if (choiceText.includes('investigate')) return 'INVESTIGATE';
+  if (choiceText.includes('pardon') || choiceText.includes('forgive')) return 'PARDON';
+  if (choiceText.includes('sanction') || choiceText.includes('punish')) return 'SANCTION';
+  if (choiceText.includes('negotiate') || choiceText.includes('deal')) return 'NEGOTIATE';
+  if (choiceText.includes('declare') || choiceText.includes('announce')) return 'DECLARE';
+  if (choiceText.includes('ban') || choiceText.includes('forbid')) return 'BAN IT';
+  if (choiceText.includes('tax')) return 'TAX IT';
+  if (choiceText.includes('cut') || choiceText.includes('reduce')) return 'CUT IT';
+  if (choiceText.includes('increase') || choiceText.includes('raise')) return 'RAISE IT';
+  if (choiceText.includes('cancel') || choiceText.includes('end')) return 'CANCEL';
+  if (choiceText.includes('expand') || choiceText.includes('grow')) return 'EXPAND';
+  if (choiceText.includes('attack') || choiceText.includes('strike')) return 'STRIKE';
+  if (choiceText.includes('retreat') || choiceText.includes('withdraw')) return 'RETREAT';
+  if (choiceText.includes('spin') || choiceText.includes('propaganda')) return 'SPIN IT';
+  if (choiceText.includes('cover') || choiceText.includes('hide')) return 'COVER UP';
+  if (choiceText.includes('leak') || choiceText.includes('reveal')) return 'LEAK IT';
+  if (choiceText.includes('bribe') || choiceText.includes('pay')) return 'PAY OFF';
+  if (choiceText.includes('threaten')) return 'THREATEN';
+  if (choiceText.includes('compromise')) return 'COMPROMISE';
+  if (choiceText.includes('double down') || choiceText.includes('commit')) return 'DOUBLE DOWN';
+  if (choiceText.includes('flip') || choiceText.includes('reverse')) return 'FLIP-FLOP';
+  
+  // Theme-based defaults
+  if (theme.includes('economic') || theme.includes('budget')) {
+    return index === 0 ? 'SPEND' : 'SAVE';
+  }
+  if (theme.includes('war') || theme.includes('military') || theme.includes('nuclear')) {
+    return index === 0 ? 'ATTACK' : 'DEFEND';
+  }
+  if (theme.includes('social') || theme.includes('culture')) {
+    return index === 0 ? 'SUPPORT' : 'OPPOSE';
+  }
+  if (theme.includes('diplomatic') || theme.includes('foreign')) {
+    return index === 0 ? 'ALLY' : 'ENEMY';
+  }
+  
+  // Generic fallbacks
+  const genericActions = ['DO IT', 'PASS', 'BLOCK', 'ACT NOW', 'WAIT', 'GO BIG', 'PLAY SAFE'];
+  return genericActions[index % genericActions.length];
+}
+
 export default router;
