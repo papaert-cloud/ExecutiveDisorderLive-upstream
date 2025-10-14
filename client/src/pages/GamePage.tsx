@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { useGameState } from "../lib/stores/useGameState";
 import { decisionCards } from "../data/cards";
+import { satiricalCards } from "../data/satiricalCards";
 import { useDropboxCards } from "../hooks/useDropboxCards";
 import CardDisplay from "../components/Game/CardDisplay";
 import AudioSystem from "../components/Audio/AudioSystem";
@@ -34,10 +35,18 @@ export default function GamePage() {
   const [crisisVideo, setCrisisVideo] = useState<string>("");
   const { isMuted } = useAudio();
   
-  // Load cards from Dropbox, fallback to local data
+  // Load cards from Dropbox, fallback to local data, plus satirical cards
   const { data: dropboxCards, isLoading: cardsLoading } = useDropboxCards();
   const activeCards = useMemo(() => {
-    return (dropboxCards && dropboxCards.length > 0) ? dropboxCards : decisionCards;
+    // Combine all card sources: Dropbox (185) + Satirical (40) + Local fallback
+    const allCards = [
+      ...((dropboxCards && dropboxCards.length > 0) ? dropboxCards : decisionCards),
+      ...satiricalCards
+    ];
+    // Filter out any broken cards with missing or insufficient options
+    const validCards = allCards.filter(card => card.options && card.options.length >= 2);
+    console.log(`Active deck: ${validCards.length} valid cards from ${allCards.length} total (Dropbox: ${dropboxCards?.length || 0}, Satirical: ${satiricalCards.length})`);
+    return validCards;
   }, [dropboxCards]);
 
   // Smart randomization: Shuffle cards and track history to prevent repetition
@@ -77,6 +86,12 @@ export default function GamePage() {
       const nextIndex = (safeIndex + 1) % shuffledDeck.length;
       selectedCard = shuffledDeck[nextIndex];
       console.log('Prevented immediate repeat, skipping to next card');
+    }
+    
+    // Safety check: ensure card has valid options
+    if (!selectedCard || !selectedCard.options || selectedCard.options.length < 2) {
+      console.error('⚠️ Broken card detected, using fallback card');
+      return activeCards.find(card => card.options && card.options.length >= 2) || activeCards[0];
     }
     
     return selectedCard;

@@ -69,7 +69,14 @@ export default function CardDisplay({ card, onSelect, disabled = false }: CardDi
                   border border-white/20
                 `}
               >
-                <span className="text-white font-medium">{option.text}</span>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-white font-medium flex-1">{option.text}</span>
+                  {option.actionText && (
+                    <span className="px-3 py-1 bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-full text-xs font-bold text-white uppercase tracking-wider border border-white/20 backdrop-blur-sm">
+                      {option.actionText}
+                    </span>
+                  )}
+                </div>
                 
                 {/* Show effects preview on hover */}
                 <div className="mt-2 flex gap-4 text-xs">
