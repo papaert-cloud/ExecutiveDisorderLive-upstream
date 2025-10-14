@@ -32,7 +32,6 @@ export default function GamePage() {
   const [previousResources, setPreviousResources] = useState(resources);
   const [showCrisis, setShowCrisis] = useState(false);
   const [crisisVideo, setCrisisVideo] = useState<string>("");
-  const { isMuted } = useAudio();
   
   // Load cards from Dropbox, fallback to local data
   const { data: dropboxCards, isLoading: cardsLoading } = useDropboxCards();
@@ -79,94 +78,102 @@ export default function GamePage() {
       console.log('Prevented immediate repeat, skipping to next card');
     }
     
-    return selectedCard;
+    return selectedCard || activeCards[0];
   }, [shuffledDeck, deckIndex, activeCards, cardHistory]);
 
-  // Video backgrounds rotation based on turn
-  const eventVideos = [
-    "/videos/backgrounds/political-office-animated.mp4",
-    "/videos/backgrounds/modern-campaign-rally.mp4",
-    "/videos/backgrounds/historic-speech-podium.mp4",
-    "/videos/backgrounds/elegant-debate-hall.mp4",
-    "/videos/backgrounds/news-studio-broadcast.mp4",
-    "/videos/backgrounds/executive-boardroom.mp4"
-  ];
-  const eventVideo = eventVideos[turn % eventVideos.length];
-  
-  // Crisis videos triggered every 5 turns
-  const crisisVideos = [
-    "/videos/events/economic-meltdown-news.mp4",
-    "/videos/events/diplomatic-crisis-broadcast.mp4", 
-    "/videos/events/social-unrest-coverage.mp4",
-    "/videos/events/military-conflict-alert.mp4",
-    "/videos/events/environmental-disaster-report.mp4"
-  ];
-
-  // Handle decision selection
-  const handleDecision = (optionIndex: number) => {
-    const option = currentCard.options[optionIndex];
+  // Track stat changes and show feedback
+  useEffect(() => {
     const changes: StatChange[] = [];
     
-    // Animate resource changes
-    if (option.effects.popularity !== 0) {
+    if (resources.popularity !== previousResources.popularity) {
       changes.push({
         label: "Popularity",
-        value: option.effects.popularity,
-        color: option.effects.popularity > 0 ? "text-green-400" : "text-red-400"
+        value: resources.popularity - previousResources.popularity,
+        color: "text-blue-400"
       });
     }
-    if (option.effects.stability !== 0) {
+    if (resources.stability !== previousResources.stability) {
       changes.push({
         label: "Stability",
-        value: option.effects.stability,
-        color: option.effects.stability > 0 ? "text-blue-400" : "text-orange-400"
+        value: resources.stability - previousResources.stability,
+        color: "text-green-400"
       });
     }
-    if (option.effects.media !== 0) {
+    if (resources.media !== previousResources.media) {
       changes.push({
         label: "Media",
-        value: option.effects.media,
-        color: option.effects.media > 0 ? "text-purple-400" : "text-pink-400"
+        value: resources.media - previousResources.media,
+        color: "text-purple-400"
       });
     }
-    if (option.effects.economy !== 0) {
+    if (resources.economy !== previousResources.economy) {
       changes.push({
         label: "Economy",
-        value: option.effects.economy,
-        color: option.effects.economy > 0 ? "text-yellow-400" : "text-gray-400"
+        value: resources.economy - previousResources.economy,
+        color: "text-yellow-400"
       });
     }
-    
-    // Show stat changes briefly
-    setStatChanges(changes);
-    setTimeout(() => setStatChanges([]), 3000);
-    
-    // Update card history
-    setCardHistory(prev => [...prev.slice(-4), currentCard.id]); // Keep last 5 cards
-    
-    // Apply decision and advance game
-    makeDecision(currentCard.id, optionIndex);
-    
-    // Move to next card
-    setDeckIndex(prev => prev + 1);
-    
-    console.log(`Decision made: ${option.text}, advancing to turn ${turn + 1}`);
-  };
 
-  // Check for crisis events every 5 turns
-  useEffect(() => {
-    if (turn > 0 && turn % 5 === 0) {
+    if (changes.length > 0) {
+      setStatChanges(changes);
+      // Clear changes after animation
+      setTimeout(() => setStatChanges([]), 2000);
+    }
+
+    setPreviousResources(resources);
+  }, [resources]);
+
+  const handleChoice = (choiceIndex: number) => {
+    makeDecision(currentCard.id, choiceIndex);
+    setDeckIndex((prev) => prev + 1);
+    setCardHistory((prev) => [...prev, currentCard.id].slice(-10)); // Keep last 10 cards in history
+    
+    // Trigger crisis news every 5 turns
+    const nextTurn = turn + 1;
+    if (nextTurn % 5 === 0) {
+      const crisisVideos = [
+        '/videos/crisis/crisis-economic-crash.mp4',
+        '/videos/crisis/crisis-diplomatic-emergency.mp4',
+        '/videos/crisis/crisis-cyber-attack.mp4',
+        '/videos/crisis/crisis-health-emergency.mp4'
+      ];
       const randomCrisis = crisisVideos[Math.floor(Math.random() * crisisVideos.length)];
       setCrisisVideo(randomCrisis);
       setShowCrisis(true);
-      console.log(`Crisis event triggered at turn ${turn}`);
       
-      // Auto-hide after 7 seconds
-      setTimeout(() => setShowCrisis(false), 7000);
+      // Auto-dismiss after 5 seconds
+      setTimeout(() => {
+        setShowCrisis(false);
+      }, 5000);
     }
-  }, [turn]);
+  };
 
-  // Redirect if no character selected
+  // Select event video based on card category and game state
+  const getEventVideo = () => {
+    const category = currentCard.category.toLowerCase();
+    
+    if (category.includes('crisis')) {
+      return '/videos/replay-loops/breaking-news-ticker.mp4';
+    } else if (category.includes('scandal')) {
+      return '/videos/replay-loops/media-circus-exterior.mp4';
+    } else if (category.includes('economic')) {
+      return '/videos/replay-loops/stock-market-displays.mp4';
+    } else if (category.includes('policy') || category.includes('legislative')) {
+      return '/videos/replay-loops/capitol-building-exterior.mp4';
+    } else if (category.includes('military') || category.includes('defense')) {
+      return '/videos/replay-loops/government-office-ambient.mp4';
+    } else if (category.includes('rally') || category.includes('campaign')) {
+      return '/videos/replay-loops/political-rally-crowd.mp4';
+    } else if (category.includes('protest')) {
+      return '/videos/replay-loops/protest-demonstration.mp4';
+    } else {
+      return '/videos/replay-loops/press-conference-room.mp4';
+    }
+  };
+
+  const eventVideo = getEventVideo();
+
+  // Redirect if no character selected (post-render)
   useEffect(() => {
     if (!selectedCharacter) {
       setLocation("/character-select");
@@ -180,6 +187,7 @@ export default function GamePage() {
     // Lose condition: Any stat drops to 0 or below
     if (popularity <= 0 || stability <= 0 || media <= 0 || economy <= 0) {
       console.log('Game Over - Resource depletion detected');
+      // Navigate to ending page with failure state
       setLocation('/ending?result=fail&reason=resource');
       return;
     }
@@ -193,6 +201,7 @@ export default function GamePage() {
     
     // Alternative endings based on turn milestones
     if (turn >= 50) {
+      // Calculate average stats to determine ranking
       const avgStats = (popularity + stability + media + economy) / 4;
       let rank = 'F';
       
@@ -391,15 +400,168 @@ export default function GamePage() {
       {/* Audio System for narration */}
       <AudioSystem muted={isMuted} />
 
-      {/* Main game area */}
+      {/* Main game area - Side by side layout */}
       <div className="relative z-10 h-full pt-20 pb-8 px-8">
         <div className="max-w-7xl mx-auto h-full flex items-center justify-center">
           {/* Card Display Component */}
           <CardDisplay 
             card={currentCard} 
             onSelect={handleDecision}
-            disabled={cardsLoading}
+            disabled={false}
           />
+              {/* Card visual - category-specific themes with image support */}
+              <div className="absolute inset-0 flex items-center justify-center p-8">
+                <div className={`relative w-full h-full rounded-2xl overflow-hidden border-4 shadow-2xl ${
+                  currentCard.category === 'economic' ? 'border-green-400/30 bg-gradient-to-br from-green-600/15 via-emerald-600/15 to-teal-600/15' :
+                  currentCard.category === 'domestic' ? 'border-blue-400/30 bg-gradient-to-br from-blue-600/15 via-indigo-600/15 to-violet-600/15' :
+                  currentCard.category === 'foreign' ? 'border-red-400/30 bg-gradient-to-br from-red-600/15 via-rose-600/15 to-pink-600/15' :
+                  currentCard.category === 'social' ? 'border-purple-400/30 bg-gradient-to-br from-purple-600/15 via-fuchsia-600/15 to-pink-600/15' :
+                  'border-orange-400/30 bg-gradient-to-br from-orange-600/15 via-red-600/15 to-rose-600/15'
+                } backdrop-blur-sm`}>
+                  
+                  {/* Card image if available */}
+                  {currentCard.imageUrl ? (
+                    <img 
+                      src={currentCard.imageUrl} 
+                      alt={currentCard.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('Card image failed to load:', currentCard.imageUrl);
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <>
+                      {/* Animated gradient overlay - HIGHLY translucent */}
+                      <motion.div 
+                        className={`absolute inset-0 ${
+                          currentCard.category === 'economic' ? 'bg-gradient-to-br from-green-500/20 via-emerald-500/20 to-teal-500/20' :
+                          currentCard.category === 'domestic' ? 'bg-gradient-to-br from-blue-500/20 via-indigo-500/20 to-violet-500/20' :
+                          currentCard.category === 'foreign' ? 'bg-gradient-to-br from-red-500/20 via-rose-500/20 to-pink-500/20' :
+                          currentCard.category === 'social' ? 'bg-gradient-to-br from-purple-500/20 via-fuchsia-500/20 to-pink-500/20' :
+                          'bg-gradient-to-br from-orange-500/20 via-red-500/20 to-rose-500/20'
+                        }`}
+                        animate={{
+                          backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                        }}
+                        transition={{
+                          duration: 10,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        style={{
+                          backgroundSize: '200% 200%'
+                        }}
+                      />
+                      
+                      {/* Large category icon in center - highly transparent */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-25">
+                        <span className="text-[16rem] drop-shadow-2xl filter brightness-110">
+                          {currentCard.category === 'economic' ? '💸' :
+                           currentCard.category === 'domestic' ? '🏛️' :
+                           currentCard.category === 'foreign' ? '🌍' :
+                           currentCard.category === 'social' ? '👥' : '🚨'}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                  
+                  {/* Category badge with icon */}
+                  <div className={`absolute top-4 left-4 bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 z-10 shadow-lg flex items-center gap-2 ${
+                    currentCard.category === 'economic' ? 'border-green-300/70' :
+                    currentCard.category === 'domestic' ? 'border-blue-300/70' :
+                    currentCard.category === 'foreign' ? 'border-red-300/70' :
+                    currentCard.category === 'social' ? 'border-purple-300/70' :
+                    'border-orange-300/70'
+                  }`}>
+                    <span className="text-2xl">
+                      {currentCard.category === 'economic' ? '💰' :
+                       currentCard.category === 'domestic' ? '🏛️' :
+                       currentCard.category === 'foreign' ? '🌍' :
+                       currentCard.category === 'social' ? '👥' : '🚨'}
+                    </span>
+                    <p className={`font-black text-base uppercase tracking-wider ${
+                      currentCard.category === 'economic' ? 'text-green-200' :
+                      currentCard.category === 'domestic' ? 'text-blue-200' :
+                      currentCard.category === 'foreign' ? 'text-red-200' :
+                      currentCard.category === 'social' ? 'text-purple-200' :
+                      'text-orange-200'
+                    }`}>{currentCard.category}</p>
+                  </div>
+                  
+                  {/* Card number */}
+                  <div className="absolute bottom-4 right-4 w-16 h-16 bg-yellow-400/30 backdrop-blur-md rounded-full flex items-center justify-center border-3 border-yellow-300/70 z-10 shadow-xl">
+                    <span className="text-yellow-100 font-black text-2xl">#{turn}</span>
+                  </div>
+                  
+                  {/* Loading indicator */}
+                  {cardsLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-20">
+                      <div className="text-white text-xl font-bold">Loading cards...</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: Decision card */}
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            className="flex flex-col justify-center"
+          >
+            <div className="bg-gradient-to-br from-slate-900/40 to-slate-950/60 backdrop-blur-xl rounded-3xl border-2 border-white/30 p-8 shadow-2xl">
+              {/* Card header */}
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-4xl">📋</span>
+                  <div className="flex-1">
+                    <h2 className="text-3xl sm:text-4xl font-black text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 bg-clip-text leading-tight">
+                      {currentCard.title}
+                    </h2>
+                    <p className="text-purple-300 text-base sm:text-lg font-semibold capitalize mt-1">{currentCard.category}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card description */}
+              <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border-2 border-purple-500/30">
+                <p className="text-white text-xl sm:text-2xl font-semibold leading-relaxed">{currentCard.description}</p>
+              </div>
+
+              {/* Options */}
+              <div className="space-y-4">
+                {currentCard.options.map((option, index) => {
+                  const optionColors = [
+                    "from-blue-600/30 to-cyan-600/30 hover:from-blue-500/50 hover:to-cyan-500/50 border-blue-400/40 hover:border-cyan-300",
+                    "from-green-600/30 to-emerald-600/30 hover:from-green-500/50 hover:to-emerald-500/50 border-green-400/40 hover:border-emerald-300",
+                    "from-amber-600/30 to-orange-600/30 hover:from-amber-500/50 hover:to-orange-500/50 border-amber-400/40 hover:border-orange-300"
+                  ];
+                  
+                  return (
+                    <motion.button
+                      key={index}
+                      onClick={() => handleChoice(index)}
+                      className={`group w-full text-left bg-gradient-to-r ${optionColors[index % 3]} backdrop-blur-sm border-2 rounded-2xl p-6 transition-all duration-300`}
+                      whileHover={{ scale: 1.03, x: 10 }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-full bg-yellow-400/30 flex items-center justify-center flex-shrink-0 group-hover:bg-yellow-400/50 transition-colors border-2 border-yellow-400/50">
+                          <span className="text-yellow-300 font-black text-lg">{String.fromCharCode(65 + index)}</span>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white text-xl sm:text-2xl font-bold mb-2 leading-tight">{option.text}</p>
+                          <p className="text-yellow-300 text-base font-semibold">Click to decide</p>
+                        </div>
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>
