@@ -5,6 +5,9 @@ import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { useGameState } from "../lib/stores/useGameState";
 import { decisionCards } from "../data/cards";
 import { useDropboxCards } from "../hooks/useDropboxCards";
+import CardDisplay from "../components/Game/CardDisplay";
+import AudioSystem from "../components/Audio/AudioSystem";
+import { useAudio } from "../lib/stores/useAudio";
 
 interface StatChange {
   label: string;
