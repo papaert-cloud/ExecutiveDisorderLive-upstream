@@ -5,6 +5,7 @@ export interface DecisionCard {
   category: string;
   options: Array<{
     text: string;
+    actionText?: string; // Optional satirical button text (e.g., "FIRE", "VETO", "DENY")
     effects: {
       popularity: number;
       stability: number;

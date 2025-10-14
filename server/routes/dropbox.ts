@@ -187,10 +187,12 @@ router.get("/cards/all", async (req, res) => {
           options: choices.map((choice: any) => {
             // Handle different field name variations
             const choiceText = choice.text || choice.choiceText || 'Make a choice';
+            const actionText = choice.actionText || choice.action || choice.buttonText || undefined;
             const effects = choice.effects || choice.resourceEffects || {};
             
             return {
               text: choiceText,
+              actionText: actionText, // Optional satirical action button text
               effects: {
                 popularity: effects.Popularity || effects.popularity || 0,
                 stability: effects.Stability || effects.stability || 0,
@@ -206,7 +208,12 @@ router.get("/cards/all", async (req, res) => {
           gameCard.imageUrl = dropboxCard.imageUrl || dropboxCard.image || dropboxCard.media || dropboxCard.cardImage;
         }
         
-        gameCards.push(gameCard);
+        // VALIDATION: Only add cards with at least 2 valid options
+        if (gameCard.options && gameCard.options.length >= 2) {
+          gameCards.push(gameCard);
+        } else {
+          console.warn(`⚠️ Skipping invalid card "${gameCard.title}" - needs at least 2 options, has ${gameCard.options?.length || 0}`);
+        }
       } catch (error) {
         console.error(`Error processing card ${file.name}:`, error);
       }

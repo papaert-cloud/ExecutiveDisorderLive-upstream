@@ -6,6 +6,7 @@ export interface DecisionCard {
   imageUrl?: string; // Optional card artwork URL
   options: {
     text: string;
+    actionText?: string; // Optional satirical button text (e.g., "FIRE", "VETO", "DENY")
     effects: {
       popularity: number;
       stability: number;
@@ -24,14 +25,17 @@ export const decisionCards: DecisionCard[] = [
     options: [
       {
         text: "Sell the statue as 'modern art' and blame the previous administration",
+        actionText: "SELL IT",
         effects: { popularity: -15, stability: 5, media: -5, economy: 10 }
       },
       {
         text: "Start a GoFundMe titled 'Help Your President Not Go Bankrupt'",
+        actionText: "CROWDFUND",
         effects: { popularity: 5, stability: -5, media: 10, economy: -5 }
       },
       {
         text: "Print more money and pretend inflation is just a 'vibe'",
+        actionText: "PRINT $$",
         effects: { popularity: 10, stability: -10, media: -10, economy: 5 }
       }
     ]
