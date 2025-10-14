@@ -237,6 +237,19 @@ export default function GamePage() {
     }
   }, [selectedCharacter, setLocation]);
 
+  // Low resource warning effects
+  useEffect(() => {
+    const { popularity, stability, media, economy } = resources;
+    const minResource = Math.min(popularity, stability, media, economy);
+    
+    if (minResource <= 20 && minResource > 0) {
+      // Show warning effects for critically low resources
+      setParticleType('warning');
+      setShowParticles(true);
+      setTimeout(() => setShowParticles(false), 1500);
+    }
+  }, [resources]);
+
   // Game ending logic - check for win/lose conditions
   useEffect(() => {
     const { popularity, stability, media, economy } = resources;
